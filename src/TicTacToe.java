@@ -1,5 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.border.Border;
 
 public class TicTacToe {
@@ -26,6 +31,7 @@ public class TicTacToe {
 				pFields[i][j]  = new JPanel();
 				Border blackline = BorderFactory.createLineBorder(Color.black);
 				pFields[i][j].setBorder(blackline);
+				//pFields[i][j].add(lblCross);
 				pBoard.add(pFields[i][j]);
 			}
 		}
