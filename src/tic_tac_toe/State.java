@@ -83,4 +83,8 @@ public class State {
 		return java.util.Arrays.equals(s.board, this.board);	
 	}
 
+	@Override
+	public int hashCode() {
+		return this.board.hashCode();
+	}
 }
