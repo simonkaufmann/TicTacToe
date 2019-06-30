@@ -87,37 +87,19 @@ public class Game {
 			f = f / sum + old;
 			old = f;
 			des.set(i, f);
-			System.out.println("i for des:");
-			System.out.println(i);
-			System.out.println("des[i]");
-			System.out.println(f);
 		}
 		
 		// Generate random Double from 0 to 1
 		Random r = new Random();
 		Double rand = r.nextDouble();
 		
-		System.out.println("rand value:");
-		System.out.println(rand);
-		System.out.println("des[last] value:");
-		System.out.println(des.get(des.size() - 1));
-		
 		// Check in which range of accumulative list the random number falls
 		int i = 0;
 		for (i = 0; i < des.size(); i++) {
 			if (rand <= des.get(i)) {
-				System.out.println("Break value:");
-				System.out.println(i);
 				break;
 			}
 		}
-		
-		System.out.println("Size moves:");
-		System.out.println(moves.size());
-		System.out.println("Size des:");
-		System.out.println(des.size());
-		System.out.println("value i:");
-		System.out.println(i);
 		
 		// Returns move with probability corresponding to desirability
 		this.states.add(moves.get(i));

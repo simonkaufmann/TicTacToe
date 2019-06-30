@@ -15,7 +15,7 @@ public class TicTacToe {
 		Model m1 = new Model(0.1);
 		Model m2 = new Model(0.1);
 		Game player1 = new Game(1, m1);
-		Game player2 = new Game(1, m2);
+		Game player2 = new Game(2, m2);
 		
 		State next = null;
 		for (int i = 0; i < 5; i++) {
