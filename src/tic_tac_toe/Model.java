@@ -1,4 +1,6 @@
 package tic_tac_toe;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import tic_tac_toe.Test_State;
@@ -22,10 +24,20 @@ public class Model {
 	}
 
 	public Double getDesirability(State s) {
-		return desirability.get(s);
+		if (desirability.containsKey(s)) {
+			return desirability.get(s);
+		} else {
+			// Return average of hashmap
+			Collection<Double> val = desirability.values();
+			double sum = 0.0;
+			for (Double v: val) {
+				sum += v;
+			}
+			return sum / val.size();
+		}
 	}
 	
-	public void updateModel(State s, int past_steps) {
+	public void updateModel(ArrayList<State> s) {
 		
 	}
 }
