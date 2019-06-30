@@ -54,6 +54,35 @@ public class Game {
 		return nextStep();
 	}
 	
+	// ' ': not finished, 'd': draw, 'w': win, 'l': lose
+	public char result() {
+		State last = this.states.get(this.states.size() - 1);
+		int res = last.result();
+		if (res == -1) {
+			return ' ';
+		} else if (res == 0) {
+			return 'd';
+		} else if (res != player) {
+			return 'l';
+		} else if (res == player) {
+			return 'w';
+		}
+		return ' '; // not to happen
+	}
+	
+	public boolean updateModel() {
+		char res = this.result();
+		if (res == ' ') {
+			return false;
+		} else if (res == 'w') {
+			this.model.updateModelWin(states);
+		} else if (res == 'l') {
+			this.model.updateModelLose(states);
+		}
+		
+		return true;
+	}
+	
 	// Returns State of move made or null if no move possible or game already ended
 	public State nextStep() {		
 		State last = this.states.get(this.states.size() - 1);
@@ -105,6 +134,15 @@ public class Game {
 		this.states.add(moves.get(i));
 		
 		return moves.get(i);
+	}
+	
+	public void resetGame() {
+		this.states = new ArrayList<State>();
+		this.states.add(new State(new Integer[] {0,0,0,0,0,0,0,0,0}));
+	}
+	
+	public Model getModel() {
+		return this.model;
 	}
 
 }

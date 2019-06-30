@@ -1,10 +1,19 @@
 package tic_tac_toe;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import tic_tac_toe.State;
 
-public class State {
+public class State implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private Integer[] board;
 	
@@ -55,6 +64,8 @@ public class State {
 		return false;
 	}
 	
+	
+	// -1: not finished, 0: draw, 1: player 1 (X) wins, 2: player 2 (O) wins
 	public int result() {
 		int res = 0; // draw
 		
@@ -108,4 +119,14 @@ public class State {
 		
 		return out;
 	}
+	
+	private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
+    {      
+		this.board = (Integer[]) aInputStream.readObject();
+    }
+ 
+    private void writeObject(ObjectOutputStream aOutputStream) throws IOException
+    {
+    	aOutputStream.writeObject(this.board);
+    }
 }
