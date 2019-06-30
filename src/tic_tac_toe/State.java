@@ -75,5 +75,12 @@ public class State {
 	public Integer[] get() {
 		return this.board;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		State s = (State) o;
+		
+		return java.util.Arrays.equals(s.board, this.board);	
+	}
 
 }
