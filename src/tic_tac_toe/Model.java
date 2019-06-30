@@ -5,11 +5,11 @@ import tic_tac_toe.Test_State;
 
 public class Model {
 	
-	HashMap<Test_State, Float> desirability;
+	HashMap<State, Float> desirability;
 	int step;
 	
 	public Model(int step) {
-		this.desirability = new HashMap<Test_State, Float>();
+		this.desirability = new HashMap<State, Float>();
 		this.step = step;
 	}
 	

@@ -7,12 +7,12 @@ public class Game {
 	
 	int player;
 	Model model;
-	ArrayList<Test_State> states;
+	ArrayList<State> states;
 	
 	public Game(int player, Model m) {
 		this.player = player;
 		this.model = m;
-		this.states = new ArrayList<Test_State>();
+		this.states = new ArrayList<State>();
 	}
 	
 	public boolean otherPlayer(int field) {
