@@ -1,3 +1,4 @@
+package tic_tac_toe;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
