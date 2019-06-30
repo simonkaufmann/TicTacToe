@@ -8,9 +8,9 @@ import tic_tac_toe.Test_State;
 public class Model {
 	
 	HashMap<State, Double> desirability;
-	int step;
+	double step;
 	
-	public Model(int step) {
+	public Model(double step) {
 		this.desirability = new HashMap<State, Double>();
 		this.step = step;
 	}
@@ -29,6 +29,9 @@ public class Model {
 		} else {
 			// Return average of hashmap
 			Collection<Double> val = desirability.values();
+			if (val.size() == 0) {
+				return 0.5;
+			}
 			double sum = 0.0;
 			for (Double v: val) {
 				sum += v;

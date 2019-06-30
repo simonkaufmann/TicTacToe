@@ -87,4 +87,25 @@ public class State {
 	public int hashCode() {
 		return this.board.hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		Character[] c = new Character[9];
+		for (int i = 0; i < 9; i++) {
+			if (board[i] == 1) {
+				c[i] = 'X';
+			} else if (board[i] == 2) {
+				c[i] = 'O';
+			} else {
+				c[i] = ' ';
+			}
+		}
+		String out = "-------\n" +
+				 "|" + c[0] + " " + c[1] + " " + c[2] + "|\n" +
+				 "|" + c[3] + " " + c[4] + " " + c[5] + "|\n" +
+				 "|" + c[6] + " " + c[7] + " " + c[8] + "|\n" +
+				 "-------";
+		
+		return out;
+	}
 }
