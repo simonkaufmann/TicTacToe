@@ -57,40 +57,16 @@ public class TicTacToe {
 	}
 
 	public static void main(String[] args) {
-		Model m = new Model(0.1);
-		State s = new State(new Integer[] {0,0,0,0,0,0,0,0,0});
-		m.increase(s);
-		m.exportModel("mymodel");
-		
-		Model n;
-		
-        try {
-        	 
-            FileInputStream fileIn = new FileInputStream("mymodel");
-            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
- 
-            Object obj = objectIn.readObject();
- 
-            System.out.println("The Object has been read from the file");
-            objectIn.close();
-            n = (Model) obj;
-            System.out.println(n.getDesirability(s));
-            return;
- 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-		
-		/*Model m1 = new Model(0.1);
+		Model m1 = new Model(0.1);
 		Model m2 = new Model(0.1);
 		Game player1 = new Game(1, m1);
 		Game player2 = new Game(2, m2);
 		
 		int iteration = 0;
 		while (true) {
+			System.out.println("Iteration " + iteration);
 			
-			for (int j = 0; j < 10000; j++) {
-				System.out.println("Iteration " + j);
+			for (int j = 0; j < 30000; j++) {
 				playGame(player1, player2);
 				
 				player1.updateModel();
@@ -106,7 +82,7 @@ public class TicTacToe {
 			player2.getModel().exportModel("player2_" + Integer.toString(iteration));
 			
 			iteration++;
-		}*/
+		}
 	}
 	
 }
