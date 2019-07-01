@@ -48,10 +48,10 @@ public class Game {
 	}
 	
 	// Returns State of move made or null if no move possible or game already ended
-	public State nextStep(State s) {
+	public State nextStep(boolean train, State s) {
 		otherPlayerMove(s);
 		
-		return nextStep();
+		return nextStep(train);
 	}
 	
 	// ' ': not finished, 'd': draw, 'w': win, 'l': lose
@@ -84,7 +84,7 @@ public class Game {
 	}
 	
 	// Returns State of move made or null if no move possible or game already ended
-	public State nextStep() {		
+	public State nextStep(boolean train) {		
 		State last = this.states.get(this.states.size() - 1);
 		ArrayList<State> moves = last.nextSteps(this.player);
 		
@@ -99,26 +99,44 @@ public class Game {
 		}
 		
 		// desirability
-		ArrayList<Double> des = model.getDesirabilities(moves);
-		
-		// Generate random Double from 0 to 1
-		Random r = new Random();
-		Double rand = r.nextDouble();
-		
-		// Check in which range of accumulative list the random number falls
-		int i = 0;
-		double sum = 0.0;
-		for (i = 0; i < des.size(); i++) {
-			sum += des.get(i); // accumulate probabilities
-			if (rand <= sum) {
-				break;
+		if (train) {
+			ArrayList<Double> des = model.getDesirabilitiesTrain(moves);
+			
+			// Generate random Double from 0 to 1
+			Random r = new Random();
+			Double rand = r.nextDouble();
+			
+			// Check in which range of accumulative list the random number falls
+			int i = 0;
+			double sum = 0.0;
+			for (i = 0; i < des.size(); i++) {
+				sum += des.get(i); // accumulate probabilities
+				if (rand <= sum) {
+					break;
+				}
 			}
+			
+			// Returns move with probability corresponding to desirability
+			this.states.add(moves.get(i));
+			
+			return moves.get(i);
+		} else {
+			ArrayList<Double> des = model.getDesirabilities(moves);
+			
+			// get maximum desirability
+			double max = des.get(0);
+			int index = 0;
+			for (int i = 0; i < des.size(); i++) {
+				if (des.get(i) > max) {
+					max = des.get(i);
+					index = i;
+				}
+			}
+			
+			this.states.add(moves.get(index));
+			
+			return moves.get(index);
 		}
-		
-		// Returns move with probability corresponding to desirability
-		this.states.add(moves.get(i));
-		
-		return moves.get(i);
 	}
 	
 	public void resetGame() {

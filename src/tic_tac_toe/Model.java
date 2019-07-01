@@ -29,7 +29,7 @@ public class Model implements Serializable {
 	State t_state2;
 	
 	public Model() {
-		this(0.5, 1);
+		this(0.1, 1);
 	}
 	
 	public Model(double alpha, double temperature) {
@@ -47,8 +47,6 @@ public class Model implements Serializable {
 		int level = 0;
 		Integer[] b = new Integer[9];
 		initialiseDesRec(level, b);
-		
-		System.out.println("Size of desirability hashmap: " + desirability.size());
 	}
 
 	private void initialiseDesRec(int level, Integer[] b) {
@@ -73,19 +71,14 @@ public class Model implements Serializable {
 			State s1 = new State(b1);
 			State s2 = new State(b2);
 			State s3 = new State(b3);
-			//if (!s1.equals(t_state)) {
+
 			desirability.put(s1, 0.0);
-			//}
-			//if(!s2.equals(t_state)) {
 			desirability.put(s2, 0.0);
-			//}
-			//if (!s3.equals(t_state)) {
 			desirability.put(s3, 0.0);
-			//}
 		}
 	}
 	
-	public ArrayList<Double> getDesirabilities(ArrayList<State> states) {
+	public ArrayList<Double> getDesirabilitiesTrain(ArrayList<State> states) {
 		// See Boltzman's distribution described here:
 		// https://www.cs.dartmouth.edu/~lorenzo/teaching/cs134/Archive/Spring2009/final/PengTao/final_report.pdf
 		
@@ -93,13 +86,22 @@ public class Model implements Serializable {
 		Double sum = 0.0;
 		
 		for (int i = 0; i < states.size(); i++) {
-			//desirabilities.add(Math.exp(desirability.get(states.get(i)) / temperature));
-			desirabilities.add(Math.exp(desirability.get(t_state) / temperature));
+			desirabilities.add(Math.exp(desirability.get(states.get(i)) / temperature));
 			sum+= desirabilities.get(i);
 		}
 		
 		for (int i = 0; i < states.size(); i++) {
 			desirabilities.set(i, Math.exp(desirabilities.get(i) / temperature) / sum);
+		}
+		
+		return desirabilities;
+	}
+	
+	public ArrayList<Double> getDesirabilities(ArrayList<State> states) {
+		ArrayList<Double> desirabilities = new ArrayList<Double>();
+		
+		for (int i = 0; i < states.size(); i++) {
+			desirabilities.add(desirability.get(states.get(i)));
 		}
 		
 		return desirabilities;
@@ -125,7 +127,7 @@ public class Model implements Serializable {
 		double des_after = reward;
 		for (int i = states.size() - 2; i >= 0; i--) {
 			double des_current = desirability.get(states.get(i));
-			des_current += alpha() * (des_after - des_current);
+			des_current = (1 - alpha()) * des_current + alpha() * (des_after - des_current);
 			desirability.put(states.get(i), des_current);
 			des_after = des_current;
 		}
@@ -134,7 +136,8 @@ public class Model implements Serializable {
 	}
 	
 	private double alpha() {
-		return base_alpha * 1 / rounds;
+		//return base_alpha * 1 / rounds;
+		return base_alpha;
 	}
 	
 	public void updateModelWin(ArrayList<State> states) {
