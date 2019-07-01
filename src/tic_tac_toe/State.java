@@ -91,12 +91,28 @@ public class State implements Serializable {
 	public boolean equals(Object o) {
 		State s = (State) o;
 		
-		return java.util.Arrays.equals(s.board, this.board);	
+		boolean equals = true;
+ 
+		if (s == null || s.board == null || s.board.length != 9) {
+			return false;
+		}
+		
+		for (int i = 0; i < 9; i++) {
+			if (board[i] != s.board[i]) {
+				equals = false;
+			}
+		}
+		
+		return equals;	
 	}
 
 	@Override
 	public int hashCode() {
-		return this.board.hashCode();
+		int hash = 0;
+		for (int i = 0; i < 9; i++) {
+			hash += (int) Math.pow(3, i) * board[i];
+		}
+		return hash;
 	}
 	
 	@Override

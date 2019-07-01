@@ -66,7 +66,8 @@ public class TicTacToe {
 		while (true) {
 			System.out.println("Iteration " + iteration);
 			
-			for (int j = 0; j < 30000; j++) {
+			for (int j = 0; j < 3000; j++) {
+				System.out.println("--" + Integer.toString(j) + "--");
 				playGame(player1, player2);
 				
 				player1.updateModel();
@@ -76,6 +77,10 @@ public class TicTacToe {
 				player2.resetGame();
 			}
 			
+			performanceTest(player1, "performance_" + Integer.toString(iteration));
+			performanceTest(player1, "performance_" + Integer.toString(iteration));
+			performanceTest(player1, "performance_" + Integer.toString(iteration));
+			performanceTest(player1, "performance_" + Integer.toString(iteration));
 			performanceTest(player1, "performance_" + Integer.toString(iteration));
 			
 			player1.getModel().exportModel("player1_" + Integer.toString(iteration));

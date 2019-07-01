@@ -25,6 +25,8 @@ public class Model implements Serializable {
 	double base_alpha;
 	double temperature;
 	double rounds;
+	State t_state;
+	State t_state2;
 	
 	public Model() {
 		this(0.5, 1);
@@ -37,15 +39,24 @@ public class Model implements Serializable {
 		this.base_alpha = alpha;
 		this.temperature = temperature;
 		this.rounds = 1;
+		
+		t_state = new State(new Integer[] {0,0,0,0,1,1,0,0,0});
+		t_state2 = new State(new Integer[] {0,0,0,0,1,1,0,0,0});
+		System.out.println("t_state");
+		System.out.println(t_state.hashCode());
+		System.out.println(t_state2.hashCode());
+		System.out.println(Boolean.toString(t_state.equals(t_state2)));
 	}
 	
 	private void initialiseDesirability() {
 		desirability = new HashMap<State, Double>();
-		System.out.println("Size of desirability hashmap: " + desirability.size());
-		
+		desirability.put(t_state, 0.0);
+
 		int level = 0;
 		Integer[] b = new Integer[9];
 		initialiseDesRec(level, b);
+		
+		System.out.println("Size of desirability hashmap: " + desirability.size());
 	}
 
 	private void initialiseDesRec(int level, Integer[] b) {
@@ -76,20 +87,21 @@ public class Model implements Serializable {
 		}
 	}
 	
-	public Double[] getDesirabilities(State[] states) {
+	public ArrayList<Double> getDesirabilities(ArrayList<State> states) {
 		// See Boltzman's distribution described here:
 		// https://www.cs.dartmouth.edu/~lorenzo/teaching/cs134/Archive/Spring2009/final/PengTao/final_report.pdf
 		
-		Double[] desirabilities = new Double[states.length];
+		ArrayList<Double> desirabilities = new ArrayList<Double>();
 		Double sum = 0.0;
 		
-		for (int i = 0; i < states.length; i++) {
-			desirabilities[i] = Math.exp(desirability.get(states[i]) / temperature);
-			sum+= desirabilities[i];
+		for (int i = 0; i < states.size(); i++) {
+			//desirabilities.add(Math.exp(desirability.get(states.get(i)) / temperature));
+			desirabilities.add(Math.exp(desirability.get(t_state) / temperature));
+			sum+= desirabilities.get(i);
 		}
 		
-		for (int i = 0; i < states.length; i++) {
-			desirabilities[i] = Math.exp(desirabilities[i] / temperature) / sum;
+		for (int i = 0; i < states.size(); i++) {
+			desirabilities.set(i, Math.exp(desirabilities.get(i) / temperature) / sum);
 		}
 		
 		return desirabilities;
@@ -103,9 +115,7 @@ public class Model implements Serializable {
 		    oos.writeObject(this);
 		    oos.close();
 		    fos.close();
-		    System.out.printf("Serialized HashMap data is saved in hashmap.ser");
-        } catch(IOException ioe)
-        {
+        } catch(IOException ioe) {
         	ioe.printStackTrace();
         }
 	}
