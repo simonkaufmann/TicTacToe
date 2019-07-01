@@ -23,7 +23,7 @@ public class TicTacToe {
 	}
 	
 	public static void performanceTest(Game player1, String fn) {
-		Model m = new Model(0.1);
+		Model m = new Model();
 		Game player = new Game(2, m);
 		int won = 0, draw = 0, lost = 0;
 		for (int i = 0; i < 100; i++) {
@@ -57,8 +57,8 @@ public class TicTacToe {
 	}
 
 	public static void main(String[] args) {
-		Model m1 = new Model(0.1);
-		Model m2 = new Model(0.1);
+		Model m1 = new Model();
+		Model m2 = new Model();
 		Game player1 = new Game(1, m1);
 		Game player2 = new Game(2, m2);
 		

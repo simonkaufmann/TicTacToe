@@ -99,24 +99,7 @@ public class Game {
 		}
 		
 		// desirability
-		ArrayList<Double> des = new ArrayList<Double>();
-		double sum = 0.0;
-		
-		// Get desirability for every move
-		for (State s: moves) {
-			Double d = this.model.getDesirability(s);
-			des.add(d);
-			sum += d; 
-		}
-		
-		// Normalise desirability and make accumulative to get list with values from 0 to 1
-		double old = 0.0;
-		for (int i = 0; i < des.size(); i++) {
-			Double f = des.get(i);
-			f = f / sum + old;
-			old = f;
-			des.set(i, f);
-		}
+		Double[] des = model.getDesirabilities(moves.toArray(new State[moves.size()]));
 		
 		// Generate random Double from 0 to 1
 		Random r = new Random();
@@ -124,8 +107,10 @@ public class Game {
 		
 		// Check in which range of accumulative list the random number falls
 		int i = 0;
-		for (i = 0; i < des.size(); i++) {
-			if (rand <= des.get(i)) {
+		double sum = 0.0;
+		for (i = 0; i < des.length; i++) {
+			sum += des[i]; // accumulate probabilities
+			if (rand <= sum) {
 				break;
 			}
 		}
