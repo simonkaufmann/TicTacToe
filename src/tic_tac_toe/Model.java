@@ -39,18 +39,10 @@ public class Model implements Serializable {
 		this.base_alpha = alpha;
 		this.temperature = temperature;
 		this.rounds = 1;
-		
-		t_state = new State(new Integer[] {0,0,0,0,1,1,0,0,0});
-		t_state2 = new State(new Integer[] {0,0,0,0,1,1,0,0,0});
-		System.out.println("t_state");
-		System.out.println(t_state.hashCode());
-		System.out.println(t_state2.hashCode());
-		System.out.println(Boolean.toString(t_state.equals(t_state2)));
 	}
 	
 	private void initialiseDesirability() {
 		desirability = new HashMap<State, Double>();
-		desirability.put(t_state, 0.0);
 
 		int level = 0;
 		Integer[] b = new Integer[9];
@@ -81,9 +73,15 @@ public class Model implements Serializable {
 			State s1 = new State(b1);
 			State s2 = new State(b2);
 			State s3 = new State(b3);
+			//if (!s1.equals(t_state)) {
 			desirability.put(s1, 0.0);
+			//}
+			//if(!s2.equals(t_state)) {
 			desirability.put(s2, 0.0);
+			//}
+			//if (!s3.equals(t_state)) {
 			desirability.put(s3, 0.0);
+			//}
 		}
 	}
 	

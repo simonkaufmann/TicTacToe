@@ -63,31 +63,31 @@ public class TicTacToe {
 		Game player2 = new Game(2, m2);
 		
 		int iteration = 0;
-		while (true) {
-			System.out.println("Iteration " + iteration);
-			
-			for (int j = 0; j < 3000; j++) {
-				System.out.println("--" + Integer.toString(j) + "--");
-				playGame(player1, player2);
-				
-				player1.updateModel();
-				player2.updateModel();
-				
-				player1.resetGame();
-				player2.resetGame();
-			}
-			
-			performanceTest(player1, "performance_" + Integer.toString(iteration));
-			performanceTest(player1, "performance_" + Integer.toString(iteration));
-			performanceTest(player1, "performance_" + Integer.toString(iteration));
-			performanceTest(player1, "performance_" + Integer.toString(iteration));
-			performanceTest(player1, "performance_" + Integer.toString(iteration));
-			
-			player1.getModel().exportModel("player1_" + Integer.toString(iteration));
-			player2.getModel().exportModel("player2_" + Integer.toString(iteration));
-			
-			iteration++;
-		}
+//		while (true) {
+//			System.out.println("Iteration " + iteration);
+//			
+//			for (int j = 0; j < 3000; j++) {
+//				System.out.println("--" + Integer.toString(j) + "--");
+//				playGame(player1, player2);
+//				
+//				player1.updateModel();
+//				player2.updateModel();
+//				
+//				player1.resetGame();
+//				player2.resetGame();
+//			}
+//			
+//			performanceTest(player1, "performance_" + Integer.toString(iteration));
+//			performanceTest(player1, "performance_" + Integer.toString(iteration));
+//			performanceTest(player1, "performance_" + Integer.toString(iteration));
+//			performanceTest(player1, "performance_" + Integer.toString(iteration));
+//			performanceTest(player1, "performance_" + Integer.toString(iteration));
+//			
+//			player1.getModel().exportModel("player1_" + Integer.toString(iteration));
+//			player2.getModel().exportModel("player2_" + Integer.toString(iteration));
+//			
+//			iteration++;
+//		}
 	}
 	
 }
