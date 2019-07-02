@@ -1,6 +1,14 @@
 # Tic Tac Toe
 
-A self learning tic tac toe AI based on reinforcement learning.
+A self learning tic tac toe AI based on reinforcement learning set up as a web
+app.
+
+# Architecture
+
+Learning Part: Java
+Backend: Node.js with Express
+Frontend: React with Material UI
+
 
 # Helpful resources
 
