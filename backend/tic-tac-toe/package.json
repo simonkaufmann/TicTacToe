@@ -1,0 +1,17 @@
+{
+  "name": "tic-tac-toe",
+  "version": "0.0.1",
+  "description": "Tic Tac Toe Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.2"
+  }
+}

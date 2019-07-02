@@ -1,2 +1,4 @@
 /bin/
 /old_training_files/
+node_modules
+.bin
