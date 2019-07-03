@@ -10,10 +10,12 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles(theme => ({
+import PropTypes from 'prop-types';
+
+const styles = theme => ({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
@@ -36,44 +38,15 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+});
 
-export class SignIn extends React.Component {
+class SignIn extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      classes: "",
-    }
-  }
-
-  componentDidMount = () => {
-    this.setState( { classes: makeStyles(theme => ({
-            '@global': {
-              body: {
-                backgroundColor: theme.palette.common.white,
-              },
-            },
-            paper: {
-              marginTop: theme.spacing(8),
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            },
-            avatar: {
-              margin: theme.spacing(1),
-              backgroundColor: theme.palette.secondary.main,
-            },
-            form: {
-              width: '100%', // Fix IE 11 issue.
-              marginTop: theme.spacing(1),
-            },
-            submit: {
-              margin: theme.spacing(3, 0, 2),
-            },
-          })),
-        });
+    };
   }
 
   clickSignIn = () => {
@@ -88,7 +61,7 @@ export class SignIn extends React.Component {
   }
 
   render() {
-    const classes = this.state.classes; 
+    const { classes } = this.props;
 
     return (
       <Container component="main" maxWidth="xs">
@@ -156,3 +129,9 @@ export class SignIn extends React.Component {
     );
   }
 }
+
+SignIn.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(SignIn);
