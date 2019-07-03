@@ -6,6 +6,14 @@ const User = require('./models/User.js');
 const app = express()
 const port = 3001
 
+var cors = require('cors'); // for Allow Origin Error
+
+app.use(cors());
+
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+
 const mongoose = require('mongoose');
 
 const mongo_uri = 'mongodb://localhost/react-auth';
@@ -25,7 +33,6 @@ app.get('/api/home', function(req, res) {
 app.get('/api/secret', function(req, res) {
   res.send('The password is potato');
 });
-
 
 // POST route to register a user
 app.post('/api/register', function(req, res) {

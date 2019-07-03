@@ -45,18 +45,38 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      email: "",
+      password: ""
     };
-  }
-
-  clickSignIn = () => {
-    alert("Sign in");
   }
 
   handleInputChange = (event) => {
     const { value, name } = event.target;
     this.setState({
       [name]: value
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:3001/api/register', {
+      method: 'POST',
+      body: JSON.stringify(this.state),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      if (res.status === 200) {
+        this.props.history.push('/');
+      } else {
+        const error = new Error(res.error);
+        throw error;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Error logging in please try again');
     });
   }
 
@@ -107,7 +127,7 @@ class SignIn extends React.Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={this.clickSignIn}
+              onClick={this.onSubmit}
             >
               Sign In
             </Button>
