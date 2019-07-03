@@ -4,11 +4,23 @@ import './App.css';
 
 import 'typeface-roboto';
 import SignIn from './SignIn.js';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+
+function Home() {
+  return (
+    <div>
+      Home
+    </div>
+  );
+}
 
 function App() {
   return (
     <div>
-      <SignIn/>
+      <Router>
+        <Route path="/" exact component={Home} />
+        <Route path="/login" component={SignIn} />
+      </Router>
     </div>
   );
 }
