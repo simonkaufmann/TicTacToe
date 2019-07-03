@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import 'typeface-roboto';
-import SignIn from './SignIn.js';
+import { SignIn } from './SignIn.js';
 
 function App() {
   return (
