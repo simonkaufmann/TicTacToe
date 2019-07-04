@@ -28,7 +28,7 @@ mongoose.connect(mongo_uri, { useNewUrlParser: true }, function(err) {
   if (err) {
     throw err;
   } else {
-    console.log('Successfully connected to ${mongo_uri}');
+    console.log('Connecting to mongodb at ${mongo_uri} successful');
   }
 });
 
@@ -105,5 +105,5 @@ app.get('/checkToken', withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Backend listening on port ${port}`));
 
