@@ -6,14 +6,7 @@ import SignIn from './SignIn.js';
 import SignUp from './SignUp.js';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import withAuth from './withAuth.js';
-
-function Home() {
-  return (
-    <div>
-      Home
-    </div>
-  );
-}
+import Home from './Home.js';
 
 function ForgotPassword() {
   return (

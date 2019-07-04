@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,7 +21,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ButtonAppBar() {
+function onClickLogin() {
+  this.history.push('/login');
+}
+
+function ButtonAppBar(props) {
   const classes = useStyles();
 
   return (
@@ -33,9 +38,11 @@ function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             Tic Tac Toe
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={onClickLogin.bind(props)}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+export default withRouter(ButtonAppBar);
