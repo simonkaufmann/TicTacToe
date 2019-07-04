@@ -12,8 +12,6 @@ import Container from '@material-ui/core/Container';
 
 import PropTypes from 'prop-types';
 
-import { api_address } from './App.js';
-
 const styles = theme => ({
   '@global': {
     body: {
@@ -53,7 +51,7 @@ class SignUp extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    fetch(api_address + '/api/register', {
+    fetch('/api/register', {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {

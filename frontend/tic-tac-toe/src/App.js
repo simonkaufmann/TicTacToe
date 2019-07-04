@@ -7,8 +7,6 @@ import SignUp from './SignUp.js';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import withAuth from './withAuth.js';
 
-export const api_address='http://localhost:3001';
-
 function Home() {
   return (
     <div>

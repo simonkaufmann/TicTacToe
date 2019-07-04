@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { api_address } from './App.js';
-
 export default function withAuth(ComponentToProtect) {
 
   return class extends Component {
@@ -15,8 +13,7 @@ export default function withAuth(ComponentToProtect) {
     }
 
     componentDidMount() {
-      console.log("fetch " + api_address + "/checkToken");
-      fetch(api_address + '/checkToken')
+      fetch('/api/checkToken')
         .then(res => {
           if (res.status === 200) {
             this.setState({ loading: false });

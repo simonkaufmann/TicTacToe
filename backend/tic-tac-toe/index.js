@@ -6,12 +6,11 @@ const cookieParser = require('cookie-parser');
 const User = require('./models/User.js');
 const withAuth = require('./middleware');
 
+const secret = 'debug';
+
 const app = express()
 const port = 3001
 
-var cors = require('cors'); // for Allow Origin Error
-
-app.use(cors());
 app.use(cookieParser());
 
 const bodyParser = require('body-parser');
@@ -58,6 +57,7 @@ app.post('/api/register', function(req, res) {
 });
 
 app.post('/api/authenticate', function(req, res) {
+  console.log('authenticate called');
   const { email, password } = req.body;
   User.findOne({ email }, function(err, user) {
     if (err) {
@@ -84,13 +84,15 @@ app.post('/api/authenticate', function(req, res) {
               error: 'Incorrect email or password'
           });
         } else {
+          console.log('token issued');
           // Issue token
           const payload = { email };
           const token = jwt.sign(payload, secret, {
             expiresIn: '1h'
           });
-          res.cookie('token', token, { httpOnly: true })
-            .sendStatus(200);
+          res.cookie('token', token, { httpOnly: false }).
+              sendStatus(200);
+          console.log('cookie set');
         }
       });
     }
@@ -101,7 +103,7 @@ app.get('/api/secret', withAuth, function(req, res) {
   res.send('The password is potato');
 });
 
-app.get('/checkToken', withAuth, function(req, res) {
+app.get('/api/checkToken', withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
