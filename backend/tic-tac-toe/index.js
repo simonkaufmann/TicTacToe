@@ -28,7 +28,7 @@ mongoose.connect(mongo_uri, { useNewUrlParser: true }, function(err) {
   if (err) {
     throw err;
   } else {
-    console.log('Connecting to mongodb at ${mongo_uri} successful');
+    console.log("Connecting to mongodb at " + mongo_uri + " successful");
   }
 });
 

@@ -1,11 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import 'typeface-roboto';
 import SignIn from './SignIn.js';
 import SignUp from './SignUp.js';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import withAuth from './withAuth.js';
+
+export const api_address='http://localhost:3001';
 
 function Home() {
   return (
@@ -23,6 +25,14 @@ function ForgotPassword() {
   );
 }
 
+function Secret() {
+  return (
+    <div>
+      I'm the secret
+    </div>
+  );
+}
+
 function App() {
   return (
     <div>
@@ -31,6 +41,7 @@ function App() {
         <Route path="/login" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/reset-password" component={ForgotPassword} />
+        <Route path="/secret" component={withAuth(Secret)} />
       </Router>
     </div>
   );
