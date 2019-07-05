@@ -21,3 +21,9 @@ https://github.com/mui-org/material-ui/tree/master/docs/src/pages/getting-starte
 https://material-ui.com/getting-started/page-layout-examples/
 https://material-ui.com/getting-started/usage/
 https://stackoverflow.com/questions/49779575/running-frontend-and-backend-on-the-same-port
+
+https://facebook.github.io/create-react-app/docs/proxying-api-requests-in-development
+https://reactjs.org/tutorial/tutorial.html
+https://www.freecodecamp.org/news/how-to-center-things-with-style-in-css-dc87b7542689/
+https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
+https://stackoverflow.com/questions/50591374/mern-stack-express-and-react-on-same-port
