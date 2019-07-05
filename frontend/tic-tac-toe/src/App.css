@@ -34,28 +34,50 @@
 
 .square {
   background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
+  border: 1px solid #444;
+  font-size: 20vw;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
   margin-right: -1px;
   margin-top: -1px;
-  padding: 0;
   text-align: center;
-  width: 34px;
+  /* for 1x1 ratio */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 .square:focus {
   outline: none;
 }
 
+/* for 1x1 ratio of Square */
+.square-box {
+  position: relative;
+  width: 33.3%;
+  display: inline-block;
+}
+
+.square-box:before {
+  content: "";
+  display: inline-block;
+  padding-top: 100%;
+}
+
 .board-row {
   padding: 0;
+  width: 100%;
 }
 
 .board {
   border-collapse: collapse;
   border-spacing: 0;
+  width: 100%;
+}
+
+.board-box {
+  display: inline-block;
+  width: 80%;
 }
