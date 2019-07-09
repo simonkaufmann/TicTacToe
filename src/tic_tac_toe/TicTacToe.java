@@ -57,6 +57,10 @@ public class TicTacToe {
 	}
 
 	public static void main(String[] args) {
+		Socket.startServer();
+	}
+	
+	public static void main_old() {
 		Model m1 = new Model();
 		Model m2 = new Model();
 		Game player1 = new Game(1, m1);
