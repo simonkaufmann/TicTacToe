@@ -2,9 +2,8 @@
 
 ## Useful Links
 
-https://stackoverflow.com/questions/55154172/material-ui-styles-inside-react-component \
-
-https://css-tricks.com/fitting-text-to-a-container/
+https://stackoverflow.com/questions/55154172/material-ui-styles-inside-react-component  
+https://css-tricks.com/fitting-text-to-a-container/  
 http://www.mademyday.de/css-height-equals-width-with-pure-css.html
 
 
