@@ -18,5 +18,9 @@ public class TicTacToe {
 		Model m = new Model();
 		game = new Game(2, m);
 	}
+	
+	public void sendMove(State s) {
+		game.otherPlayerMove(s);
+	}
 
 }

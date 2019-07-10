@@ -8,6 +8,11 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -49,7 +54,22 @@ public class Socket {
 		private void sendMove(HttpExchange exchange) throws IOException{
 			InputStream in = exchange.getRequestBody();
 			String body = inputStreamToString(in);
-			System.out.println("body: " + body);
+			
+			try {
+				JSONObject json = (JSONObject) new JSONParser().parse(body);
+				JSONArray jsonState = (JSONArray) json.get("state");
+				Integer[] intState = new Integer[9];
+				if (jsonState.size() == 9) {
+					for (int i = 0; i < jsonState.size(); i++) {
+						long temp = (long) jsonState.get(i);
+						intState[i] = (int) temp;
+					}
+				}
+				State state = new State(intState);
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			
 			String response = "OK";
 			exchange.getResponseHeaders().add("Content-type", "application/json");
