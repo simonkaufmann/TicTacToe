@@ -2,8 +2,6 @@ package tic_tac_toe;
 import java.util.ArrayList;
 import java.util.Random;
 
-import tic_tac_toe.Test_State;
-
 public class Game {
 	
 	int player;

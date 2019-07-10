@@ -1,10 +1,7 @@
 package tic_tac_toe;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 
 class Test_State {

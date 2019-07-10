@@ -1,16 +1,12 @@
 package tic_tac_toe;
+
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-
-import tic_tac_toe.Test_State;
 
 public class Model implements Serializable {
 	
@@ -148,6 +144,7 @@ public class Model implements Serializable {
 		updateModel(states, -reward);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
     {      
 		this.desirability = (HashMap<State, Double>) aInputStream.readObject();
