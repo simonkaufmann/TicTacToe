@@ -32,4 +32,5 @@ https://stackoverflow.com/questions/10393879/how-to-get-a-http-post-request-body
 
 https://www.mkyong.com/maven/create-a-fat-jar-file-maven-assembly-plugin/  
 https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple/1.1.1  
-https://stackoverflow.com/questions/33673260/override-maven-assembly-plugin-output-file-name
+https://stackoverflow.com/questions/33673260/override-maven-assembly-plugin-output-file-name  
+https://stackoverflow.com/questions/24144073/why-does-maven-warn-me-about-encoding  
