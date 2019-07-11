@@ -15,30 +15,46 @@ public class Game {
 		this.states.add(new State(new Integer[] {0, 0, 0, 0, 0, 0, 0, 0, 0}));
 	}
 	
+	private boolean computersTurn() {
+		if (this.states.size() % 2 == (this.player - 1)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	// Returns true if move is possible and false if move is not possible
 	public boolean otherPlayerField(int field) {		
 		// Get board of last state
-		Integer[] board = this.states.get(this.states.size() - 1).get();
+		if (!computersTurn()) {
+			Integer[] board = this.states.get(this.states.size() - 1).get();
+			
+			if (board[field] != 0) {
+				return false;
+			}
+			
+			if (this.player == 1) {
+				board[field] = 2;
+			} else {
+				board[field] = 1;
+			}
 		
-		if (board[field] != 0) {
+			this.states.add(new State(board));
+			
+			return true;
+		} else {
 			return false;
 		}
-		
-		if (this.player == 1) {
-			board[field] = 2;
-		} else {
-			board[field] = 1;
-		}
-	
-		this.states.add(new State(board));
-		
-		return true;
 	}
 	
-	public void otherPlayerMove(State s) {
+	public boolean otherPlayerMove(State s) {
 		if (s != null) {
-			this.states.add(s);
+			if (!computersTurn()) {
+				this.states.add(s);
+				return true;
+			}
 		}
+		return false;
 	}
 	
 	public ArrayList<State> getStates() {
@@ -82,8 +98,10 @@ public class Game {
 	}
 	
 	// Returns State of move made or null if no move possible or game already ended
+	// Returns last state if it is not computers turn
 	public State nextStep(boolean train) {		
 		State last = this.states.get(this.states.size() - 1);
+		
 		ArrayList<State> moves = last.nextSteps(this.player);
 		
 		// Abort if game is already decided
@@ -94,6 +112,11 @@ public class Game {
 		// no moves available
 		if (moves.size() == 0) {
 			return null;
+		}
+		
+		// if it is not computers turn
+		if (!computersTurn()) {
+			return last;
 		}
 		
 		// desirability

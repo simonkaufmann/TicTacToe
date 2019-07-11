@@ -44,7 +44,7 @@ public class Socket {
 			ticTac.startGame();
 			
 			String response = "OK";
-			exchange.getResponseHeaders().add("Content-type", "application/json");
+			exchange.getResponseHeaders().add("Content-type", "text/plain");
 			exchange.sendResponseHeaders(200, response.getBytes().length);
 			OutputStream os = exchange.getResponseBody();
 			os.write(response.getBytes());
@@ -57,22 +57,15 @@ public class Socket {
 			
 			try {
 				JSONObject json = (JSONObject) new JSONParser().parse(body);
-				JSONArray jsonState = (JSONArray) json.get("state");
-				Integer[] intState = new Integer[9];
-				if (jsonState.size() == 9) {
-					for (int i = 0; i < jsonState.size(); i++) {
-						long temp = (long) jsonState.get(i);
-						intState[i] = (int) temp;
-					}
-				}
-				State state = new State(intState);
+				long field = (long) json.get("field");
+				ticTac.sendMove((int) field);
 				
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			
 			String response = "OK";
-			exchange.getResponseHeaders().add("Content-type", "application/json");
+			exchange.getResponseHeaders().add("Content-type", "text/plain");
 			exchange.sendResponseHeaders(200, response.getBytes().length);
 			OutputStream os = exchange.getResponseBody();
 			os.write(response.getBytes());
@@ -80,6 +73,20 @@ public class Socket {
 		}
 		
 		private void getMove(HttpExchange exchange) throws IOException {
+			State state = ticTac.getMove();
+			
+			JSONObject json = new JSONObject();
+			JSONArray jarray = new JSONArray();
+
+			Integer[] intState = state.get();
+			for (int i = 0; i < intState.length; i++) {
+				jarray.add(intState[i]);
+			}
+			
+			json.put("state", jarray);
+			
+			System.out.println(json.toJSONString());
+			
 			String response = "OK";
 			exchange.getResponseHeaders().add("Content-type", "application/json");
 			exchange.sendResponseHeaders(200, response.getBytes().length);

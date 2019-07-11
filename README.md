@@ -27,3 +27,6 @@ https://reactjs.org/tutorial/tutorial.html
 https://www.freecodecamp.org/news/how-to-center-things-with-style-in-css-dc87b7542689/
 https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
 https://stackoverflow.com/questions/50591374/mern-stack-express-and-react-on-same-port
+https://www.geeksforgeeks.org/parse-json-java/
+https://stackoverflow.com/questions/10393879/how-to-get-a-http-post-request-body-as-a-java-string-at-the-server-side
+

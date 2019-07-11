@@ -19,8 +19,12 @@ public class TicTacToe {
 		game = new Game(2, m);
 	}
 	
-	public void sendMove(State s) {
-		game.otherPlayerMove(s);
+	public void sendMove(int s) {
+		game.otherPlayerField(s);
+	}
+	
+	public State getMove() {
+		return(game.nextStep(false));
 	}
 
 }
