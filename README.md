@@ -30,3 +30,5 @@ https://stackoverflow.com/questions/50591374/mern-stack-express-and-react-on-sam
 https://www.geeksforgeeks.org/parse-json-java/  
 https://stackoverflow.com/questions/10393879/how-to-get-a-http-post-request-body-as-a-java-string-at-the-server-side  
 
+https://www.mkyong.com/maven/create-a-fat-jar-file-maven-assembly-plugin/  
+https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple/1.1.1
