@@ -3,6 +3,10 @@
   <groupId>tic_tac_toe</groupId>
   <artifactId>tic_tac_toe</artifactId>
   <version>0.0.1</version>
+  <!-- to suppress utf-8 warning: https://stackoverflow.com/questions/24144073/why-does-maven-warn-me-about-encoding -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
     <dependency>
@@ -34,12 +38,15 @@
           <release>11</release>
         </configuration>
       </plugin>
-      <plugin>
         <!--  create fat jar, refer to: https://www.mkyong.com/maven/create-a-fat-jar-file-maven-assembly-plugin/ -->
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.4.1</version>
         <configuration>
+          <!--  set output file name: https://stackoverflow.com/questions/33673260/override-maven-assembly-plugin-output-file-name -->
+          <finalName>tic_tac_toe</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
           <!-- get all project dependencies -->
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
