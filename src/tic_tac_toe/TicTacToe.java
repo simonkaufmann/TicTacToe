@@ -19,12 +19,16 @@ public class TicTacToe {
 		game = new Game(2, m);
 	}
 	
-	public void sendMove(int s) {
-		game.otherPlayerField(s);
+	public boolean sendMove(int s) {
+		return game.otherPlayerField(s);
 	}
 	
 	public State getMove() {
-		return(game.nextStep(false));
+		return game.nextStep(false);
+	}
+	
+	public char getResult() {
+		return game.result();
 	}
 
 }

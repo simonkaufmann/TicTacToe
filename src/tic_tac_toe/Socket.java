@@ -54,24 +54,32 @@ public class Socket {
 		private void sendMove(HttpExchange exchange) throws IOException{
 			InputStream in = exchange.getRequestBody();
 			String body = inputStreamToString(in);
-			
+			boolean ret = false;
 			try {
 				JSONObject json = (JSONObject) new JSONParser().parse(body);
 				long field = (long) json.get("field");
-				ticTac.sendMove((int) field);
+				ret = ticTac.sendMove((int) field);
 				
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			
-			String response = "OK";
-			exchange.getResponseHeaders().add("Content-type", "text/plain");
-			exchange.sendResponseHeaders(200, response.getBytes().length);
+			String response = "";
+			if (ret) {
+				response = "OK";
+				exchange.getResponseHeaders().add("Content-type", "text/plain");
+				exchange.sendResponseHeaders(200, response.getBytes().length);
+			} else {
+				response = "Error";
+				exchange.getResponseHeaders().add("Content-type", "text/plain");
+				exchange.sendResponseHeaders(406, response.getBytes().length);
+			}
 			OutputStream os = exchange.getResponseBody();
 			os.write(response.getBytes());
 			os.close();
 		}
 		
+		@SuppressWarnings("unchecked")
 		private void getMove(HttpExchange exchange) throws IOException {
 			State state = ticTac.getMove();
 			
@@ -84,10 +92,9 @@ public class Socket {
 			}
 			
 			json.put("state", jarray);
+			json.put("result", Character.toString(ticTac.getResult()));
 			
-			System.out.println(json.toJSONString());
-			
-			String response = "OK";
+			String response = json.toJSONString();
 			exchange.getResponseHeaders().add("Content-type", "application/json");
 			exchange.sendResponseHeaders(200, response.getBytes().length);
 			OutputStream os = exchange.getResponseBody();

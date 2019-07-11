@@ -68,7 +68,7 @@ public class Game {
 		return nextStep(train);
 	}
 	
-	// ' ': not finished, 'd': draw, 'w': win, 'l': lose
+	// ' ': not finished, 'd': draw, 'w': win, 'l': lose (from perspective of computer)
 	public char result() {
 		State last = this.states.get(this.states.size() - 1);
 		int res = last.result();
@@ -97,7 +97,7 @@ public class Game {
 		return true;
 	}
 	
-	// Returns State of move made or null if no move possible or game already ended
+	// Returns State of move made or last state if no move possible or game already ended
 	// Returns last state if it is not computers turn
 	public State nextStep(boolean train) {		
 		State last = this.states.get(this.states.size() - 1);
@@ -106,12 +106,12 @@ public class Game {
 		
 		// Abort if game is already decided
 		if (last.result() != -1) {
-			return null;
+			return last;
 		}
 		
 		// no moves available
 		if (moves.size() == 0) {
-			return null;
+			return last;
 		}
 		
 		// if it is not computers turn
