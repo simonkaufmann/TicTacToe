@@ -5,9 +5,9 @@ app.
 
 # Architecture
 
-Learning Part: Java\
-Backend: Node.js with Express\
-Frontend: React with Material UI\
+Learning Part: Java  
+Backend: Node.js with Express  
+Frontend: React with Material UI  
 
 
 # Helpful resources
