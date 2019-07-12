@@ -4,8 +4,10 @@
 
 https://stackoverflow.com/questions/55154172/material-ui-styles-inside-react-component  
 https://css-tricks.com/fitting-text-to-a-container/  
-http://www.mademyday.de/css-height-equals-width-with-pure-css.html
-
+http://www.mademyday.de/css-height-equals-width-with-pure-css.html  
+https://www.npmjs.com/package/react-fittext  
+https://stackoverflow.com/questions/36299174/setinterval-in-a-react-app  
+https://medium.com/@thejasonfile/fetch-vs-axios-js-for-making-http-requests-2b261cdd3af5  
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

@@ -119,6 +119,8 @@ public class Socket {
 
     		// path[0] is always "api" because handler is set for it
     		
+    		System.out.println(stringUri);
+    		
     		if (path.length >= 3) {
     			switch (path[2]) {
     				case "start-game":
