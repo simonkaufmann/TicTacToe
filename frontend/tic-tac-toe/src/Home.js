@@ -19,19 +19,26 @@ class Square extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      value: null,
-    };
+  }
+
+  valueToChar = () => {
+    if (this.props.value === 1) {
+      return 'X';
+    } else if (this.props.value === 2){
+      return 'O';
+    } else {
+      return ' ';
+    }
   }
 
   clickSquare = () => {
     // send move
-    this.setState({value: 'X'});
     let json = { field: this.props.fieldNumber };
     fetch('/api/send-move/', {
       method: 'post',
       body: JSON.stringify(json)
     });
+    this.props.callBack(this.props.fieldNumber);
   }
 
   render() {
@@ -42,7 +49,7 @@ class Square extends React.Component {
           onClick={this.clickSquare}
         >
           <ReactFitText compressor={0.25}>
-          <h1>{this.state.value}</h1>
+          <h1>{this.valueToChar()}</h1>
           </ReactFitText>
         </button>
       </div>
@@ -64,8 +71,17 @@ class Board extends React.Component {
     this.timer = setInterval(this.updateBoard, 1000);
   }
 
-  renderSquare(i) {
-    return <Square fieldNumber={i} />;
+  renderSquare = (i) => {
+    return <Square fieldNumber={i} value={this.state.board[i]}
+                   callBack={this.squareClicked}/>;
+  }
+
+  squareClicked = (i) => {
+    let b = this.state.board;
+    if (b[i] === 0) {
+      b[i] = 1;
+      this.setState({board: b});
+    }
   }
   
   updateBoard = () => {
