@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
 import ButtonAppBar from './ButtonAppBar.js';
+import Drawer from './Drawer.js';
 
 var ReactFitText = require('react-fittext');
 
@@ -136,6 +137,7 @@ export default function Home() {
   return (
     <div>
       <ButtonAppBar/>
+      <Drawer open={true}/>
       <Container style={{textAlign: "center"}}>
         <p> It's your turn </p>
         <Board/>
