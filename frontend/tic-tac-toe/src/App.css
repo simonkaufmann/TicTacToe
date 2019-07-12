@@ -80,4 +80,9 @@
 .board-box {
   display: inline-block;
   width: 90%;
+  max-width: 450px;
+}
+
+.board-outer-box {
+  text-align: center;
 }
