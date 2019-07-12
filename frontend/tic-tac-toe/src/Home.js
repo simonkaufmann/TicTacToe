@@ -25,6 +25,7 @@ class Square extends React.Component {
   }
 
   clickSquare = () => {
+    // send move
     this.setState({value: 'X'});
     let json = { field: this.props.fieldNumber };
     fetch('/api/send-move/', {
@@ -50,16 +51,32 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
-  renderSquare(i) {
-    return <Square />;
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      result: ' '
+    };
   }
 
   componentDidMount = () => {
     this.timer = setInterval(this.updateBoard, 1000);
   }
 
+  renderSquare(i) {
+    return <Square fieldNumber={i} />;
+  }
+  
   updateBoard = () => {
-    console.log("update board");
+    // update board
+    fetch('/api/get-move')
+      .then((response) => response.json())
+      .then(json => {
+        this.setState({ board: json.state, result: json.result });
+      }).catch(() => {
+        console.log("Error update board");
+      });
   }
 
   render() {
@@ -85,6 +102,8 @@ class Board extends React.Component {
               </td></tr>
             </tbody>
           </table>
+          {this.state.board}
+          {this.state.result}
         </div>
       </div>
     );
