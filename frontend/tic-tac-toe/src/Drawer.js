@@ -64,40 +64,6 @@ export default function Drawer(props) {
     </div>
   );
 
-  const fullList = side => (
-    <div
-      className={classes.fullList}
-      role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
-
-  if (props.open === true) {
-    console.log('drawer open');
-    toggleDrawer('left', true);
-  } else {
-    toggleDrawer('left', false);
-  }
-
   return (
     <div>
       <SwipeableDrawer
@@ -106,30 +72,6 @@ export default function Drawer(props) {
         onOpen={toggleDrawer('left', true)}
       >
         {sideList('left')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor="top"
-        open={state.top}
-        onClose={toggleDrawer('top', false)}
-        onOpen={toggleDrawer('top', true)}
-      >
-        {fullList('top')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={state.bottom}
-        onClose={toggleDrawer('bottom', false)}
-        onOpen={toggleDrawer('bottom', true)}
-      >
-        {fullList('bottom')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor="right"
-        open={state.right}
-        onClose={toggleDrawer('right', false)}
-        onOpen={toggleDrawer('right', true)}
-      >
-        {sideList('right')}
       </SwipeableDrawer>
     </div>
   );
