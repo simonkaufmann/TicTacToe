@@ -5,8 +5,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
-import ButtonAppBar from './ButtonAppBar.js';
-import MyDrawer from './Drawer.js';
+import Skeleton from './Skeleton.js';
 
 var ReactFitText = require('react-fittext');
 
@@ -149,24 +148,15 @@ class Board_ extends React.Component {
 const Board = withStyles(myStyles)(Board_);
 
 export default function Home() {
-  const classes = useStyles();
-
-  const [state, setState] = React.useState({
-    drawerOpen: false,
-  });
-
   function startGame() {
     fetch("api/start-game");  
   }   
 
-  function toggleDrawer(argOpen) {
-    setState({...state, drawerOpen: argOpen});
-  }
+  const classes = useStyles();
 
   return (
     <div>
-      <ButtonAppBar open={state.drawerOpen} drawerOpen={state.drawerOpen} toggleDrawer={toggleDrawer}/>
-      <MyDrawer open={state.drawerOpen} toggleDrawer={toggleDrawer}/>
+      <Skeleton /> 
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
         <p> It's your turn </p>
