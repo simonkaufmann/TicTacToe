@@ -67,7 +67,6 @@ export default function Drawer(props) {
         open={props.open}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
-        permanent={props.permanent}
       >
         <div className={classes.toolbar}/>
         {sideList('left')}

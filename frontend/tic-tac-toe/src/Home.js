@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useEffect } from 'react';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
@@ -130,30 +129,8 @@ export default function Home() {
 
   const [state, setState] = React.useState({
     drawerOpen: false,
-    drawerPermanent: false
   });
 
-  useEffect(() => {
-    // Make drawer responsive
-    const mediaQuery = window.matchMedia('(min-width: 768px)');
-    if (mediaQuery.matches) {
-      setState({ ...state, drawerPermanent: true, drawerOpen: true});
-      console.log("permanent");
-    } else {
-      setState({ ...state, drawerPermanent: false });
-      console.log("not permanent");
-    }
-    mediaQuery.addListener((mq) => {
-      if (mq.matches) {
-        setState({ ...state, drawerPermanent: true, drawerOpen: true});
-        console.log("permanent");
-      } else {
-        setState({...state, drawerPermanent: false});
-        console.log("non permanent");
-      }
-    });
-  });
-  
   function startGame() {
     fetch("api/start-game");  
   }   
@@ -165,7 +142,7 @@ export default function Home() {
   return (
     <div>
       <ButtonAppBar open={state.drawerOpen} drawerOpen={state.drawerOpen} toggleDrawer={toggleDrawer}/>
-      <Drawer open={state.drawerOpen} permanent={state.drawerPermanent} toggleDrawer={toggleDrawer}/>
+      <Drawer open={state.drawerOpen} toggleDrawer={toggleDrawer}/>
       <Container style={{textAlign: "center"}}>
         <div className={classes.toolbar}/>
         <p> It's your turn </p>
