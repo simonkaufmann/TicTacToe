@@ -8,14 +8,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import withAuth from './withAuth.js';
 import Home from './Home.js';
 import Model from './Model.js';
-
-function ForgotPassword() {
-  return (
-    <div>
-      Forgot
-    </div>
-  );
-}
+import PasswordForgotten from './PasswordForgotten.js';
+import AccountSettings from './AccountSettings.js';
 
 function Secret() {
   return (
@@ -33,8 +27,9 @@ function App() {
         <Route path="/model" component={Model} />
         <Route path="/login" component={SignIn} />
         <Route path="/signup" component={SignUp} />
-        <Route path="/reset-password" component={ForgotPassword} />
+        <Route path="/reset-password" component={PasswordForgotten} />
         <Route path="/secret" component={withAuth(Secret)} />
+        <Route path="/account-settings" component={AccountSettings} />
       </Router>
     </div>
   );

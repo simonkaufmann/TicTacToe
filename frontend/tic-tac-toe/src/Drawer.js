@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import TuneIcon from '@material-ui/icons/Tune';
+import SettingsIcon from '@material-ui/icons/Settings';
 import VideoGameIcon from '@material-ui/icons/VideogameAsset';
 import { withRouter } from 'react-router-dom';
 
@@ -58,11 +59,22 @@ function MyDrawer(props) {
           <ListItemIcon><TuneIcon /></ListItemIcon>
           <ListItemText primary={"AI Model"} />
         </ListItem>
+        {
+          (props.loggedIn === true) && /* inline if condition */
+          <ListItem button key={"Account Settings"} onClick={() => {props.history.push("/account-settings")}}>
+            <ListItemIcon><SettingsIcon /></ListItemIcon>
+            <ListItemText primary={"Account Settings"} />
+          </ListItem>
+         }
       </List>
     </div>
   );
 
-  if (props.drawerEnabled === true) {
+  if (props.drawerEnabled === false) {
+    return (
+      <div />
+    );
+  } else {
     return (
       <div>
         <Hidden smUp>
@@ -89,11 +101,6 @@ function MyDrawer(props) {
             {sideList('left')}
           </Drawer>
         </Hidden>
-      </div>
-    );
-  } else {
-    return (
-      <div>
       </div>
     );
   }
