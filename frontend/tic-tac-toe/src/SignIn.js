@@ -21,12 +21,6 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   myContainer: {
     textAlign: "center",
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: "120px",
-    },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: "70px",
-    },
   },
 }));
 

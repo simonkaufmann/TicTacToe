@@ -62,34 +62,41 @@ function MyDrawer(props) {
     </div>
   );
 
-  return (
-    <div>
-      <Hidden smUp>
-        <SwipeableDrawer
-          className={classes.drawer}
-          open={props.open}
-          onClose={toggleDrawer(false)}
-          onOpen={toggleDrawer(true)}
-        >
-          <div className={classes.toolbar}/>
-          {sideList()}
-        </SwipeableDrawer>
-      </Hidden>
-      <Hidden xsDown>
-        <Drawer
-          className={classes.drawer}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          open={true}
-          variant="permanent"
-        >
-          <div className={classes.toolbar}/>
-          {sideList('left')}
-        </Drawer>
-      </Hidden>
-    </div>
-  );
+  if (props.drawerEnabled === true) {
+    return (
+      <div>
+        <Hidden smUp>
+          <SwipeableDrawer
+            className={classes.drawer}
+            open={props.open}
+            onClose={toggleDrawer(false)}
+            onOpen={toggleDrawer(true)}
+          >
+            <div className={classes.toolbar}/>
+            {sideList()}
+          </SwipeableDrawer>
+        </Hidden>
+        <Hidden xsDown>
+          <Drawer
+            className={classes.drawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            open={true}
+            variant="permanent"
+          >
+            <div className={classes.toolbar}/>
+            {sideList('left')}
+          </Drawer>
+        </Hidden>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+      </div>
+    );
+  }
 }
 
 export default withRouter(MyDrawer);

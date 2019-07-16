@@ -36,6 +36,10 @@ function ButtonAppBar(props) {
   function onClickLogin() {
     props.history.push('/login');
   }
+
+  function onClickLogout() {
+    console.log("Logout");
+  }
   
   function onClickDrawer() {
     props.toggleDrawer(!props.drawerOpen);
@@ -45,13 +49,23 @@ function ButtonAppBar(props) {
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu" onClick={onClickDrawer}>
-            <MenuIcon />
-          </IconButton>
+          {
+            (props.drawerEnabled === false) && /* inline if conditional rendering */
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu" onClick={onClickDrawer}>
+              <MenuIcon />
+            </IconButton>
+          }
           <Typography variant="h6" className={classes.title}>
             <Link to={"/"} style={{textDecoration: "none", color: "white",}}>Tic Tac Toe</Link>
           </Typography>
-          <Button color="inherit" onClick={onClickLogin}>Login</Button>
+          {
+            (props.loggedIn === true) || /* inline if conditional rendering */
+            <Button color="inherit" onClick={onClickLogin}>Login</Button>
+          }
+          {
+            (props.loggedIn === true) && /* inline else conditional rendering */
+            <Button color="inherit" onClick={onClickLogout}>Logout</Button>
+          }
         </Toolbar>
       </AppBar>
     </div>

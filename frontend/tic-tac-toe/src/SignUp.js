@@ -7,10 +7,19 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import PropTypes from 'prop-types';
+
+import Skeleton from './Skeleton.js';
+
+const useStyles = makeStyles(theme => ({
+  toolbar: theme.mixins.toolbar,
+  myContainer: {
+    textAlign: "center",
+  },
+}));
 
 const styles = theme => ({
   '@global': {
@@ -37,7 +46,7 @@ const styles = theme => ({
   },
 });
 
-class SignUp extends React.Component {
+class SignUp_ extends React.Component {
 
   constructor(props) {
     super(props);
@@ -169,8 +178,22 @@ class SignUp extends React.Component {
   }
 }
 
-SignUp.propTypes = {
+SignUp_.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignUp);
+const SignUpStyle = withStyles(styles)(SignUp_);
+
+export default function SignUp(props) {
+  const classes = useStyles();
+
+  return (
+    <div>
+      <Skeleton />
+      <Container className={classes.myContainer}>
+        <div className={classes.toolbar}/>
+        <SignUpStyle />
+      </Container>
+    </div>
+  );
+}
