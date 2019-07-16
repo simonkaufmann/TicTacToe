@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
 import ButtonAppBar from './ButtonAppBar.js';
-import Drawer from './Drawer.js';
+import MyDrawer from './Drawer.js';
 
 var ReactFitText = require('react-fittext');
 
@@ -142,7 +142,7 @@ export default function Home() {
   return (
     <div>
       <ButtonAppBar open={state.drawerOpen} drawerOpen={state.drawerOpen} toggleDrawer={toggleDrawer}/>
-      <Drawer open={state.drawerOpen} toggleDrawer={toggleDrawer}/>
+      <MyDrawer open={state.drawerOpen} toggleDrawer={toggleDrawer}/>
       <Container style={{textAlign: "center"}}>
         <div className={classes.toolbar}/>
         <p> It's your turn </p>

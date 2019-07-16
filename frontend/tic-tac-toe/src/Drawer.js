@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,20 +11,26 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Hidden from '@material-ui/core/Hidden';
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
   list: {
-    width: 250,
+    width: drawerWidth,
   },
   fullList: {
     width: 'auto',
   },
   drawer: {
-    flexShrink: 0
+    flexShrink: 0,
+    width: drawerWidth,
+  },
+  drawerPaper: {
+    width: drawerWidth,
   },
   toolbar: theme.mixins.toolbar
 }));
 
-export default function Drawer(props) {
+export default function MyDrawer(props) {
   const classes = useStyles();
 
   const toggleDrawer = (argOpen) => event => {
@@ -75,14 +82,17 @@ export default function Drawer(props) {
         </SwipeableDrawer>
       </Hidden>
       <Hidden xsDown>
-        <SwipeableDrawer
+        <Drawer
           className={classes.drawer}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
           open={true}
-          permanent={true}
+          variant="permanent"
         >
           <div className={classes.toolbar}/>
           {sideList('left')}
-        </SwipeableDrawer>
+        </Drawer>
       </Hidden>
     </div>
   );
