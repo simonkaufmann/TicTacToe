@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,10 +10,25 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import PropTypes from 'prop-types';
+
+import Skeleton from './Skeleton.js';
+
+const useStyles = makeStyles(theme => ({
+  toolbar: theme.mixins.toolbar,
+  myContainer: {
+    textAlign: "center",
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: "120px",
+    },
+    [theme.breakpoints.up('md')]: {
+      marginLeft: "70px",
+    },
+  },
+}));
 
 const styles = theme => ({
   '@global': {
@@ -39,7 +55,7 @@ const styles = theme => ({
   },
 });
 
-class SignIn extends React.Component {
+class SignIn_ extends React.Component {
 
   constructor(props) {
     super(props);
@@ -149,8 +165,22 @@ class SignIn extends React.Component {
   }
 }
 
-SignIn.propTypes = {
+SignIn_.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+const SignInStyle = withStyles(styles)(SignIn_);
+
+export default function SignIn(props) {
+  const classes = useStyles();
+
+  return (
+    <div>
+      <Skeleton />
+      <Container className={classes.myContainer}>
+        <div className={classes.toolbar}/>
+        <SignInStyle />
+      </Container>
+    </div>
+  );
+}
