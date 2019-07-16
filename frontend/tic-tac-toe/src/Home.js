@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
@@ -9,6 +9,17 @@ import ButtonAppBar from './ButtonAppBar.js';
 import MyDrawer from './Drawer.js';
 
 var ReactFitText = require('react-fittext');
+
+const myStyles = (theme) => ({
+  boardBox: {
+    display: "inline-block",
+    width: "85%",
+    [theme.breakpoints.up('sm')]: {
+      width: "60%",
+    },
+    maxWidth: "450px",
+  },
+});
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -23,14 +34,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       marginLeft: "70px",
     },
-  },
-  boardBox: {
-    display: "inline-block",
-    width: "90%",
-    [theme.breakpoints.up('sm')]: {
-      width: "75%",
-    },
-    maxWidth: "450px",
   },
 }));
 
@@ -72,7 +75,7 @@ class Square extends React.Component {
   }
 }
 
-class Board extends React.Component {
+class Board_ extends React.Component {
   
   constructor(props) {
     super(props);
@@ -80,7 +83,8 @@ class Board extends React.Component {
       board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       result: ' '
     };
-    this.classes = useStyles();
+    const { classes } = props;
+    this.classes = classes;
   }
 
   componentDidMount = () => {
@@ -141,6 +145,8 @@ class Board extends React.Component {
     );
   }
 }
+
+const Board = withStyles(myStyles)(Board_);
 
 export default function Home() {
   const classes = useStyles();
