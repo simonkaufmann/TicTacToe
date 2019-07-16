@@ -7,8 +7,12 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import HomeIcon from '@material-ui/icons/Home';
+import DvrIcon from '@material-ui/icons/Dvr';
+import TuneIcon from '@material-ui/icons/Tune';
+import VideoGameIcon from '@material-ui/icons/VideogameAsset';
+import { withRouter } from 'react-router-dom';
+
 import Hidden from '@material-ui/core/Hidden';
 
 const drawerWidth = 240;
@@ -30,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar
 }));
 
-export default function MyDrawer(props) {
+function MyDrawer(props) {
   const classes = useStyles();
 
   const toggleDrawer = (argOpen) => event => {
@@ -41,7 +45,7 @@ export default function MyDrawer(props) {
     props.toggleDrawer(argOpen);
   };
 
-  const sideList = side => (
+  const sideList = () => (
     <div
       className={classes.list}
       role="presentation"
@@ -49,21 +53,14 @@ export default function MyDrawer(props) {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key={"Game"} onClick={() => {props.history.push("/")}}>
+          <ListItemIcon><VideoGameIcon /></ListItemIcon>
+          <ListItemText primary={"Game"} />
+        </ListItem>
+        <ListItem button key={"AI Model"} onClick={() => {props.history.push("/model")}}>
+          <ListItemIcon><TuneIcon /></ListItemIcon>
+          <ListItemText primary={"AI Model"} />
+        </ListItem>
       </List>
     </div>
   );
@@ -78,7 +75,7 @@ export default function MyDrawer(props) {
           onOpen={toggleDrawer(true)}
         >
           <div className={classes.toolbar}/>
-          {sideList('left')}
+          {sideList()}
         </SwipeableDrawer>
       </Hidden>
       <Hidden xsDown>
@@ -97,3 +94,5 @@ export default function MyDrawer(props) {
     </div>
   );
 }
+
+export default withRouter(MyDrawer);

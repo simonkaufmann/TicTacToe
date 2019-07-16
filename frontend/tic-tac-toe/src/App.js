@@ -7,6 +7,7 @@ import SignUp from './SignUp.js';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import withAuth from './withAuth.js';
 import Home from './Home.js';
+import Model from './Model.js';
 
 function ForgotPassword() {
   return (
@@ -29,6 +30,7 @@ function App() {
     <div>
       <Router>
         <Route path="/" exact component={Home} />
+        <Route path="/model" component={Model} />
         <Route path="/login" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/reset-password" component={ForgotPassword} />

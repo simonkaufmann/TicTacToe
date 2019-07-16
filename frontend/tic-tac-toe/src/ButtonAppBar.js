@@ -43,7 +43,7 @@ function ButtonAppBar(props) {
   const classes = useStyles();
 
   function onClickLogin() {
-    this.history.push('/login');
+    props.history.push('/login');
   }
   
   function onClickDrawer() {
@@ -60,7 +60,7 @@ function ButtonAppBar(props) {
           <Typography variant="h6" className={classes.title}>
             Tic Tac Toe
           </Typography>
-          <Button color="inherit" onClick={onClickLogin.bind(props)}>Login</Button>
+          <Button color="inherit" onClick={onClickLogin}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
