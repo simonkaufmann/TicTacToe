@@ -9,6 +9,15 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { withRouter } from 'react-router-dom';
 
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -19,20 +28,30 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  drawer: {
+    flexShrink: 0
+  },
+  appBar: {
+    zIndex: 70000
+  },
 }));
-
-function onClickLogin() {
-  this.history.push('/login');
-}
 
 function ButtonAppBar(props) {
   const classes = useStyles();
 
+  function onClickLogin() {
+    this.history.push('/login');
+  }
+  
+  function onClickDrawer() {
+    props.toggleDrawer(!props.drawerOpen);
+  }
+
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu" onClick={onClickDrawer}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>

@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { useEffect } from 'react';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
@@ -14,13 +15,10 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
+  toolbar: theme.mixins.toolbar
 }));
 
 class Square extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   valueToChar = () => {
     if (this.props.value === 1) {
@@ -129,16 +127,47 @@ class Board extends React.Component {
 
 export default function Home() {
   const classes = useStyles();
+
+  const [state, setState] = React.useState({
+    drawerOpen: false,
+    drawerPermanent: false
+  });
+
+  useEffect(() => {
+    // Make drawer responsive
+    const mediaQuery = window.matchMedia('(min-width: 768px)');
+    if (mediaQuery.matches) {
+      setState({ ...state, drawerPermanent: true, drawerOpen: true});
+      console.log("permanent");
+    } else {
+      setState({ ...state, drawerPermanent: false });
+      console.log("not permanent");
+    }
+    mediaQuery.addListener((mq) => {
+      if (mq.matches) {
+        setState({ ...state, drawerPermanent: true, drawerOpen: true});
+        console.log("permanent");
+      } else {
+        setState({...state, drawerPermanent: false});
+        console.log("non permanent");
+      }
+    });
+  });
   
   function startGame() {
     fetch("api/start-game");  
   }   
 
+  function toggleDrawer(argOpen) {
+    setState({...state, drawerOpen: argOpen});
+  }
+
   return (
     <div>
-      <ButtonAppBar/>
-      <Drawer open={true}/>
+      <ButtonAppBar open={state.drawerOpen} drawerOpen={state.drawerOpen} toggleDrawer={toggleDrawer}/>
+      <Drawer open={state.drawerOpen} permanent={state.drawerPermanent} toggleDrawer={toggleDrawer}/>
       <Container style={{textAlign: "center"}}>
+        <div className={classes.toolbar}/>
         <p> It's your turn </p>
         <Board/>
         <Button variant="contained" color="primary" className={classes.button}>

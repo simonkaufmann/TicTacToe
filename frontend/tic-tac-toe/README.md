@@ -8,6 +8,10 @@ http://www.mademyday.de/css-height-equals-width-with-pure-css.html
 https://www.npmjs.com/package/react-fittext  
 https://stackoverflow.com/questions/36299174/setinterval-in-a-react-app  
 https://medium.com/@thejasonfile/fetch-vs-axios-js-for-making-http-requests-2b261cdd3af5  
+https://stackoverflow.com/questions/37712038/material-ui-change-the-height-of-the-drawer  
+https://stackoverflow.com/questions/49051975/material-ui-drawer-wont-move-under-appbar  
+https://stackoverflow.com/questions/46706676/clipped-drawer-in-material-ui  
+https://material-ui.com/customization/breakpoints/  
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
