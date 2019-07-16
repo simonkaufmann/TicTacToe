@@ -8,6 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -62,15 +63,27 @@ export default function Drawer(props) {
 
   return (
     <div>
-      <SwipeableDrawer
-        className={classes.drawer}
-        open={props.open}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
-      >
-        <div className={classes.toolbar}/>
-        {sideList('left')}
-      </SwipeableDrawer>
+      <Hidden smUp>
+        <SwipeableDrawer
+          className={classes.drawer}
+          open={props.open}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        >
+          <div className={classes.toolbar}/>
+          {sideList('left')}
+        </SwipeableDrawer>
+      </Hidden>
+      <Hidden xsDown>
+        <SwipeableDrawer
+          className={classes.drawer}
+          open={true}
+          permanent={true}
+        >
+          <div className={classes.toolbar}/>
+          {sideList('left')}
+        </SwipeableDrawer>
+      </Hidden>
     </div>
   );
 }
