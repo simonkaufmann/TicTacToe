@@ -14,7 +14,24 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
+  myContainer: {
+    textAlign: "center",
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: "120px",
+    },
+    [theme.breakpoints.up('md')]: {
+      marginLeft: "70px",
+    },
+  },
+  boardBox: {
+    display: "inline-block",
+    width: "90%",
+    [theme.breakpoints.up('sm')]: {
+      width: "75%",
+    },
+    maxWidth: "450px",
+  },
 }));
 
 class Square extends React.Component {
@@ -63,6 +80,7 @@ class Board extends React.Component {
       board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       result: ' '
     };
+    this.classes = useStyles();
   }
 
   componentDidMount = () => {
@@ -96,7 +114,7 @@ class Board extends React.Component {
   render() {
     return (
       <div className="board-outer-box">
-        <div className="board-box">
+        <div className={this.classes.boardBox}>
           <table className="board">
             <tbody>
               <tr className="board-row"><td className="board-row">
@@ -143,7 +161,7 @@ export default function Home() {
     <div>
       <ButtonAppBar open={state.drawerOpen} drawerOpen={state.drawerOpen} toggleDrawer={toggleDrawer}/>
       <MyDrawer open={state.drawerOpen} toggleDrawer={toggleDrawer}/>
-      <Container style={{textAlign: "center"}}>
+      <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
         <p> It's your turn </p>
         <Board/>
