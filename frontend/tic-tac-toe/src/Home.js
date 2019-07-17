@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
 import Skeleton from './Skeleton.js';
+import WinLoseSnackbar from './WinLoseSnackbar.js';
 
 var ReactFitText = require('react-fittext');
 
@@ -137,9 +138,8 @@ class Board_ extends React.Component {
               </td></tr>
             </tbody>
           </table>
-          {this.state.board}
-          {this.state.result}
         </div>
+        <WinLoseSnackbar result={this.state.result} />
       </div>
     );
   }
