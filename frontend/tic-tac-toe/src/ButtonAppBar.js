@@ -50,7 +50,7 @@ function ButtonAppBar(props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           {
-            (props.drawerEnabled === false) && /* inline if conditional rendering */
+            (props.drawerEnabled === false) || /* inline if conditional rendering */
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu" onClick={onClickDrawer}>
               <MenuIcon />
             </IconButton>

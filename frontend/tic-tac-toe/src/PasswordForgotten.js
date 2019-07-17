@@ -127,7 +127,7 @@ class PasswordForgotten_ extends React.Component {
             <Grid container>
               <Grid item>
                 <Link href="/login" variant="body2">
-                  {"Didn't forget my password? Sign In"}
+                  {"Didn't forget password? Sign In"}
                 </Link>
               </Grid>
             </Grid>
@@ -149,7 +149,7 @@ export default function PasswordForgotten(props) {
 
   return (
     <div>
-      <Skeleton />
+      <Skeleton drawerEnabled={false} />
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
         <PasswordForgottenStyle />

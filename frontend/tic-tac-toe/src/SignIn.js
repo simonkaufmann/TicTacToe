@@ -170,7 +170,7 @@ export default function SignIn(props) {
 
   return (
     <div>
-      <Skeleton />
+      <Skeleton drawerEnabled={false} />
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
         <SignInStyle />

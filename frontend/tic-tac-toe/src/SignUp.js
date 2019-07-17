@@ -189,7 +189,7 @@ export default function SignUp(props) {
 
   return (
     <div>
-      <Skeleton />
+      <Skeleton drawerEnabled={false} />
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
         <SignUpStyle />
