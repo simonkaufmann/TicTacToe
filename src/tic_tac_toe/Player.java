@@ -2,13 +2,13 @@ package tic_tac_toe;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game {
+public class Player {
 	
 	int player;
 	Model model;
 	ArrayList<State> states;
 	
-	public Game(int player, Model m) {
+	public Player(int player, Model m) {
 		this.player = player;
 		this.model = m;
 		this.states = new ArrayList<State>();
@@ -82,19 +82,6 @@ public class Game {
 			return 'w';
 		}
 		return ' '; // not to happen
-	}
-	
-	public boolean updateModel() {
-		char res = this.result();
-		if (res == ' ') {
-			return false;
-		} else if (res == 'w') {
-			this.model.updateModelWin(states);
-		} else if (res == 'l') {
-			this.model.updateModelLose(states);
-		}
-		
-		return true;
 	}
 	
 	// Returns State of move made or last state if no move possible or game already ended

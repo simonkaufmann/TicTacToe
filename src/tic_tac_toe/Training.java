@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Training {
 	
-	public static void playGame(boolean train1, Game player1, boolean train2, Game player2) {
+	public static void playGame(boolean train1, Player player1, boolean train2, Player player2) {
 		State next = null;
 		for (int i = 0; i < 5; i++) {
 			next = player1.nextStep(train1, next);
@@ -13,9 +13,9 @@ public class Training {
 		}
 	}
 	
-	public static void performanceTest(Game player2, String fn) {
+	public static void performanceTest(Player player2, String fn) {
 		Model m = new Model();
-		Game player = new Game(1, m);
+		Player player = new Player(1, m);
 		int won = 0, draw = 0, lost = 0;
 		for (int i = 0; i < 100; i++) {
 			playGame(true, player, false, player2);
@@ -50,8 +50,8 @@ public class Training {
 	public static void main_old() {
 		Model m1 = new Model();
 		Model m2 = new Model();
-		Game player1 = new Game(1, m1);
-		Game player2 = new Game(2, m2);
+		Player player1 = new Player(1, m1);
+		Player player2 = new Player(2, m2);
 		
 		int iteration = 0;
 		while (true) {

@@ -1,10 +1,10 @@
 package tic_tac_toe;
 
-import tic_tac_toe.Game;
+import tic_tac_toe.Player;
 
 public class TicTacToe {
 	
-	private Game game;
+	private Player game;
 	
 	public static void main(String[] args) {
 		TicTacToe ticTac = new TicTacToe();
@@ -16,7 +16,7 @@ public class TicTacToe {
 	
 	public void startGame() {
 		Model m = new Model();
-		game = new Game(2, m);
+		game = new Player(2, m);
 	}
 	
 	public boolean sendMove(int s) {
