@@ -47,7 +47,7 @@ class Test_State {
 		
 		s = new State(new Integer[] {1, 0, 1, 2, 1, 2, 0, 1, 0});
 		
-		ArrayList<State> l = s.nextSteps(1);
+		ArrayList<State> l = s.nextMoves(1);
 		ArrayList<State> l2 = new ArrayList<State>();
 		l2.add(new State(new Integer[]{1, 1, 1, 2, 1, 2, 0, 1, 0}));
 		l2.add(new State(new Integer[]{1, 0, 1, 2, 1, 2, 1, 1, 0}));
@@ -56,7 +56,7 @@ class Test_State {
 		if (!l.containsAll(l2))
 			fail("nextSteps function is not correct");
 		
-		l = s.nextSteps(2);
+		l = s.nextMoves(2);
 		l2 = new ArrayList<State>();
 		l2.add(new State(new Integer[]{1, 2, 1, 2, 1, 2, 0, 1, 0}));
 		l2.add(new State(new Integer[]{1, 0, 1, 2, 1, 2, 2, 1, 0}));

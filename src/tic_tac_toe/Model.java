@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.function.Function;
 
 public class Model implements Serializable {
 	
@@ -23,8 +25,6 @@ public class Model implements Serializable {
 	final double rewardOther = 0;
 	
 	double alpha;
-	State t_state;
-	State t_state2;
 	
 	public Model() {
 		this(0.1);
@@ -74,10 +74,77 @@ public class Model implements Serializable {
 		}
 	}
 	
+	private int indexMax(ArrayList<Double> l) {
+		double max = Double.MIN_VALUE;
+		int index = -1;
+		for (int i = 0; i < l.size(); i++) {
+			if (l.get(i) > max) {
+				max = l.get(i);
+				index = i;
+			}
+		}
+		return index;
+	}
+	
+	private Integer indexMin(ArrayList<Double> l) {
+		double min = Double.MAX_VALUE;
+		int index = -1;
+		for (int i = 0; i < l.size(); i++) {
+			if (l.get(i) < min) {
+				min = l.get(i);
+				index = i;
+			}
+		}
+		return index;
+	}
+	
+	private Double minValue(ArrayList<State> moves) {
+		if (moves.size() == 0) {
+			return Double.MAX_VALUE;
+		}
+
+		double v = this.vf.get(moves.get(0));
+		for (State s: moves) {
+			if (this.vf.get(s) < v) {
+				v = this.vf.get(s);
+			}
+		}
+		return v;
+	}
+	
+	private Double maxValue(ArrayList<State> moves) {
+		if (moves.size() == 0) {
+			return Double.MIN_VALUE;
+		}
+
+		double v = this.vf.get(moves.get(0));
+		for (State s: moves) {
+			if (this.vf.get(s) > v) {
+				v = this.vf.get(s);
+			}
+		}
+		return v;
+	}
+	
 	// Calculate next step according to model for player (either 1 or 2)
 	// with training mode (sometimes exploration) or without (always choose optimal move)
-	public State getNextStep(State s, int player, boolean training) {
-		ArrayList<State> moves = s.nextSteps(player);
+	public State getNextMove(State s, int player, boolean training) {
+		ArrayList<State> moves = s.nextMoves(player);
+		
+		Function<ArrayList<State>, Double> bestOther;
+		Function<ArrayList<Double>, Integer> bestPlayer;
+		int otherPlayer;
+		
+		if (player == 1) {
+			// player is X
+			bestOther = this::minValue;
+			bestPlayer = this::indexMax;
+			otherPlayer = 2;
+		} else {
+			bestOther = this::maxValue;
+			bestPlayer = this::indexMin;
+			otherPlayer = 1;
+		}
 		
 		// Abort if game is already decided
 		if (s.result() != -1) {
@@ -92,41 +159,22 @@ public class Model implements Serializable {
 		if (Math.random() <= 0.2 && training) {
 			// 0.2 probability for random move
 			
-			// Continue getting back best state and random state
-			// dont forget checking in player that it is right turn
-			// remove unnecessary functions here
+			Random rn = new Random();
+			int index = rn.nextInt() % (moves.size() + 1);
+			return moves.get(index);
 		}
 		
-		return new State(new Integer[] {0,0,0,0,0,0,0,0});
-	}
-	
-	public ArrayList<Double> getDesirabilitiesTrain(ArrayList<State> states) {
-		// See Boltzman's distribution described here:
-		// https://www.cs.dartmouth.edu/~lorenzo/teaching/cs134/Archive/Spring2009/final/PengTao/final_report.pdf
-		
-		ArrayList<Double> desirabilities = new ArrayList<Double>();
-		Double sum = 0.0;
-		
-		for (int i = 0; i < states.size(); i++) {
-			desirabilities.add(Math.exp(this.vf.get(states.get(i)) / temperature));
-			sum+= desirabilities.get(i);
+		// For every move of player calculate result of assumed optimal other player
+		ArrayList<Double> valMoves = new ArrayList<Double>();
+		for (State state: moves) {
+			ArrayList<State> next = state.nextMoves(otherPlayer);
+			valMoves.add(bestOther.apply(next));
 		}
 		
-		for (int i = 0; i < states.size(); i++) {
-			desirabilities.set(i, Math.exp(desirabilities.get(i) / temperature) / sum);
-		}
+		// Take the best result of results of other player
+		int indexBest = bestPlayer.apply(valMoves);
 		
-		return desirabilities;
-	}
-	
-	public ArrayList<Double> getDesirabilities(ArrayList<State> states) {
-		ArrayList<Double> stateValues = new ArrayList<Double>();
-		
-		for (int i = 0; i < states.size(); i++) {
-			stateValues.add(this.vf.get(states.get(i)));
-		}
-		
-		return stateValues;
+		return moves.get(indexBest);		
 	}
 	
 	public void exportModel(String fn) {
@@ -140,34 +188,6 @@ public class Model implements Serializable {
         } catch(IOException ioe) {
         	ioe.printStackTrace();
         }
-	}
-	
-	private void updateModel(ArrayList<State> states, double reward) {
-		// Best this.vf for end state
-		this.vf.put(states.get(states.size() - 1), reward);
-		
-		double des_after = reward;
-		for (int i = states.size() - 2; i >= 0; i--) {
-			double des_current = this.vf.get(states.get(i));
-			des_current = (1 - alpha()) * des_current + alpha() * (des_after - des_current);
-			this.vf.put(states.get(i), des_current);
-			des_after = des_current;
-		}
-		
-		rounds++;
-	}
-	
-	private double alpha() {
-		//return base_alpha * 1 / rounds;
-		return alpha;
-	}
-	
-	public void updateModelWin(ArrayList<State> states) {
-		updateModel(states, reward);
-	}
-	
-	public void updateModelLose(ArrayList<State> states) {
-		updateModel(states, -reward);
 	}
 	
 	@SuppressWarnings("unchecked")

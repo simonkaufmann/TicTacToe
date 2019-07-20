@@ -15,13 +15,19 @@ public class State implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	public static final int PLAYER_X = 1;
+	public static final int PLAYER_O = 2;
+	public static final int EMPTY = 0;
+	public static final int DRAW = 0;
+	public static final int UNDECIDED = -1;
+	
 	private Integer[] board;
 	
 	public State(Integer[] board) {
 		this.board = board;
 	}
 	
-	public ArrayList<State> nextSteps(int player) {
+	public ArrayList<State> nextMoves(int player) {
 		ArrayList<State> next = new ArrayList<State>();
 		
 		for (int i = 0; i < board.length; i++) {
@@ -67,18 +73,18 @@ public class State implements Serializable {
 	
 	// -1: not finished, 0: draw, 1: player 1 (X) wins, 2: player 2 (O) wins
 	public int result() {
-		int res = 0; // draw
+		int res = State.DRAW; // draw
 		
 		for (int i = 0; i < 9; i++) {
-			if (board[i] == 0) {
-				res = -1; // not decided yet
+			if (board[i] == State.EMPTY) {
+				res = State.UNDECIDED; // not decided yet
 			}
 		}
 		
-		if (win(1))
-			res = 1; // player 1 wins
-		else if (win(2))
-			res = 2; // player 2 wins
+		if (win(State.PLAYER_X))
+			res = State.PLAYER_X; // player 1 wins
+		else if (win(State.PLAYER_O))
+			res = State.PLAYER_O; // player 2 wins
 		
 		return res;
 	}
@@ -119,9 +125,9 @@ public class State implements Serializable {
 	public String toString() {
 		Character[] c = new Character[9];
 		for (int i = 0; i < 9; i++) {
-			if (board[i] == 1) {
+			if (board[i] == State.PLAYER_X) {
 				c[i] = 'X';
-			} else if (board[i] == 2) {
+			} else if (board[i] == State.PLAYER_O) {
 				c[i] = 'O';
 			} else {
 				c[i] = ' ';
