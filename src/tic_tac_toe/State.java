@@ -8,12 +8,7 @@ import java.util.ArrayList;
 
 import tic_tac_toe.State;
 
-public class State implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class State {
 	
 	public static final int PLAYER_X = 1;
 	public static final int PLAYER_O = 2;
@@ -162,13 +157,4 @@ public class State implements Serializable {
 		return out;
 	}
 	
-	/*private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
-    {      
-		this.board = (Integer[]) aInputStream.readObject();
-    }
- 
-    private void writeObject(ObjectOutputStream aOutputStream) throws IOException
-    {
-    	aOutputStream.writeObject(this.board);
-    }*/
 }

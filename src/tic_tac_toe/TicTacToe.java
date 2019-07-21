@@ -21,12 +21,12 @@ public class TicTacToe {
 		Socket soc = new Socket();
 		soc.startServer(this);
 		
-		model = Model.importModel(fn1);
+		model = new Model();//Model.importModel("model.dat");
 		
 		game = new Game();
 		
 		for (int i = 0; i < 50000; i++) {
-			System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
+			System.out.println(model.testPerformance(1000, State.PLAYER_X).toString());
 			
 			// Export model
 			if (fn) {

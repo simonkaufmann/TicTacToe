@@ -2,6 +2,7 @@ package tic_tac_toe;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -133,7 +134,7 @@ public class Model implements Serializable {
 		if (moves.size() == 0) {
 			return Double.NEGATIVE_INFINITY;
 		}
-
+		
 		double v = this.vf.get(moves.get(0));
 		for (State s: moves) {
 			if (this.vf.get(s) > v) {
@@ -302,7 +303,7 @@ public class Model implements Serializable {
 				new FileInputStream(fn);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			Model m = new Model();
-			m = (Model) ois.readObject();
+			m = (Model) ois.readObject();		
 			ois.close();
 			fis.close();
 			return m;
@@ -314,10 +315,21 @@ public class Model implements Serializable {
 		return null;
 	}
 	
-	/*@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
     {      
-		this.vf = (HashMap<State, Double>) aInputStream.readObject();
+		this.vf = new HashMap<State, Double>();
+		int size = aInputStream.readInt();
+		for (int i = 0; i < size; i++) {
+			Integer[] arr = new Integer[9];
+			for (int j = 0; j < 9; j++) {
+				arr[j] = aInputStream.readInt();
+			}
+			State s = new State(arr);
+			double d = aInputStream.readDouble();
+			this.vf.put(s, d);
+		}
+		
 		this.performance = (ArrayList<PerformanceResult>) aInputStream.readObject();
 		this.alpha = aInputStream.readDouble();
 		this.trainingIterations = aInputStream.readInt();
@@ -325,9 +337,23 @@ public class Model implements Serializable {
  
     private void writeObject(ObjectOutputStream aOutputStream) throws IOException
     {
-    	aOutputStream.writeObject(this.vf);
+    	int size = this.vf.size();
+    	aOutputStream.writeInt(size);
+
+    	// Needs to be serialized in this complicated way:
+    	// https://www.thecodingforums.com/threads/deserialization-bug-nullpointerexception-thrown-during-hashmap-hash.147629/
+    	// Reason: With desirialization hashCode of State seems to not work properly
+    	// if the object hasn't been fully deserialized and initialized while reading it
+    	for (State s: this.vf.keySet()) {
+    		Integer[] i = s.get();
+    		for (int j = 0; j < 9; j++) {
+    			aOutputStream.writeInt(i[j]);
+    		}
+    		aOutputStream.writeDouble(this.vf.get(s));
+    	}
+    	
     	aOutputStream.writeObject(this.performance);
     	aOutputStream.writeDouble(alpha);
     	aOutputStream.writeInt(this.trainingIterations);
-    }*/
+    }
 }
