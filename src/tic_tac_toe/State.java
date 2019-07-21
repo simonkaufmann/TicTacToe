@@ -17,7 +17,7 @@ public class State implements Serializable {
 	
 	public static final int PLAYER_X = 1;
 	public static final int PLAYER_O = 2;
-	public static final int EMPTY = 0;
+	public static final int FIELD_EMPTY = 0;
 	public static final int DRAW = 0;
 	public static final int UNDECIDED = -1;
 	public static final int WIN_PLAYER_X = 1;
@@ -55,6 +55,12 @@ public class State implements Serializable {
 		return new State(new Integer[] {0, 0, 0, 0, 0, 0, 0, 0, 0});
 	}
 	
+	public void setField(int field, int player) {
+		if (field >= 0 && field <= 8) {
+			this.board[field] = player;
+		}
+	}
+	
 	private boolean win(int player) {
 		for (int i = 0; i < 3; i++) {
 			// horizontal:
@@ -90,7 +96,7 @@ public class State implements Serializable {
 		int res = State.DRAW; // draw
 		
 		for (int i = 0; i < 9; i++) {
-			if (board[i] == State.EMPTY) {
+			if (board[i] == State.FIELD_EMPTY) {
 				res = State.UNDECIDED; // not decided yet
 			}
 		}

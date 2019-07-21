@@ -10,6 +10,8 @@ import java.net.InetSocketAddress;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
@@ -32,14 +34,14 @@ public class Socket {
 	
 	static class ApiHandler implements HttpHandler {
 
-	    //private final TicTacToe ticTac;
+	    private final TicTacToe ticTac;
 
-	    public ApiHandler(TicTacToe m) {
-	        //ticTac = m;
+	    public ApiHandler(TicTacToe tic) {
+	        ticTac = tic;
 	    }
 	    
 		private void startGame(HttpExchange exchange) throws IOException {
-			//ticTac.startGame();
+			ticTac.startGame();
 			
 			String response = "OK";
 			exchange.getResponseHeaders().add("Content-type", "text/plain");
@@ -49,29 +51,35 @@ public class Socket {
 			os.close();
 		}
 		
+		@SuppressWarnings("unchecked")
 		private void sendMove(HttpExchange exchange) throws IOException{
-			//InputStream in = exchange.getRequestBody();
-			//String body = inputStreamToString(in);
-			boolean ret = false;
-			//try {
-				//JSONObject json = (JSONObject) new JSONParser().parse(body);
-				//long field = (long) json.get("field");
-				//ret = ticTac.sendMove((int) field);
+			InputStream in = exchange.getRequestBody();
+			String body = inputStreamToString(in);
+			State returnState = State.emptyState();
+			try {
+				JSONObject json = (JSONObject) new JSONParser().parse(body);
+				long field = (long) json.get("field");
+				returnState = ticTac.sendMove((int) field);
 				
-			//} catch (ParseException e) {
-				//e.printStackTrace();
-			//}
-			
-			String response = "";
-			if (ret) {
-				response = "OK";
-				exchange.getResponseHeaders().add("Content-type", "text/plain");
-				exchange.sendResponseHeaders(200, response.getBytes().length);
-			} else {
-				response = "Error";
-				exchange.getResponseHeaders().add("Content-type", "text/plain");
-				exchange.sendResponseHeaders(406, response.getBytes().length);
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
+			
+			// Return response state
+			JSONObject json = new JSONObject();
+			JSONArray jarray = new JSONArray();
+
+			Integer[] intState = returnState.get();
+			for (int i = 0; i < intState.length; i++) {
+				jarray.add(intState[i]);
+			}
+			
+			json.put("state", jarray);
+			json.put("result", Integer.toString(returnState.result()));
+			
+			String response = json.toJSONString();
+			exchange.getResponseHeaders().add("Content-type", "application/json");
+			exchange.sendResponseHeaders(200, response.getBytes().length);
 			OutputStream os = exchange.getResponseBody();
 			os.write(response.getBytes());
 			os.close();
@@ -79,18 +87,19 @@ public class Socket {
 		
 		@SuppressWarnings("unchecked")
 		private void getMove(HttpExchange exchange) throws IOException {
-			//State state = ticTac.getMove();
+			State returnState = ticTac.getMove();
 			
+			// Return response state
 			JSONObject json = new JSONObject();
 			JSONArray jarray = new JSONArray();
 
-			//Integer[] intState = state.get();
-			//for (int i = 0; i < intState.length; i++) {
-				//jarray.add(intState[i]);
-			//}
+			Integer[] intState = returnState.get();
+			for (int i = 0; i < intState.length; i++) {
+				jarray.add(intState[i]);
+			}
 			
 			json.put("state", jarray);
-			//json.put("result", Character.toString(ticTac.getResult()));
+			json.put("result", Integer.toString(returnState.result()));
 			
 			String response = json.toJSONString();
 			exchange.getResponseHeaders().add("Content-type", "application/json");
@@ -129,7 +138,6 @@ public class Socket {
     					break;
     				case "get-move":
     					getMove(exchange);
-    					break;
     				default:
     					defaultHandler(exchange);
     			}

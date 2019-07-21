@@ -10,6 +10,10 @@ import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 
+const PLAYER_X = "1";
+const PLAYER_O = "2";
+const DRAW = "0";
+
 const useStyles = makeStyles(theme => ({
   success: {
     backgroundColor: green[600],
@@ -49,20 +53,20 @@ export default function WinLoseSnackbar(props) {
   let open = false;
   let Icon = InfoIcon;
   let variant = "info";
-  if (props.result === 'l') { // l and w for lose and win are negated because
+  if (props.result === PLAYER_X) { // l and w for lose and win are negated because
                               // it is sent from computer (opponents) perspective
     msg = "You have won the game";
     open = true;
     Icon = CheckCircleIcon;
     variant = "success";
   }
-  if (props.result === 'w') {
+  if (props.result === PLAYER_O) {
     msg = "You have lost the game";
     open = true;
     Icon = ErrorIcon;
     variant = "error";
   }
-  if (props.result === 'd') {
+  if (props.result === DRAW) {
     msg = "It's a draw";
     open = true;
     Icon = InfoIcon;

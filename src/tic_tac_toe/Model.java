@@ -18,6 +18,7 @@ public class Model implements Serializable {
 	private static final long serialVersionUID = 2L;
 	
 	HashMap<State, Double> vf; // value function for player X
+	ArrayList<PerformanceResult> performance;
 	
 	final double rewardWinX = 1;
 	final double rewardWinO = -1;
@@ -34,6 +35,7 @@ public class Model implements Serializable {
 	public Model(double alpha) {
 		initialiseValueFunction();
 		
+		this.performance = new ArrayList<PerformanceResult>();
 		this.alpha = alpha;
 		this.trainingIterations = 0;
 	}
@@ -46,6 +48,18 @@ public class Model implements Serializable {
 		initialiseVFRec(vf, level, b);
 	}
 
+	private void putState(State s) {
+		if (s.result() == State.WIN_PLAYER_X) {
+			this.vf.put(s, this.rewardWinX);
+		} else if (s.result() == State.WIN_PLAYER_O) {
+			this.vf.put(s, this.rewardWinO);
+		} else if (s.result() == State.DRAW) {
+			this.vf.put(s, this.rewardTie);
+		} else {
+			this.vf.put(s, this.rewardOther);
+		}
+	}
+	
 	// Initialise value function recursively
 	private void initialiseVFRec(HashMap<State, Double> vf, int level, Integer[] b) {
 		if (level > 8) {
@@ -70,9 +84,9 @@ public class Model implements Serializable {
 			State s2 = new State(b2);
 			State s3 = new State(b3);
 
-			vf.put(s1, 0.0);
-			vf.put(s2, 0.0);
-			vf.put(s3, 0.0);
+			this.putState(s1);
+			this.putState(s2);
+			this.putState(s3);
 		}
 	}
 	
@@ -144,15 +158,15 @@ public class Model implements Serializable {
 		Function<ArrayList<Double>, Integer> bestPlayer;
 		int otherPlayer;
 		
-		if (player == 1) {
+		if (player == State.PLAYER_X) {
 			// player is X
 			bestOther = this::minValue;
 			bestPlayer = this::indexMax;
-			otherPlayer = 2;
+			otherPlayer = State.PLAYER_O;
 		} else {
 			bestOther = this::maxValue;
 			bestPlayer = this::indexMin;
-			otherPlayer = 1;
+			otherPlayer = State.PLAYER_X;
 		}
 		
 		// Abort if game is already decided
@@ -165,9 +179,8 @@ public class Model implements Serializable {
 			return s;
 		}
 		
+		// 0.2 probability for random move
 		if (Math.random() <= 0.2 && training) {
-			// 0.2 probability for random move
-			
 			return getRandomNextMove(s, player);
 		}
 		
@@ -186,7 +199,7 @@ public class Model implements Serializable {
 	
 	// Plays one game training itself
 	private void trainingGame() {
-		Game game = new Game(this, true);
+		Game game = new Game();
 		
 		int player = State.PLAYER_X;
 		
@@ -224,7 +237,7 @@ public class Model implements Serializable {
 	// Argument which player should be taken from model
 	// Returns result of game
 	private int performanceGame(int player) {
-		Game game = new Game(this, false);
+		Game game = new Game();
 		
 		int p = State.PLAYER_X;
 		
@@ -258,6 +271,10 @@ public class Model implements Serializable {
 			}
 		}
 		
+		result.setTrainingIterations(this.trainingIterations);
+		
+		this.performance.add(result);
+		
 		return result;
 	}
 	
@@ -278,12 +295,16 @@ public class Model implements Serializable {
 	private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
     {      
 		this.vf = (HashMap<State, Double>) aInputStream.readObject();
-		alpha = aInputStream.readDouble();
+		this.performance = (ArrayList<PerformanceResult>) aInputStream.readObject();
+		this.alpha = aInputStream.readDouble();
+		this.trainingIterations = aInputStream.readInt();
     }
  
     private void writeObject(ObjectOutputStream aOutputStream) throws IOException
     {
     	aOutputStream.writeObject(this.vf);
+    	aOutputStream.writeObject(this.performance);
     	aOutputStream.writeDouble(alpha);
+    	aOutputStream.writeInt(this.trainingIterations);
     }
 }

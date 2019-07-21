@@ -3,16 +3,12 @@ import java.util.ArrayList;
 
 public class Game {
 	
-	boolean training;
 	int player = 1;
-	Model model;
 	ArrayList<State> states;
 	
-	public Game(Model m, boolean training) {
-		this.model = m;
+	public Game() {
 		this.states = new ArrayList<State>();
 		this.states.add(State.emptyState());
-		this.training = training;
 	}
 	
 	public boolean addMove(State s) {
