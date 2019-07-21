@@ -1,6 +1,5 @@
 package tic_tac_toe;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Game {
 	
@@ -17,13 +16,9 @@ public class Game {
 	}
 	
 	public boolean addMove(State s) {
-		if (this.result() == State.DRAW) {
+		if (this.result() == State.UNDECIDED) {
 			states.add(s);
-			if (player == State.PLAYER_X) {
-				player = State.PLAYER_O;
-			} else {
-				player = State.PLAYER_X;
-			}
+			player = State.switchPlayer(player);
 			return true;
 		} else {
 			return false;

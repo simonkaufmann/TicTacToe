@@ -77,7 +77,7 @@ public class Model implements Serializable {
 	}
 	
 	private int indexMax(ArrayList<Double> l) {
-		double max = Double.MIN_VALUE;
+		double max = Double.NEGATIVE_INFINITY;
 		int index = -1;
 		for (int i = 0; i < l.size(); i++) {
 			if (l.get(i) > max) {
@@ -89,7 +89,7 @@ public class Model implements Serializable {
 	}
 	
 	private Integer indexMin(ArrayList<Double> l) {
-		double min = Double.MAX_VALUE;
+		double min = Double.POSITIVE_INFINITY;
 		int index = -1;
 		for (int i = 0; i < l.size(); i++) {
 			if (l.get(i) < min) {
@@ -102,7 +102,7 @@ public class Model implements Serializable {
 	
 	private Double minValue(ArrayList<State> moves) {
 		if (moves.size() == 0) {
-			return Double.MAX_VALUE;
+			return Double.POSITIVE_INFINITY;
 		}
 
 		double v = this.vf.get(moves.get(0));
@@ -116,7 +116,7 @@ public class Model implements Serializable {
 	
 	private Double maxValue(ArrayList<State> moves) {
 		if (moves.size() == 0) {
-			return Double.MIN_VALUE;
+			return Double.NEGATIVE_INFINITY;
 		}
 
 		double v = this.vf.get(moves.get(0));
@@ -131,7 +131,7 @@ public class Model implements Serializable {
 	private State getRandomNextMove(State s, int player) {
 		ArrayList<State> moves = s.nextMoves(player);
 		Random rn = new Random();
-		int index = rn.nextInt() % (moves.size() + 1);
+		int index = rn.nextInt(moves.size());
 		return moves.get(index);
 	}
 	
@@ -180,7 +180,7 @@ public class Model implements Serializable {
 		
 		// Take the best result of results of other player
 		int indexBest = bestPlayer.apply(valMoves);
-		
+
 		return moves.get(indexBest);		
 	}
 	

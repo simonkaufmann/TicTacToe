@@ -21,5 +21,11 @@ public class PerformanceResult {
 	public int getWin() {return win;}
 	public int getLose() {return lose;}
 	public int getDraw() {return draw;}
+	public int getTotal() {return win + lose + draw;}
+	
+	@Override
+	public String toString() {
+		return "Total: " + getTotal() + "Win: " + getWin() + " Lose: " + getLose() + " Draw: " + getDraw();
+	}
 	
 }

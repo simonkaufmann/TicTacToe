@@ -4,17 +4,25 @@ import tic_tac_toe.Game;
 
 public class TicTacToe {
 	
-	private Game game;
-	
 	public static void main(String[] args) {
-		TicTacToe ticTac = new TicTacToe();
-		ticTac.startGame();
+		Model m = new Model();
 		
-		Socket soc = new Socket();
-		soc.startServer(ticTac);
+		for (int i = 0; i < 50; i++) {
+			for (int j = 0; j < 1000; j++) {
+				m.trainModel(1);
+				System.out.println(i * 1000);
+			}
+			System.out.println(m.testPerformance(500, State.PLAYER_X).toString());
+		}
+		
+		//TicTacToe ticTac = new TicTacToe();
+		//ticTac.startGame();
+		
+		//Socket soc = new Socket();
+		//soc.startServer(ticTac);
 	}
 	
-	public void startGame() {
+	/*public void startGame() {
 		Model m = new Model();
 		game = new Game(2, m);
 	}
@@ -29,6 +37,6 @@ public class TicTacToe {
 	
 	public char getResult() {
 		return game.result();
-	}
+	}*/
 
 }
