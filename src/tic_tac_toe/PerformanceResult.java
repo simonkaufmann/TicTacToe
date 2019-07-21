@@ -25,7 +25,7 @@ public class PerformanceResult {
 	
 	@Override
 	public String toString() {
-		return "Total: " + getTotal() + "Win: " + getWin() + " Lose: " + getLose() + " Draw: " + getDraw();
+		return "Total: " + getTotal() + " Win: " + getWin() + " Lose: " + getLose() + " Draw: " + getDraw();
 	}
 	
 }

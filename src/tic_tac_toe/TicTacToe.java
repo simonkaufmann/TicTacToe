@@ -8,11 +8,11 @@ public class TicTacToe {
 		Model m = new Model();
 		
 		for (int i = 0; i < 50; i++) {
-			for (int j = 0; j < 1000; j++) {
-				m.trainModel(1);
-				System.out.println(i * 1000);
-			}
 			System.out.println(m.testPerformance(500, State.PLAYER_X).toString());
+			for (int j = 0; j < 10; j++) {
+				m.trainModel(10);
+				//System.out.println(j * 1000);
+			}
 		}
 		
 		//TicTacToe ticTac = new TicTacToe();
