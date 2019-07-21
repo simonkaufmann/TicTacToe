@@ -21,7 +21,7 @@ public class TicTacToe {
 		Socket soc = new Socket();
 		soc.startServer(this);
 		
-		model = new Model();//Model.importModel("model.dat");
+		model = Model.importModel("model1.dat");
 		
 		game = new Game();
 		
@@ -29,16 +29,18 @@ public class TicTacToe {
 			System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
 			
 			// Export model
-			if (fn) {
-				model.exportModel(fn1);
-				fn = !fn;
-			} else {
-				model.exportModel(fn2);
-				fn = !fn;
+			if (i % 50 == 0) {
+				if (fn) {
+					model.exportModel(fn1);
+					fn = !fn;
+				} else {
+					model.exportModel(fn2);
+					fn = !fn;
+				}
 			}
-			
+				
 			for (int j = 0; j < 10; j++) {
-				//model.trainModel(10);
+				model.trainModel(100);
 			}
 		}
 		
