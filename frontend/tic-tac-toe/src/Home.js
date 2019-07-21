@@ -161,7 +161,7 @@ export default function Home() {
         <div className={classes.toolbar}/>
         <p> It's your turn </p>
         <Board/>
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button variant="contained" color="primary" className={classes.button} onClick={startGame}>
           Reset Game
         </Button>
         <Button variant="contained" color="secondary" className={classes.button} onClick={startGame}>

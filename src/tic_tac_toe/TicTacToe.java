@@ -1,10 +1,16 @@
 package tic_tac_toe;
 
+import java.util.ArrayList;
+
 public class TicTacToe {
 	
 	Game game;
 	Model model;
 	int player = State.PLAYER_X;
+	
+	String fn1 = "model1.dat";
+	String fn2 = "model2.dat";
+	boolean fn = false;
 	
 	public static void main(String[] args) {
 		TicTacToe tic = new TicTacToe();
@@ -15,15 +21,24 @@ public class TicTacToe {
 		Socket soc = new Socket();
 		soc.startServer(this);
 		
-		model = new Model();
+		model = Model.importModel(fn1);
 		
 		game = new Game();
 		
 		for (int i = 0; i < 50000; i++) {
 			System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
+			
+			// Export model
+			if (fn) {
+				model.exportModel(fn1);
+				fn = !fn;
+			} else {
+				model.exportModel(fn2);
+				fn = !fn;
+			}
+			
 			for (int j = 0; j < 10; j++) {
 				model.trainModel(10);
-				//System.out.println(j * 1000);
 			}
 		}
 		
@@ -46,6 +61,10 @@ public class TicTacToe {
 	
 	public State getMove() {
 		return game.getMove();
+	}
+	
+	public ArrayList<PerformanceResult> getPerformance() {
+		return model.getPerformance();
 	}
 	
 }

@@ -162,7 +162,7 @@ public class State implements Serializable {
 		return out;
 	}
 	
-	private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
+	/*private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
     {      
 		this.board = (Integer[]) aInputStream.readObject();
     }
@@ -170,5 +170,5 @@ public class State implements Serializable {
     private void writeObject(ObjectOutputStream aOutputStream) throws IOException
     {
     	aOutputStream.writeObject(this.board);
-    }
+    }*/
 }

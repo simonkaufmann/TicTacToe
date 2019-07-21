@@ -20,132 +20,7 @@ import com.sun.net.httpserver.HttpServer;
 
 public class Socket {
 	
-	static class Uri {
-		public String[] path;
-		public String query;
-		public String fragment;
-		
-		Uri(String[] p, String q, String f) {
-			path = p;
-			query = q;
-			fragment = f;
-		}
-	}
-	
-	static class ApiHandler implements HttpHandler {
-
-	    private final TicTacToe ticTac;
-
-	    public ApiHandler(TicTacToe tic) {
-	        ticTac = tic;
-	    }
-	    
-		private void startGame(HttpExchange exchange) throws IOException {
-			ticTac.startGame();
-			
-			String response = "OK";
-			exchange.getResponseHeaders().add("Content-type", "text/plain");
-			exchange.sendResponseHeaders(200, response.getBytes().length);
-			OutputStream os = exchange.getResponseBody();
-			os.write(response.getBytes());
-			os.close();
-		}
-		
-		@SuppressWarnings("unchecked")
-		private void sendMove(HttpExchange exchange) throws IOException{
-			InputStream in = exchange.getRequestBody();
-			String body = inputStreamToString(in);
-			State returnState = State.emptyState();
-			try {
-				JSONObject json = (JSONObject) new JSONParser().parse(body);
-				long field = (long) json.get("field");
-				returnState = ticTac.sendMove((int) field);
-				
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			// Return response state
-			JSONObject json = new JSONObject();
-			JSONArray jarray = new JSONArray();
-
-			Integer[] intState = returnState.get();
-			for (int i = 0; i < intState.length; i++) {
-				jarray.add(intState[i]);
-			}
-			
-			json.put("state", jarray);
-			json.put("result", Integer.toString(returnState.result()));
-			
-			String response = json.toJSONString();
-			exchange.getResponseHeaders().add("Content-type", "application/json");
-			exchange.sendResponseHeaders(200, response.getBytes().length);
-			OutputStream os = exchange.getResponseBody();
-			os.write(response.getBytes());
-			os.close();
-		}
-		
-		@SuppressWarnings("unchecked")
-		private void getMove(HttpExchange exchange) throws IOException {
-			State returnState = ticTac.getMove();
-			
-			// Return response state
-			JSONObject json = new JSONObject();
-			JSONArray jarray = new JSONArray();
-
-			Integer[] intState = returnState.get();
-			for (int i = 0; i < intState.length; i++) {
-				jarray.add(intState[i]);
-			}
-			
-			json.put("state", jarray);
-			json.put("result", Integer.toString(returnState.result()));
-			
-			String response = json.toJSONString();
-			exchange.getResponseHeaders().add("Content-type", "application/json");
-			exchange.sendResponseHeaders(200, response.getBytes().length);
-			OutputStream os = exchange.getResponseBody();
-			os.write(response.getBytes());
-			os.close();
-		}
-		
-		private void defaultHandler(HttpExchange exchange) throws IOException {
-			String response = "Path not recognised";
-			exchange.sendResponseHeaders(404, response.getBytes().length);
-			OutputStream os = exchange.getResponseBody();
-			os.write(response.getBytes());
-			os.close();
-		}
-
-		@Override
-	    public void handle(HttpExchange exchange) throws IOException {    	
-    		String stringUri = exchange.getRequestURI().toString();
-    		Uri uri = parseUri(stringUri);
-
-    		String[] path = uri.path;
-
-    		// path[0] is always "api" because handler is set for it
-    		
-    		System.out.println(stringUri);
-    		
-    		if (path.length >= 3) {
-    			switch (path[2]) {
-    				case "start-game":
-    					startGame(exchange);
-    					break;
-    				case "send-move":
-    					sendMove(exchange);
-    					break;
-    				case "get-move":
-    					getMove(exchange);
-    				default:
-    					defaultHandler(exchange);
-    			}
-    		}
-	    }
-	}
-	
-	private static String inputStreamToString(InputStream t) {
+	public static String inputStreamToString(InputStream t) {
 		try {
 			InputStreamReader isr;
 			isr = new InputStreamReader(t,"utf-8");
@@ -167,34 +42,14 @@ public class Socket {
 		}
 		return "";
 	}
-	
-	private static Uri parseUri(String uri) {
-		String[] split = uri.split("#");
-		
-		uri = split[0];
-		String fragment = "";
-		for (int i = 1; i < split.length; i++) {
-			fragment = fragment + split[i];
-		}
-		
-		split = uri.split("\\?");
-		String path = split[0];
-		String query = "";
-		for (int i = 1; i < split.length; i++) {
-			query = query + split[i];
-		}
-		
-		String[] splitPath = path.split("/");
-		
-		Uri parsed = new Uri(splitPath, query, fragment);
-		return parsed;
-	}
 
 	public void startServer(TicTacToe ticTac) {
 		try {
 			HttpServer server = HttpServer.create(new InetSocketAddress(3001), 0);
 			HttpContext api = server.createContext("/api");
+			HttpContext apiModel = server.createContext("/api/model");
 			api.setHandler(new ApiHandler(ticTac));
+			apiModel.setHandler(new ApiModelHandler(ticTac));
 			server.start();
 		} catch (IOException ex) {
 			System.err.println(ex.getMessage());

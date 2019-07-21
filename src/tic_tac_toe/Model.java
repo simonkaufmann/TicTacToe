@@ -1,5 +1,6 @@
 package tic_tac_toe;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -278,6 +279,10 @@ public class Model implements Serializable {
 		return result;
 	}
 	
+	public ArrayList<PerformanceResult> getPerformance() {
+		return performance;
+	}
+	
 	public void exportModel(String fn) {
         try {
 			FileOutputStream fos =
@@ -291,7 +296,25 @@ public class Model implements Serializable {
         }
 	}
 	
-	@SuppressWarnings("unchecked")
+	public static Model importModel(String fn) {
+		try {
+			FileInputStream fis =
+				new FileInputStream(fn);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			Model m = new Model();
+			m = (Model) ois.readObject();
+			ois.close();
+			fis.close();
+			return m;
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/*@SuppressWarnings("unchecked")
 	private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
     {      
 		this.vf = (HashMap<State, Double>) aInputStream.readObject();
@@ -306,5 +329,5 @@ public class Model implements Serializable {
     	aOutputStream.writeObject(this.performance);
     	aOutputStream.writeDouble(alpha);
     	aOutputStream.writeInt(this.trainingIterations);
-    }
+    }*/
 }
