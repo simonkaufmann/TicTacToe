@@ -9,10 +9,10 @@ public class Game {
 	Model model;
 	ArrayList<State> states;
 	
-	public Game(int player, Model m, boolean training) {
+	public Game(Model m, boolean training) {
 		this.model = m;
 		this.states = new ArrayList<State>();
-		this.states.add(new State(new Integer[] {0, 0, 0, 0, 0, 0, 0, 0, 0}));
+		this.states.add(State.emptyState());
 		this.training = training;
 	}
 	
@@ -24,6 +24,9 @@ public class Game {
 			} else {
 				player = State.PLAYER_X;
 			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 	

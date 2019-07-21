@@ -25,6 +25,7 @@ public class Model implements Serializable {
 	final double rewardOther = 0;
 	
 	double alpha;
+	int trainingIterations;
 	
 	public Model() {
 		this(0.1);
@@ -34,6 +35,7 @@ public class Model implements Serializable {
 		initialiseValueFunction();
 		
 		this.alpha = alpha;
+		this.trainingIterations = 0;
 	}
 	
 	private void initialiseValueFunction() {
@@ -126,6 +128,13 @@ public class Model implements Serializable {
 		return v;
 	}
 	
+	private State getRandomNextMove(State s, int player) {
+		ArrayList<State> moves = s.nextMoves(player);
+		Random rn = new Random();
+		int index = rn.nextInt() % (moves.size() + 1);
+		return moves.get(index);
+	}
+	
 	// Calculate next step according to model for player (either 1 or 2)
 	// with training mode (sometimes exploration) or without (always choose optimal move)
 	public State getNextMove(State s, int player, boolean training) {
@@ -159,9 +168,7 @@ public class Model implements Serializable {
 		if (Math.random() <= 0.2 && training) {
 			// 0.2 probability for random move
 			
-			Random rn = new Random();
-			int index = rn.nextInt() % (moves.size() + 1);
-			return moves.get(index);
+			return getRandomNextMove(s, player);
 		}
 		
 		// For every move of player calculate result of assumed optimal other player
@@ -175,6 +182,83 @@ public class Model implements Serializable {
 		int indexBest = bestPlayer.apply(valMoves);
 		
 		return moves.get(indexBest);		
+	}
+	
+	// Plays one game training itself
+	private void trainingGame() {
+		Game game = new Game(this, true);
+		
+		int player = State.PLAYER_X;
+		
+		while (game.result() == State.UNDECIDED) {
+			State lastMove = game.getMove();
+			State nextMove = this.getNextMove(lastMove, player, true);
+			game.addMove(nextMove);
+			player = State.switchPlayer(player);
+			
+			// Update value function
+			double lastVf = vf.get(lastMove);
+			double nextVf = vf.get(nextMove);
+			double reward = this.rewardOther;
+			if (nextMove.result() == State.WIN_PLAYER_X) {
+				reward = this.rewardWinX;
+			} else if (nextMove.result() == State.WIN_PLAYER_O) {
+				reward = this.rewardWinO;
+			} else if (nextMove.result() == State.DRAW) {
+				reward = this.rewardTie;
+			}
+			lastVf = lastVf + alpha * (nextVf + reward - lastVf);
+			vf.put(lastMove, lastVf);
+		}
+		
+		trainingIterations++;
+	}
+	
+	public void trainModel(int iterations) {
+		for (int i = 0; i < iterations; i++) {
+			this.trainingGame();
+		}
+	}
+	
+	// Play one game to test performance against random player
+	// Argument which player should be taken from model
+	// Returns result of game
+	private int performanceGame(int player) {
+		Game game = new Game(this, false);
+		
+		int p = State.PLAYER_X;
+		
+		while(game.result() == State.UNDECIDED) {
+			if (p == player) {
+				State last = game.getMove();
+				game.addMove(this.getNextMove(last, p, false));
+			} else {
+				State last = game.getMove();
+				game.addMove(this.getRandomNextMove(last, p));
+			}
+			p = State.switchPlayer(p);
+		}
+		return game.result();
+	}
+	
+	// Test performance through multiple games
+	// player is player taken from model, other player is random
+	public PerformanceResult testPerformance(int iterations, int player) {
+		PerformanceResult result = new PerformanceResult();
+		
+		for (int i = 0; i < iterations; i++) {
+			int res = performanceGame(player);
+			
+			if (res == State.DRAW) {
+				result.setDraw(result.getDraw() + 1);
+			} else if (res == player) {
+				result.setWin(result.getWin() + 1);
+			} else {
+				result.setLose(result.getLose() + 1);
+			}
+		}
+		
+		return result;
 	}
 	
 	public void exportModel(String fn) {

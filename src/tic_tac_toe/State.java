@@ -20,6 +20,8 @@ public class State implements Serializable {
 	public static final int EMPTY = 0;
 	public static final int DRAW = 0;
 	public static final int UNDECIDED = -1;
+	public static final int WIN_PLAYER_X = 1;
+	public static final int WIN_PLAYER_O = 2;
 	
 	private Integer[] board;
 	
@@ -39,6 +41,18 @@ public class State implements Serializable {
 		}
 		
 		return next;
+	}
+	
+	public static int switchPlayer(int player) {
+		if (player == State.PLAYER_X) {
+			return State.PLAYER_O;
+		} else {
+			return State.PLAYER_X;
+		}
+	}
+	
+	public static State emptyState() {
+		return new State(new Integer[] {0, 0, 0, 0, 0, 0, 0, 0, 0});
 	}
 	
 	private boolean win(int player) {
