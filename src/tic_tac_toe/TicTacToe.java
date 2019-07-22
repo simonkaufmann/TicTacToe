@@ -48,27 +48,4 @@ public class TicTacToe {
 		
 	}
 	
-	public void startGame() {
-		game = new Game();
-	}
-	
-	public State sendMove(int field) {
-		State state = game.getMove();
-		state.setField(field, player);
-		game.addMove(state);
-		
-		State nextMove = model.getNextMove(state, State.switchPlayer(player), false);
-		game.addMove(nextMove);
-		
-		return nextMove;
-	}
-	
-	public State getMove() {
-		return game.getMove();
-	}
-	
-	public ArrayList<PerformanceResult> getPerformance() {
-		return model.getPerformance();
-	}
-	
 }

@@ -36,3 +36,5 @@ https://stackoverflow.com/questions/33673260/override-maven-assembly-plugin-outp
 https://stackoverflow.com/questions/24144073/why-does-maven-warn-me-about-encoding  
 
 https://facebook.github.io/create-react-app/docs/deployment  
+
+https://dzone.com/articles/generate-random-alpha-numeric  
