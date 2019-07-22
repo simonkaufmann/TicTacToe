@@ -15,6 +15,7 @@ https://material-ui.com/customization/breakpoints/
 https://material-ui.com/components/drawers/  
 https://stackoverflow.com/questions/40620302/how-to-get-material-ui-drawer-to-squeeze-other-content-when-open/40640154#40640154  
 https://reactjs.org/docs/conditional-rendering.html  
+https://canvasjs.com/react-charts/line-chart/  
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
