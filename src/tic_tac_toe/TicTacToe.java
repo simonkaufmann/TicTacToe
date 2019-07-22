@@ -1,5 +1,7 @@
 package tic_tac_toe;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TicTacToe {
@@ -22,6 +24,15 @@ public class TicTacToe {
 		soc.startServer(this);
 		
 		model = Model.importModel("model1.dat");
+		
+		try {
+			FileWriter fw = new FileWriter("perf");
+			fw.write(model.getPerformance().toString());
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		game = new Game();
 		
