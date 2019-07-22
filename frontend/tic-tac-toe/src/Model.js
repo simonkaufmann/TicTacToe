@@ -13,10 +13,10 @@ const useStyles = makeStyles(theme => ({
   myContainer: {
     textAlign: "center",
     [theme.breakpoints.up('sm')]: {
-      marginLeft: "120px",
+      paddingLeft: "240px",
     },
     [theme.breakpoints.up('md')]: {
-      marginLeft: "70px",
+      paddingLeft: "240px",
     },
   },
 }));
@@ -29,7 +29,7 @@ export default function Model() {
       <Skeleton loggedIn={true}/>
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
-        <Graph />
+        <div style={{width:"70%", display: "inline-block"}}><Graph /></div>
       </Container>
     </div>
   );
