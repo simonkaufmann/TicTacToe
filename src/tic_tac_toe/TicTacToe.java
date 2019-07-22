@@ -25,15 +25,6 @@ public class TicTacToe {
 		
 		model = Model.importModel("model1.dat");
 		
-		try {
-			FileWriter fw = new FileWriter("perf");
-			fw.write(model.getPerformance().toString());
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		game = new Game();
 		
 		for (int i = 0; i < 50000; i++) {
