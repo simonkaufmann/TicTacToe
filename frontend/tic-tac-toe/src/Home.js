@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 
+import { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -52,7 +53,7 @@ class Square extends React.Component {
   clickSquare = () => {
     // send move
     let json = { field: this.props.fieldNumber };
-    fetch('/api/send-move/', {
+    fetch('/api/game/' + this.props.id + '/send-move/', {
       method: 'post',
       body: JSON.stringify(json)
     });
@@ -93,7 +94,7 @@ class Board_ extends React.Component {
 
   renderSquare = (i) => {
     return <Square fieldNumber={i} value={this.state.board[i]}
-                   callBack={this.squareClicked}/>;
+                   callBack={this.squareClicked} id={this.props.id}/>;
   }
 
   squareClicked = (i) => {
@@ -106,7 +107,7 @@ class Board_ extends React.Component {
   
   updateBoard = () => {
     // update board
-    fetch('/api/get-move')
+    fetch('/api/game/' + this.props.id + '/get-move')
       .then((response) => response.json())
       .then(json => {
         this.setState({ board: json.state, result: json.result });
@@ -148,8 +149,20 @@ class Board_ extends React.Component {
 const Board = withStyles(myStyles)(Board_);
 
 export default function Home() {
+
+  const [state, setState] = useState({
+    id: "",
+  });
+
   function startGame() {
-    fetch("api/start-game");  
+    fetch('/api/game/start-game')
+      .then((response) => response.json())
+      .then(json => {
+        setState({ ...state, id: json.id });
+      }).catch(() => {
+        console.log("Error start game");
+      });
+
   }   
 
   const classes = useStyles();
@@ -160,7 +173,7 @@ export default function Home() {
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
         <p> It's your turn </p>
-        <Board/>
+        <Board id={state.id}/>
         <Button variant="contained" color="primary" className={classes.button} onClick={startGame}>
           Reset Game
         </Button>

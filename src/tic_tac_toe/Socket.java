@@ -43,13 +43,14 @@ public class Socket {
 		return "";
 	}
 
-	public void startServer(TicTacToe ticTac) {
+	public void startServer(Model m) {
+		GameController gc = new GameController(m);
 		try {
 			HttpServer server = HttpServer.create(new InetSocketAddress(3001), 0);
-			HttpContext api = server.createContext("/api");
+			HttpContext api = server.createContext("/api/game");
 			HttpContext apiModel = server.createContext("/api/model");
-			api.setHandler(new ApiHandler(ticTac));
-			apiModel.setHandler(new ApiModelHandler(ticTac));
+			api.setHandler(new ApiHandler(gc));
+			apiModel.setHandler(new ApiModelHandler(gc));
 			server.start();
 		} catch (IOException ex) {
 			System.err.println(ex.getMessage());

@@ -6,8 +6,8 @@ const data = {
   labels: ['Scatter'],
   datasets: [
     {
-      label: 'My First dataset',
-      fill: false,
+      label: 'Model Performance',
+      fill: true,
       backgroundColor: 'rgba(75,192,192,0.4)',
       pointBorderColor: 'rgba(75,192,192,1)',
       pointBackgroundColor: '#fff',

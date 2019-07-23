@@ -17,14 +17,15 @@ import tic_tac_toe.Uri;
 
 class ApiModelHandler implements HttpHandler {
 
-    private final TicTacToe ticTac;
+    private final GameController gc;
 
-    public ApiModelHandler(TicTacToe tic) {
-        ticTac = tic;
+    public ApiModelHandler(GameController gc) {
+    	this.gc = gc;
     }
     
-    private void getPerformance(HttpExchange exchange) throws IOException {
-		ArrayList<PerformanceResult> performance = ticTac.getPerformance();
+    @SuppressWarnings("unchecked")
+	private void getPerformance(HttpExchange exchange) throws IOException {
+		ArrayList<PerformanceResult> performance = gc.getPerformance();
 		ArrayList<JSONObject> jsonPerformance = new ArrayList<JSONObject>();
 		
 		for (PerformanceResult p: performance) {
