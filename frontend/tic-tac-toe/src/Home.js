@@ -15,7 +15,7 @@ const myStyles = (theme) => ({
   boardBox: {
     display: "inline-block",
     width: "85%",
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: "60%",
     },
     maxWidth: "450px",
@@ -29,11 +29,9 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   myContainer: {
     textAlign: "center",
+    paddingTop: "24px",
     [theme.breakpoints.up('sm')]: {
-      marginLeft: "120px",
-    },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: "70px",
+      paddingLeft: "264px", // 240px + 24px regular margin
     },
   },
 }));
@@ -51,7 +49,6 @@ class Square extends React.Component {
   }
 
   clickSquare = () => {
-    // send move
     let json = { field: this.props.fieldNumber };
     fetch('/api/game/' + this.props.id + '/send-move/', {
       method: 'post',
@@ -106,7 +103,6 @@ class Board_ extends React.Component {
   }
   
   updateBoard = () => {
-    // update board
     fetch('/api/game/' + this.props.id + '/get-move')
       .then((response) => response.json())
       .then(json => {
@@ -175,9 +171,8 @@ export default function Home() {
   return (
     <div>
       <Skeleton /> 
+      <div className={classes.toolbar}/>
       <Container className={classes.myContainer}>
-        <div className={classes.toolbar}/>
-        <div style={{height: "15px"}}></div>
         <Board id={state.id}/>
         <Button variant="contained" color="primary" className={classes.button} onClick={startGame}>
           Reset Game

@@ -4,9 +4,10 @@ import './App.css';
 import Container from '@material-ui/core/Container';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import Skeleton from './Skeleton.js';
-
 import Graph from './Graph.js';
 
 const useStyles = makeStyles(theme => ({
