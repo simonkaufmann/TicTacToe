@@ -6,6 +6,8 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
+import Hidden from '@material-ui/core/Hidden';
 
 import Skeleton from './Skeleton.js';
 import Graph from './Graph.js';
@@ -21,7 +23,58 @@ const useStyles = makeStyles(theme => ({
       paddingLeft: "240px",
     },
   },
+  root: {
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: "240px",
+    },
+    flexGrow: 1,
+  },
+  divGraph: {
+    display: "inline-block",
+    width: "98%",
+    [theme.breakpoints.up('md')]: {
+      width: "85%",
+    },
+  },
 }));
+
+function CenteredTabs() {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  function handleChange(event, newValue) {
+    setValue(newValue);
+  }
+
+  return (
+    <Paper className={classes.root} square={true}>
+      <Hidden smDown>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+        >
+          <Tab label="Settings" />
+          <Tab label="Graphs" />
+        </Tabs>
+      </Hidden>
+      <Hidden mdUp>
+         <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+        >
+          <Tab label="Settings" />
+          <Tab label="Graphs" />
+        </Tabs>
+      </Hidden>     
+    </Paper>
+  );
+}
 
 export default function Model() {
   const classes = useStyles();
@@ -59,9 +112,10 @@ export default function Model() {
   return (
     <div>
       <Skeleton loggedIn={true}/>
+      <div className={classes.toolbar}/> {/* place holder for app bar */}
+      <CenteredTabs/>
       <Container className={classes.myContainer}>
-        <div className={classes.toolbar}/>
-        <div style={{width:"70%", display: "inline-block"}}>
+        <div class={classes.divGraph}>
           <h2>Performance Player X</h2>
           <Graph data={state.performanceX}/>
           <h2>Performance Player O</h2>
