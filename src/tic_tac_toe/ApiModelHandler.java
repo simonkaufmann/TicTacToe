@@ -54,10 +54,82 @@ class ApiModelHandler implements HttpHandler {
 		os.write(response.getBytes());
 		os.close();
     }
+    
+	private void getModelSettings(HttpExchange exchange) throws IOException {
+		ModelSettings ms = gc.getModelSettings();
+		
+		JSONObject json = new JSONObject();
+		json.put("alpha", ms.getAlpha());
+		json.put("chance-random-move", ms.getChanceRandomMove());
+
+		String response = json.toJSONString();
+		exchange.sendResponseHeaders(200, response.getBytes().length);
+		OutputStream os = exchange.getResponseBody();
+		os.write(response.getBytes());
+		os.close();
+	}
+    
+	private void setAlpha(HttpExchange exchange) throws IOException {
+		InputStream in = exchange.getRequestBody();
+		String body = Socket.inputStreamToString(in);
+		try {
+			JSONObject json = (JSONObject) new JSONParser().parse(body);
+			long alpha = (long) json.get("alpha");
+			gc.setAlpha(alpha);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		String response = "OK";
+		exchange.sendResponseHeaders(200, response.getBytes().length);
+		OutputStream os = exchange.getResponseBody();
+		os.write(response.getBytes());
+		os.close();
+	}
+	
+	private void setChanceRandomMove(HttpExchange exchange) throws IOException {
+		InputStream in = exchange.getRequestBody();
+		String body = Socket.inputStreamToString(in);
+		try {
+			JSONObject json = (JSONObject) new JSONParser().parse(body);
+			long randomMove = (long) json.get("chance-random-move");
+			gc.setChanceRandomMove(randomMove);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		String response = "OK";
+		exchange.sendResponseHeaders(200, response.getBytes().length);
+		OutputStream os = exchange.getResponseBody();
+		os.write(response.getBytes());
+		os.close();
+	}
+	
+	private void startTraining(HttpExchange exchange) throws IOException {
+		gc.startTraining();
+		
+		String response = "OK";
+		exchange.sendResponseHeaders(200, response.getBytes().length);
+		OutputStream os = exchange.getResponseBody();
+		os.write(response.getBytes());
+		os.close();
+	}
+	
+	private void stopTraining(HttpExchange exchange) throws IOException {
+		gc.stopTraining();
+		
+		String response = "OK";
+		exchange.sendResponseHeaders(200, response.getBytes().length);
+		OutputStream os = exchange.getResponseBody();
+		os.write(response.getBytes());
+		os.close();
+	}
 
 	private void defaultHandler(HttpExchange exchange) throws IOException {
 		String response = "Path not recognised";
-		exchange.sendResponseHeaders(404, response.getBytes().length);
+		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
 		os.close();
@@ -80,6 +152,21 @@ class ApiModelHandler implements HttpHandler {
 					break;
 				case "get-performanceO":
 					getPerformance(State.PLAYER_O, exchange);
+					break;
+				case "get-model-settings":
+					getModelSettings(exchange);
+					break;
+				case "set-alpha":
+					setAlpha(exchange);
+					break;
+				case "set-chance-random-move":
+					setChanceRandomMove(exchange);
+					break;
+				case "start-training":
+					startTraining(exchange);
+					break;
+				case "stop-training":
+					stopTraining(exchange);
 					break;
 				default:
 					defaultHandler(exchange);

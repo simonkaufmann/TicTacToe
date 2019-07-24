@@ -29,19 +29,37 @@ public class Model implements Serializable {
 	final double rewardOther = 0;
 	
 	double alpha;
+	double chanceRandomMove;
 	int trainingIterations;
 	
 	public Model() {
-		this(0.1);
+		this(0.1, 0.2);
 	}
 	
-	public Model(double alpha) {
+	public Model(double alpha, double randomMove) {
 		initialiseValueFunction();
 		
 		this.performanceX = new ArrayList<PerformanceResult>();
 		this.performanceO = new ArrayList<PerformanceResult>();
 		this.alpha = alpha;
 		this.trainingIterations = 0;
+		this.chanceRandomMove = randomMove;
+	}
+	
+	public void setAlpha(double alpha) {
+		this.alpha = alpha;
+	}
+	
+	public double getAlpha() {
+		return this.alpha;
+	}
+	
+	public void setChanceRandomMove(double randomMove) {
+		this.chanceRandomMove = randomMove;
+	}
+	
+	public double getChanceRandomMove() {
+		return this.chanceRandomMove;
 	}
 	
 	private void initialiseValueFunction() {
@@ -186,8 +204,8 @@ public class Model implements Serializable {
 			return s;
 		}
 		
-		// 0.2 probability for random move
-		if (Math.random() <= 0.2 && training) {
+		// probability for random move
+		if (Math.random() <= this.chanceRandomMove && training) {
 			return getRandomNextMove(s, player);
 		}
 		

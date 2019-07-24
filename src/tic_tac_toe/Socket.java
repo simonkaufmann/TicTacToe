@@ -43,8 +43,7 @@ public class Socket {
 		return "";
 	}
 
-	public void startServer(Model m) {
-		GameController gc = new GameController(m);
+	public void startServer(GameController gc) {
 		try {
 			HttpServer server = HttpServer.create(new InetSocketAddress(3001), 0);
 			HttpContext api = server.createContext("/api/game");

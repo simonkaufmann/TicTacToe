@@ -8,6 +8,12 @@ public class GameController {
 	HashMap<String, Game> games;
 	Model model;
 	int player = State.PLAYER_X;
+	
+	boolean trainingActive = false;
+	
+	String fn1 = "model1.dat";
+	String fn2 = "model2.dat";
+	boolean fn = false;
 
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	
@@ -57,6 +63,65 @@ public class GameController {
 	
 	public ArrayList<PerformanceResult> getPerformance(int player) {
 		return model.getPerformance(player);
+	}
+	
+	public void setAlpha(double alpha) {
+		model.setAlpha(alpha);
+	}
+	
+	public void setChanceRandomMove(double randomMove) {
+		model.setChanceRandomMove(randomMove);
+	}
+	
+	public void startTraining() {
+		this.trainingActive = true;
+	}
+	
+	public void stopTraining() {
+		this.trainingActive = false;
+	}
+	
+	/*
+	 * Activate training of model or disable
+	 */
+	public void setTraining(boolean training) {
+		this.trainingActive = training;
+	}
+	
+	public void training() {
+		Game game = new Game();
+		
+		int i = 0;
+		
+		while (true) {
+			if (trainingActive) {
+				System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
+				model.testPerformance(1000,  State.PLAYER_X);
+				
+				// Export model
+				if (i % 50 == 0) {
+					if (fn) {
+						model.exportModel(fn1);
+						fn = !fn;
+					} else {
+						model.exportModel(fn2);
+						fn = !fn;
+					}
+				}
+					
+				for (int j = 0; j < 10; j++) {
+					model.trainModel(100);
+				}
+			}
+			i++;
+		}
+	}
+	
+	public ModelSettings getModelSettings() {
+		ModelSettings ms = new ModelSettings();
+		ms.setAlpha(model.getAlpha());
+		ms.setChanceRandomMove(model.getChanceRandomMove());
+		return ms;
 	}
 	
 }
