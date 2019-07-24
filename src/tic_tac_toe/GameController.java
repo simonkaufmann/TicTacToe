@@ -44,8 +44,6 @@ public class GameController {
 		
 		State nextMove = model.getNextMove(state, State.switchPlayer(player), false);
 		game.addMove(nextMove);
-		System.out.println("send move");
-		System.out.println(nextMove);
 		return nextMove;
 	}
 	

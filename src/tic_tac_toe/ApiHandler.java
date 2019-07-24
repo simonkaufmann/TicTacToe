@@ -39,14 +39,12 @@ class ApiHandler implements HttpHandler {
 	
 	@SuppressWarnings("unchecked")
 	private void sendMove(String id, HttpExchange exchange) throws IOException{
-		System.out.println("apihandler send move");
 		InputStream in = exchange.getRequestBody();
 		String body = Socket.inputStreamToString(in);
 		State returnState = State.emptyState();
 		try {
 			JSONObject json = (JSONObject) new JSONParser().parse(body);
 			long field = (long) json.get("field");
-			System.out.println("send move " + id + " field: " + Long.toString(field));
 			returnState = gc.sendMove(id, (int) field);
 			
 		} catch (ParseException e) {
@@ -114,8 +112,6 @@ class ApiHandler implements HttpHandler {
 
 		// path[1] is always "api" because handler is set for it
 		// path[2] is always "game" because handler is set for it
-		
-		System.out.println("api handler");
 		
 		String id = "";
 		if (path.length >= 4) {
