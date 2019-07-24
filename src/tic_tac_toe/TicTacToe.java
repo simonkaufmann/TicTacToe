@@ -27,7 +27,7 @@ public class TicTacToe {
 		
 		game = new Game();
 		
-		for (int i = 0; i < 50000; i++) {
+		/*for (int i = 0; i < 50000; i++) {
 			System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
 			
 			// Export model
@@ -44,7 +44,7 @@ public class TicTacToe {
 			for (int j = 0; j < 10; j++) {
 				model.trainModel(100);
 			}
-		}
+		}*/
 		
 	}
 	
