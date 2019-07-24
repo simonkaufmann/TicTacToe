@@ -38,19 +38,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function CenteredTabs() {
+function CenteredTabs(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
 
   function handleChange(event, newValue) {
-    setValue(newValue);
+    props.callBack(newValue);
   }
 
   return (
     <Paper className={classes.root} square={true}>
       <Hidden smDown>
         <Tabs
-          value={value}
+          value={props.value}
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
@@ -62,7 +61,7 @@ function CenteredTabs() {
       </Hidden>
       <Hidden mdUp>
          <Tabs
-          value={value}
+          value={props.value}
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
@@ -83,6 +82,7 @@ export default function Model() {
     performanceX: [],
     performanceO: [],
     timer: null,
+    tabIndex: 1,
   });
 
   useEffect(() => {
@@ -109,19 +109,32 @@ export default function Model() {
       });
   }
 
+  function setTabValue(newValue) {
+    setState({...state, tabIndex: newValue});
+  }
+
   return (
     <div>
       <Skeleton loggedIn={true}/>
       <div className={classes.toolbar}/> {/* place holder for app bar */}
-      <CenteredTabs/>
-      <Container className={classes.myContainer}>
-        <div class={classes.divGraph}>
-          <h2>Performance Player X</h2>
-          <Graph data={state.performanceX}/>
-          <h2>Performance Player O</h2>
-          <Graph data={state.performanceO}/>
-        </div>
-      </Container>
+      <CenteredTabs callBack={setTabValue} value={state.tabIndex}/>
+      {
+        (state.tabIndex === 0) && /* inline if */
+        <Container className={classes.myContainer}>
+
+        </Container>
+      }
+      {
+        (state.tabIndex === 1) && /* inline if */
+        <Container className={classes.myContainer}>
+          <div class={classes.divGraph}>
+            <h2>Performance Player X</h2>
+            <Graph data={state.performanceX}/>
+            <h2>Performance Player O</h2>
+            <Graph data={state.performanceO}/>
+          </div>
+        </Container>
+      }
     </div>
   );
 } 
