@@ -60,7 +60,7 @@ class ApiModelHandler implements HttpHandler {
 		
 		JSONObject json = new JSONObject();
 		json.put("alpha", ms.getAlpha());
-		json.put("chance-random-move", ms.getChanceRandomMove());
+		json.put("chanceRandomMove", ms.getChanceRandomMove());
 
 		String response = json.toJSONString();
 		exchange.sendResponseHeaders(200, response.getBytes().length);
@@ -93,7 +93,7 @@ class ApiModelHandler implements HttpHandler {
 		String body = Socket.inputStreamToString(in);
 		try {
 			JSONObject json = (JSONObject) new JSONParser().parse(body);
-			long randomMove = (long) json.get("chance-random-move");
+			long randomMove = (long) json.get("chanceRandomMove");
 			gc.setChanceRandomMove(randomMove);
 			
 		} catch (ParseException e) {
