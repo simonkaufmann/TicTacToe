@@ -177,7 +177,7 @@ export default function Home() {
       <Skeleton /> 
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
-        <p> It's your turn </p>
+        <div style={{height: "15px"}}></div>
         <Board id={state.id}/>
         <Button variant="contained" color="primary" className={classes.button} onClick={startGame}>
           Reset Game

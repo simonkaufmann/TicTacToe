@@ -26,7 +26,8 @@ export default function Model() {
   const classes = useStyles();
 
   const [state, setState] = useState({
-    performance: [],
+    performanceX: [],
+    performanceO: [],
     timer: null,
   });
 
@@ -36,10 +37,18 @@ export default function Model() {
   }, []);
 
   function updatePerformance() {
-    fetch('/api/model/get-performance')
+    fetch('/api/model/get-performanceX')
       .then((response) => response.json())
       .then(json => {
-        setState({ ...state, performance: json});
+        setState(state => ({ ...state, performanceX: json}));
+      })
+      .catch(() => {
+        console.log("Error updating performance");
+      });
+    fetch('/api/model/get-performanceO')
+      .then((response) => response.json())
+      .then(json => {
+        setState(state => ({ ...state, performanceO: json}));
       })
       .catch(() => {
         console.log("Error updating performance");
@@ -52,7 +61,10 @@ export default function Model() {
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
         <div style={{width:"70%", display: "inline-block"}}>
-          <Graph data={state.performance}/>
+          <h2>Performance Player X</h2>
+          <Graph data={state.performanceX}/>
+          <h2>Performance Player O</h2>
+          <Graph data={state.performanceO}/>
         </div>
       </Container>
     </div>

@@ -4,79 +4,79 @@ import {Scatter} from 'react-chartjs-2';
 
 const dispAverage = 5;
 
-var options = {
-  scales: {
-    xAxes: [
-      {
-        scaleLabel: [{
-          display:true,
-          labelString: "Training Iterations",
-        }],
-        type: "linear",
-      }
-    ],
-  },
-};
-
-var data = {
-  labels: ['Scatter'],
-  datasets: [
-    {
-      label: 'Win',
-      fill: false,
-      backgroundColor: 'green',
-      pointBorderColor: 'green',
-      pointBackgroundColor: 'green',
-      pointBorderWidth: 0,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'green',
-      pointHoverBorderColor: 'green',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      showLine: true,
-      data: [
-      ]
-    },
-    {
-      label: 'Lose',
-      fill: false,
-      backgroundColor: 'blue',
-      pointBorderColor: 'blue',
-      pointBackgroundColor: 'blue',
-      pointBorderWidth: 0,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'blue',
-      pointHoverBorderColor: 'blue',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      showLine: true,
-      data: [
-      ]
-    },
-    {
-      label: 'Draw',
-      fill: false,
-      backgroundColor: '#ffbf00',
-      pointBorderColor: '#ffbf00',
-      pointBackgroundColor: '#ffbf00',
-      pointBorderWidth: 0,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: '#ffbf00',
-      pointHoverBorderColor: '#ffbf00',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      showLine: true,
-      data: [
-      ]
-    },
-
-  ]
-};
-
 export default function Graph(props) {
+  var options = {
+    scales: {
+      xAxes: [
+        {
+          scaleLabel: [{
+            display:true,
+            labelString: "Training Iterations",
+          }],
+          type: "linear",
+        }
+      ],
+    },
+  };
+  
+  var data = {
+    labels: ['Scatter'],
+    datasets: [
+      {
+        label: 'Win',
+        fill: false,
+        backgroundColor: 'green',
+        pointBorderColor: 'green',
+        pointBackgroundColor: 'green',
+        pointBorderWidth: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'green',
+        pointHoverBorderColor: 'green',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        showLine: true,
+        data: [
+        ]
+      },
+      {
+        label: 'Lose',
+        fill: false,
+        backgroundColor: 'blue',
+        pointBorderColor: 'blue',
+        pointBackgroundColor: 'blue',
+        pointBorderWidth: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'blue',
+        pointHoverBorderColor: 'blue',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        showLine: true,
+        data: [
+        ]
+      },
+      {
+        label: 'Draw',
+        fill: false,
+        backgroundColor: '#ffbf00',
+        pointBorderColor: '#ffbf00',
+        pointBackgroundColor: '#ffbf00',
+        pointBorderWidth: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#ffbf00',
+        pointHoverBorderColor: '#ffbf00',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        showLine: true,
+        data: [
+        ]
+      },
+  
+    ]
+  };
+
   let win = [];
   let draw = [];
   let lose = []; 
@@ -107,7 +107,6 @@ export default function Graph(props) {
 
   return (
     <div>
-      <h2>Player X Performance</h2>
       <Scatter data={data} options={options}/>
     </div>
   );
