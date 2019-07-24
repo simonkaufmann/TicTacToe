@@ -20,7 +20,7 @@ public class TicTacToe {
 	}
 	
 	public void start() {
-		model = Model.importModel("model1.dat");
+		model = new Model();//Model.importModel("model1.dat");
 		
 		Socket soc = new Socket();
 		soc.startServer(model);

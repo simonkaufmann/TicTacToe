@@ -51,15 +51,16 @@ public class Model implements Serializable {
 	}
 
 	private void putState(State s) {
-		if (s.result() == State.WIN_PLAYER_X) {
-			this.vf.put(s, this.rewardWinX);
-		} else if (s.result() == State.WIN_PLAYER_O) {
-			this.vf.put(s, this.rewardWinO);
-		} else if (s.result() == State.DRAW) {
-			this.vf.put(s, this.rewardTie);
-		} else {
-			this.vf.put(s, this.rewardOther);
-		}
+//		if (s.result() == State.WIN_PLAYER_X) {
+//			this.vf.put(s, this.rewardWinX);
+//		} else if (s.result() == State.WIN_PLAYER_O) {
+//			this.vf.put(s, this.rewardWinO);
+//		} else if (s.result() == State.DRAW) {
+//			this.vf.put(s, this.rewardTie);
+//		} else {
+//			this.vf.put(s, this.rewardOther);
+//		}
+		this.vf.put(s, this.rewardOther);
 	}
 	
 	// Initialise value function recursively

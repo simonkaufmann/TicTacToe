@@ -3,6 +3,7 @@ import './App.css';
 
 import Container from '@material-ui/core/Container';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { useState, useEffect } from 'react';
 
 import Skeleton from './Skeleton.js';
 
@@ -24,15 +25,37 @@ const useStyles = makeStyles(theme => ({
 export default function Model() {
   const classes = useStyles();
 
+  const [state, setState] = useState({
+    performance: [],
+    timer: null,
+  });
+
+  useEffect(() => {
+    let tim = setInterval(updatePerformance, 1000);
+    setState({...state, timer: tim});
+  }, []);
+
+  function updatePerformance() {
+    fetch('/api/model/get-performance')
+      .then((response) => response.json())
+      .then(json => {
+        setState({ ...state, performance: json});
+      })
+      .catch(() => {
+        console.log("Error updating performance");
+      });
+  }
+
   return (
     <div>
       <Skeleton loggedIn={true}/>
       <Container className={classes.myContainer}>
         <div className={classes.toolbar}/>
-        <div style={{width:"70%", display: "inline-block"}}><Graph /></div>
+        <div style={{width:"70%", display: "inline-block"}}>
+          <Graph data={state.performance}/>
+        </div>
       </Container>
     </div>
   );
-}
-
+} 
 

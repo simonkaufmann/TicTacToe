@@ -168,7 +168,6 @@ export default function Home() {
       }).catch(() => {
         console.log("Error start game");
       });
-
   }   
 
   const classes = useStyles();

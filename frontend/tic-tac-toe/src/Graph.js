@@ -2,41 +2,113 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Scatter} from 'react-chartjs-2';
 
-const data = {
+const dispAverage = 5;
+
+var options = {
+  scales: {
+    xAxes: [
+      {
+        scaleLabel: [{
+          display:true,
+          labelString: "Training Iterations",
+        }],
+        type: "linear",
+      }
+    ],
+  },
+};
+
+var data = {
   labels: ['Scatter'],
   datasets: [
     {
-      label: 'Model Performance',
-      fill: true,
-      backgroundColor: 'rgba(75,192,192,0.4)',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
+      label: 'Win',
+      fill: false,
+      backgroundColor: 'green',
+      pointBorderColor: 'green',
+      pointBackgroundColor: 'green',
+      pointBorderWidth: 0,
       pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
+      pointHoverBackgroundColor: 'green',
+      pointHoverBorderColor: 'green',
       pointHoverBorderWidth: 2,
-      pointRadius: 3,
+      pointRadius: 1,
       pointHitRadius: 10,
       showLine: true,
       data: [
-        { x: 65, y: 75 },
-        { x: 59, y: 49 },
-        { x: 80, y: 90 },
-        { x: 81, y: 29 },
-        { x: 56, y: 36 },
-        { x: 55, y: 25 },
-        { x: 40, y: 18 },
       ]
-    }
+    },
+    {
+      label: 'Lose',
+      fill: false,
+      backgroundColor: 'blue',
+      pointBorderColor: 'blue',
+      pointBackgroundColor: 'blue',
+      pointBorderWidth: 0,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: 'blue',
+      pointHoverBorderColor: 'blue',
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      showLine: true,
+      data: [
+      ]
+    },
+    {
+      label: 'Draw',
+      fill: false,
+      backgroundColor: '#ffbf00',
+      pointBorderColor: '#ffbf00',
+      pointBackgroundColor: '#ffbf00',
+      pointBorderWidth: 0,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: '#ffbf00',
+      pointHoverBorderColor: '#ffbf00',
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      showLine: true,
+      data: [
+      ]
+    },
+
   ]
 };
 
-export default function Graph() {
+export default function Graph(props) {
+  let win = [];
+  let draw = [];
+  let lose = []; 
+  if ("undefined" != typeof(props.data["performance"])) {
+    let w = 0;
+    let l = 0;
+    let d = 0;
+    for (var i = 0; i < props.data.performance.length; i++) {
+      let r = props.data.performance[i];
+      let x = r.trainingIterations;
+      w += r.win;
+      l += r.lose;
+      d += r.draw;
+      if (i % dispAverage === 0) {
+        win.push({ x: x, y: w / dispAverage });
+        lose.push({ x: x, y: l / dispAverage });
+        draw.push({ x: x, y: d / dispAverage });
+        w = 0;
+        l = 0;
+        d = 0;
+      }
+    }
+  }
+
+  data.datasets[0].data = win;
+  data.datasets[1].data = lose;
+  data.datasets[2].data = draw;
+
   return (
     <div>
-      <h2>Scatter Example</h2>
-      <Scatter data={data} />
+      <h2>Player X Performance</h2>
+      <Scatter data={data} options={options}/>
     </div>
   );
 }
