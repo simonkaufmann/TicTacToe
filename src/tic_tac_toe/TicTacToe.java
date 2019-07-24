@@ -6,13 +6,8 @@ import java.util.ArrayList;
 
 public class TicTacToe {
 	
-	Game game;
+	GameController gc;
 	Model model;
-	int player = State.PLAYER_X;
-	
-	String fn1 = "model1.dat";
-	String fn2 = "model2.dat";
-	boolean fn = false;
 	
 	public static void main(String[] args) {
 		TicTacToe tic = new TicTacToe();
@@ -21,32 +16,12 @@ public class TicTacToe {
 	
 	public void start() {
 		model = new Model();//Model.importModel("model1.dat");
+		gc = new GameController(model);
 		
 		Socket soc = new Socket();
-		soc.startServer(model);
-		
-		game = new Game();
-		
-		for (int i = 0; i < 50000; i++) {
-			System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
-			model.testPerformance(1000,  State.PLAYER_X);
-			
-			// Export model
-			if (i % 50 == 0) {
-				if (fn) {
-					model.exportModel(fn1);
-					fn = !fn;
-				} else {
-					model.exportModel(fn2);
-					fn = !fn;
-				}
-			}
-				
-			for (int j = 0; j < 10; j++) {
-				model.trainModel(100);
-			}
-		}
-		
+		soc.startServer(gc);
+
+		gc.training();
 	}
-	
+
 }
