@@ -20,7 +20,8 @@ public class Model implements Serializable {
 	private static final long serialVersionUID = 2L;
 	
 	HashMap<State, Double> vf; // value function for player X
-	ArrayList<PerformanceResult> performance;
+	ArrayList<PerformanceResult> performanceX;
+	ArrayList<PerformanceResult> performanceO;
 	
 	final double rewardWinX = 1;
 	final double rewardWinO = -1;
@@ -37,7 +38,8 @@ public class Model implements Serializable {
 	public Model(double alpha) {
 		initialiseValueFunction();
 		
-		this.performance = new ArrayList<PerformanceResult>();
+		this.performanceX = new ArrayList<PerformanceResult>();
+		this.performanceO = new ArrayList<PerformanceResult>();
 		this.alpha = alpha;
 		this.trainingIterations = 0;
 	}
@@ -152,8 +154,10 @@ public class Model implements Serializable {
 		return moves.get(index);
 	}
 	
-	// Calculate next step according to model for player (either 1 or 2)
-	// with training mode (sometimes exploration) or without (always choose optimal move)
+	/*
+	 *  Calculate next step according to model for player (either 1 or 2)
+	 * with training mode (sometimes exploration) or without (always choose optimal move)
+	 */
 	public State getNextMove(State s, int player, boolean training) {
 		ArrayList<State> moves = s.nextMoves(player);
 		
@@ -236,9 +240,10 @@ public class Model implements Serializable {
 		}
 	}
 	
-	// Play one game to test performance against random player
-	// Argument which player should be taken from model
-	// Returns result of game
+	/* Play one game to test performance against random player
+	 * Argument which player should be taken from model
+	 * Returns result of game
+	 */
 	private int performanceGame(int player) {
 		Game game = new Game();
 		
@@ -257,8 +262,9 @@ public class Model implements Serializable {
 		return game.result();
 	}
 	
-	// Test performance through multiple games
-	// player is player taken from model, other player is random
+	/* Test performance through multiple games
+	 * player is player taken from model, other player is random
+	 */
 	public PerformanceResult testPerformance(int iterations, int player) {
 		PerformanceResult result = new PerformanceResult();
 		
@@ -276,13 +282,21 @@ public class Model implements Serializable {
 		
 		result.setTrainingIterations(this.trainingIterations);
 		
-		this.performance.add(result);
+		if (player == State.PLAYER_X) {
+			this.performanceX.add(result);
+		} else {
+			this.performanceO.add(result);
+		}
 		
 		return result;
 	}
 	
-	public ArrayList<PerformanceResult> getPerformance() {
-		return performance;
+	public ArrayList<PerformanceResult> getPerformance(int player) {
+		if (player == State.PLAYER_X) {
+			return this.performanceX;
+		} else {
+			return this.performanceO;
+		}
 	}
 	
 	public void exportModel(String fn) {
@@ -331,7 +345,8 @@ public class Model implements Serializable {
 			this.vf.put(s, d);
 		}
 		
-		this.performance = (ArrayList<PerformanceResult>) aInputStream.readObject();
+		this.performanceX = (ArrayList<PerformanceResult>) aInputStream.readObject();
+		this.performanceO = (ArrayList<PerformanceResult>) aInputStream.readObject();
 		this.alpha = aInputStream.readDouble();
 		this.trainingIterations = aInputStream.readInt();
     }
@@ -353,7 +368,8 @@ public class Model implements Serializable {
     		aOutputStream.writeDouble(this.vf.get(s));
     	}
     	
-    	aOutputStream.writeObject(this.performance);
+    	aOutputStream.writeObject(this.performanceX);
+    	aOutputStream.writeObject(this.performanceO);
     	aOutputStream.writeDouble(alpha);
     	aOutputStream.writeInt(this.trainingIterations);
     }

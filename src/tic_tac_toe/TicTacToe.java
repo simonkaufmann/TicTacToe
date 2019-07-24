@@ -29,6 +29,7 @@ public class TicTacToe {
 		
 		for (int i = 0; i < 50000; i++) {
 			System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
+			model.testPerformance(1000,  State.PLAYER_X);
 			
 			// Export model
 			if (i % 50 == 0) {

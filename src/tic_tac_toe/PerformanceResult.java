@@ -41,20 +41,4 @@ public class PerformanceResult implements Serializable {
 		return "Total: " + getTotal() + " Win: " + getWin() + " Lose: " + getLose() + " Draw: " + getDraw();
 	}
 	
-	/*private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException
-    {      
-		this.win = aInputStream.readInt();
-		this.lose = aInputStream.readInt();
-		this.draw = aInputStream.readInt();
-		this.trainingIterations = aInputStream.readInt();
-    }
- 
-    private void writeObject(ObjectOutputStream aOutputStream) throws IOException
-    {
-    	aOutputStream.writeInt(win);
-    	aOutputStream.writeInt(lose);
-    	aOutputStream.writeInt(draw);
-    	aOutputStream.writeInt(trainingIterations);
-    }*/
-	
 }

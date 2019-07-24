@@ -24,8 +24,8 @@ class ApiModelHandler implements HttpHandler {
     }
     
     @SuppressWarnings("unchecked")
-	private void getPerformance(HttpExchange exchange) throws IOException {
-		ArrayList<PerformanceResult> performance = gc.getPerformance();
+	private void getPerformance(int player, HttpExchange exchange) throws IOException {
+		ArrayList<PerformanceResult> performance = gc.getPerformance(player);
 		ArrayList<JSONObject> jsonPerformance = new ArrayList<JSONObject>();
 		
 		for (PerformanceResult p: performance) {
@@ -75,8 +75,11 @@ class ApiModelHandler implements HttpHandler {
 		
 		if (path.length >= 3) {
 			switch (path[3]) {
-				case "get-performance":
-					getPerformance(exchange);
+				case "get-performanceX":
+					getPerformance(State.PLAYER_X, exchange);
+					break;
+				case "get-performanceO":
+					getPerformance(State.PLAYER_O, exchange);
 					break;
 				default:
 					defaultHandler(exchange);

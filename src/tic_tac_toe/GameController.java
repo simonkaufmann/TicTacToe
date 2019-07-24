@@ -55,8 +55,8 @@ public class GameController {
 		return game.getMove();
 	}
 	
-	public ArrayList<PerformanceResult> getPerformance() {
-		return model.getPerformance();
+	public ArrayList<PerformanceResult> getPerformance(int player) {
+		return model.getPerformance(player);
 	}
 	
 }
