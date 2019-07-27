@@ -224,7 +224,7 @@ export default function Model() {
 
   return (
     <div>
-      <Skeleton loggedIn={true}/>
+      <Skeleton/>
       <div className={classes.toolbar}/> {/* place holder for app bar */}
       <CenteredTabs callBack={setTabValue} value={state.tabIndex}/>
       {
