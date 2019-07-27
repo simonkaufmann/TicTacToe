@@ -93,7 +93,6 @@ public class GameController {
 		int i = 0;
 		
 		while (true) {
-			System.out.println(trainingActive);
 			if (trainingActive) {
 				System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
 				model.testPerformance(1000,  State.PLAYER_X);

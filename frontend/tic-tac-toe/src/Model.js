@@ -12,6 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import Skeleton from './Skeleton.js';
 import Graph from './Graph.js';
@@ -97,6 +99,7 @@ export default function Model() {
     timer: null,
     tabIndex: 0,
     alpha: 0,
+    trainingActive: false,
     chanceRandomMove: 0,
   });
 
@@ -111,7 +114,7 @@ export default function Model() {
     fetch('api/model/get-model-settings')
       .then((response) => response.json())
       .then(json => {
-        setState(state => ({...state, alpha: json.alpha, chanceRandomMove: json.chanceRandomMove}));
+        setState(state => ({...state, alpha: json.alpha, chanceRandomMove: json.chanceRandomMove, trainingActive: json.trainingActive}));
       })
       .catch(() => {
         console.log("Error retrieving model settings");
@@ -163,9 +166,18 @@ export default function Model() {
     .catch(e => console.log(e));
   }
 
+  function saveTrainingActive() {
+    if (state.trainingActive === true) {
+      fetch('api/model/start-training');
+    } else {
+      fetch('api/model/stop-training');
+    }
+  }
+
   function saveModelValues() {
     saveAlpha();
     saveChanceRandomMove();
+    saveTrainingActive();
   }
 
   function startTraining() {
@@ -184,6 +196,10 @@ export default function Model() {
 
   const handleChange = name => event => {
     setState({...state, [name]: event.target.value});
+  }
+
+  const handleChangeSwitch = name => event => {
+    setState({...state, [name]: event.target.checked});
   }
 
   return (
@@ -212,16 +228,21 @@ export default function Model() {
             />
           </Box>
           <Box>
-            <Button variant="contained" color="secondary" className={classes.button} onClick={saveModelValues}>
-              Save Settings
-            </Button>
+            <FormControlLabel
+              control={
+              <Switch
+                checked={state.trainingActive}
+                onChange={handleChangeSwitch('trainingActive')}
+                value="bla"
+                color="primary"
+              />
+              }
+              label="Training Active"
+            />
           </Box>
           <Box>
-            <Button variant="contained" color="primary" className={classes.button} onClick={stopTraining}>
-              Stop Training
-            </Button>
-            <Button variant="contained" color="secondary" className={classes.button} onClick={startTraining}>
-              Start Training 
+            <Button variant="contained" color="secondary" className={classes.button} onClick={saveModelValues}>
+              Save Settings
             </Button>
           </Box>
         </Container>
