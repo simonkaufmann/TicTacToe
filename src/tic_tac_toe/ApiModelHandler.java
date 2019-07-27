@@ -61,6 +61,7 @@ class ApiModelHandler implements HttpHandler {
 		JSONObject json = new JSONObject();
 		json.put("alpha", ms.getAlpha());
 		json.put("chanceRandomMove", ms.getChanceRandomMove());
+		json.put("trainingActive", gc.getTraining());
 
 		String response = json.toJSONString();
 		exchange.sendResponseHeaders(200, response.getBytes().length);

@@ -75,17 +75,16 @@ public class GameController {
 	
 	public void startTraining() {
 		this.trainingActive = true;
+		System.out.println("start training");
 	}
 	
 	public void stopTraining() {
 		this.trainingActive = false;
+		System.out.println("stop training");
 	}
 	
-	/*
-	 * Activate training of model or disable
-	 */
-	public void setTraining(boolean training) {
-		this.trainingActive = training;
+	public boolean getTraining () {
+		return this.trainingActive;
 	}
 	
 	public void training() {
@@ -94,6 +93,7 @@ public class GameController {
 		int i = 0;
 		
 		while (true) {
+			System.out.println(trainingActive);
 			if (trainingActive) {
 				System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
 				model.testPerformance(1000,  State.PLAYER_X);

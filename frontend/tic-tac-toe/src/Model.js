@@ -103,7 +103,11 @@ export default function Model() {
   useEffect(() => {
     let tim = setInterval(updatePerformance, 1000);
     setState({...state, timer: tim});
-
+    
+    updateSettings();
+  }, []);
+  
+  function updateSettings() {
     fetch('api/model/get-model-settings')
       .then((response) => response.json())
       .then(json => {
@@ -112,7 +116,7 @@ export default function Model() {
       .catch(() => {
         console.log("Error retrieving model settings");
       });
-  }, []);
+  }
 
   function updatePerformance() {
     fetch('/api/model/get-performanceX')
@@ -135,6 +139,33 @@ export default function Model() {
 
   function setTabValue(newValue) {
     setState({...state, tabIndex: newValue});
+  }
+
+  function saveAlpha() {
+    fetch('/api/model/set-alpha', {
+      method: "post",
+      body: JSON.stringify({ alpha: state.alpha }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(e => console.log(e));
+  }
+
+  function saveChanceRandomMove() {
+    fetch('/api/model/set-chance-random-move', {
+      mode: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ chanceRandomMove: state.chanceRandomMove }),
+    })
+    .catch(e => console.log(e));
+  }
+
+  function saveModelValues() {
+    saveAlpha();
+    saveChanceRandomMove();
   }
 
   function startTraining() {
@@ -166,24 +197,30 @@ export default function Model() {
           <Box>
             <TextField
               label="Alpha"
-              value={state.alpha}
-              className={classes.textField}
+              value={state.alpha} className={classes.textField}
               onChange={handleChange('alpha')}
               margin="normal"
             />
+          </Box>
+          <Box>
             <TextField
               label="Probability Random Move"
-              value={state.alpha}
+              value={state.chanceRandomMove}
               className={classes.textField}
               onChange={handleChange('chanceRandomMove')}
               margin="normal"
             />
           </Box>
           <Box>
-            <Button variant="contained" color="primary" className={classes.button} onClick={startTraining}>
+            <Button variant="contained" color="secondary" className={classes.button} onClick={saveModelValues}>
+              Save Settings
+            </Button>
+          </Box>
+          <Box>
+            <Button variant="contained" color="primary" className={classes.button} onClick={stopTraining}>
               Stop Training
             </Button>
-            <Button variant="contained" color="secondary" className={classes.button} onClick={stopTraining}>
+            <Button variant="contained" color="secondary" className={classes.button} onClick={startTraining}>
               Start Training 
             </Button>
           </Box>
