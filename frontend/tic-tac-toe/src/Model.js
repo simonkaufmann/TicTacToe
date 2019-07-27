@@ -14,6 +14,13 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Divider from '@material-ui/core/Divider';
 
 import Skeleton from './Skeleton.js';
 import Graph from './Graph.js';
@@ -21,13 +28,13 @@ import Graph from './Graph.js';
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   myContainer: {
-    paddingTop: "24px",
+    paddingTop: theme.spacing(3),
     textAlign: "center",
     [theme.breakpoints.up('sm')]: {
-      paddingLeft: "240px",
+      paddingLeft: (theme.spacing(1) + 240) + "px",
     },
     [theme.breakpoints.up('md')]: {
-      paddingLeft: "240px",
+      paddingLeft: (theme.spacing(1) + 240) + "px",
     },
   },
   root: {
@@ -51,6 +58,19 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     width: 200,
   },
+  paper: {
+    padding: theme.spacing(1),
+  },
+  paperBox: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    width: "100%",
+    display: "inline-block",
+    maxWidth: "600px",
+    textAlign: "left",
+  },
+  listItem: {
+  }
 }));
 
 function CenteredTabs(props) {
@@ -210,51 +230,68 @@ export default function Model() {
       {
         (state.tabIndex === 0) && /* inline if */
         <Container className={classes.myContainer}>
-          <Box>
-            <TextField
-              label="Alpha"
-              value={state.alpha} className={classes.textField}
-              onChange={handleChange('alpha')}
-              margin="normal"
-            />
-          </Box>
-          <Box>
-            <TextField
-              label="Probability Random Move"
-              value={state.chanceRandomMove}
-              className={classes.textField}
-              onChange={handleChange('chanceRandomMove')}
-              margin="normal"
-            />
-          </Box>
-          <Box>
-            <FormControlLabel
-              control={
-              <Switch
-                checked={state.trainingActive}
-                onChange={handleChangeSwitch('trainingActive')}
-                value="bla"
-                color="primary"
-              />
-              }
-              label="Training Active"
-            />
-          </Box>
-          <Box>
-            <Button variant="contained" color="secondary" className={classes.button} onClick={saveModelValues}>
-              Save Settings
-            </Button>
+          <Box className={classes.paperBox}>
+            <Typography variant="subtitle1">Settings</Typography>
+            <Paper className={classes.paper}>
+              <List>
+                <ListItem className={classes.listItem}>
+                  <ListItemText primary="Alpha"/>
+                  <ListItemSecondaryAction>
+                    <TextField
+                      value={state.alpha} className={classes.textField}
+                      onChange={handleChange('alpha')}
+                      margin="normal"
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider variant="middle"/>
+                <ListItem className={classes.listItem}>
+                  <ListItemText primary="Probability Random Move"/>
+                  <ListItemSecondaryAction>
+                    <TextField
+                      value={state.chanceRandomMove}
+                      className={classes.textField}
+                      onChange={handleChange('chanceRandomMove')}
+                      margin="normal"
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider variant="middle"/>
+                <ListItem className={classes.listItem}>
+                  <ListItemText primary="Training Active"/>
+                  <ListItemSecondaryAction>
+                    <Switch
+                      checked={state.trainingActive}
+                      onChange={handleChangeSwitch('trainingActive')}
+                      value="bla"
+                      color="primary"
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              </List>
+              <Button variant="contained" color="secondary" className={classes.button} onClick={saveModelValues}>
+                Save Settings
+              </Button>
+            </Paper>
           </Box>
         </Container>
       }
       {
         (state.tabIndex === 1) && /* inline if */
         <Container className={classes.myContainer}>
-          <div class={classes.divGraph}>
-            <Typography variant="h4" component="h4">Performance Player X</Typography>
-            <Graph data={state.performanceX}/>
-            <Typography variant="h4" component="h4">Performance Player O</Typography>
-            <Graph data={state.performanceO}/>
+          <div style={{width:"100%"}}>
+          <Box className={classes.paperBox}>
+            <Typography variant="subtitle1">Performance Player X</Typography>
+            <Paper className={classes.paper}>
+              <Graph data={state.performanceX}/>
+            </Paper>
+          </Box>
+          <Box className={classes.paperBox}>
+            <Typography variant="subtitle1">Performance Player O</Typography>
+            <Paper className={classes.paper}>
+              <Graph data={state.performanceO}/>
+            </Paper>
+          </Box>
           </div>
         </Container>
       }

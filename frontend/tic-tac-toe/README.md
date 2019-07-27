@@ -5,6 +5,7 @@
 https://stackoverflow.com/questions/55154172/material-ui-styles-inside-react-component  
 https://css-tricks.com/fitting-text-to-a-container/  
 http://www.mademyday.de/css-height-equals-width-with-pure-css.html  
+https://stackoverflow.com/questions/5445491/height-equal-to-dynamic-width-css-fluid-layout  
 https://www.npmjs.com/package/react-fittext  
 https://stackoverflow.com/questions/36299174/setinterval-in-a-react-app  
 https://medium.com/@thejasonfile/fetch-vs-axios-js-for-making-http-requests-2b261cdd3af5  
@@ -17,6 +18,7 @@ https://stackoverflow.com/questions/40620302/how-to-get-material-ui-drawer-to-sq
 https://reactjs.org/docs/conditional-rendering.html  
 https://canvasjs.com/react-charts/line-chart/  
 https://www.robinwieruch.de/react-hooks-fetch-data/  
+https://blog.bitsrc.io/5-ways-to-style-react-components-in-2019-30f1ccc2b5b  
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

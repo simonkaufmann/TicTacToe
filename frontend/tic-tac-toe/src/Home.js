@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 
 import Skeleton from './Skeleton.js';
 import WinLoseSnackbar from './WinLoseSnackbar.js';
@@ -12,13 +13,41 @@ import WinLoseSnackbar from './WinLoseSnackbar.js';
 var ReactFitText = require('react-fittext');
 
 const myStyles = (theme) => ({
-  boardBox: {
+  square: {
+    background: "#fff",
+    border: "1px solid #444",
+    fontSize: "20vw",
+    fontWeight: "bold",
+    marginRight: "-1px",
+    marginTop: "-1px",
+    textAlign: "center",
+    /* for 1x1 ratio */
+    position: "absolute",
+    left: "0",
+    right: "0",
+    top: "0",
+    bottom: "0",
+    width: "100%",
+  },
+  /* for 1x1 ratio of Square */
+  squareBox: {
+    position: "relative",
+    width: "33.3%",
     display: "inline-block",
-    width: "85%",
-    [theme.breakpoints.up('md')]: {
-      width: "60%",
-    },
-    maxWidth: "450px",
+    "&:before": {
+      content: '""',
+      display: "inline-block",
+      paddingTop: "100%",
+    }
+  },
+  boardRow: {
+    padding: "0",
+    width: "100%",
+  },
+  board: {
+    borderCollapse: "collapse",
+    borderSpacing: "0",
+    width: "100%",
   },
 });
 
@@ -29,14 +58,31 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   myContainer: {
     textAlign: "center",
-    paddingTop: "24px",
+    paddingTop: theme.spacing(3),
     [theme.breakpoints.up('sm')]: {
-      paddingLeft: "264px", // 240px + 24px regular margin
+      paddingLeft: (theme.spacing(1) + 240) + "px",
     },
+  },
+  boardBox: {
+    display: "inline-block",
+    width: "85%",
+    [theme.breakpoints.up('md')]: {
+      width: "60%",
+    },
+    maxWidth: "450px",
+  },
+  paper: {
+    padding: theme.spacing(3),
   },
 }));
 
-class Square extends React.Component {
+class Square_ extends React.Component {
+
+  constructor(props) {
+    super(props);
+    const { classes } = props;    
+    this.classes = classes;
+  }
 
   valueToChar = () => {
     if (this.props.value === 1) {
@@ -59,9 +105,9 @@ class Square extends React.Component {
 
   render() {
     return (
-      <div className = "square-box">
+      <div className={this.classes.squareBox}>
         <button
-          className="square"
+          className={this.classes.square}
           onClick={this.clickSquare}
         >
           <ReactFitText compressor={0.25}>
@@ -114,28 +160,26 @@ class Board_ extends React.Component {
 
   render() {
     return (
-      <div className="board-outer-box">
-        <div className={this.classes.boardBox}>
-          <table className="board">
-            <tbody>
-              <tr className="board-row"><td className="board-row">
-                {this.renderSquare(0)}
-                {this.renderSquare(1)}
-                {this.renderSquare(2)}
-              </td></tr>
-              <tr className="board-row"><td className="board-row">
-                {this.renderSquare(3)}
-                {this.renderSquare(4)}
-                {this.renderSquare(5)}
-              </td></tr>
-              <tr className="board-row"><td className="board-row">
-                {this.renderSquare(6)}
-                {this.renderSquare(7)}
-                {this.renderSquare(8)}
-              </td></tr>
-            </tbody>
-          </table>
-        </div>
+      <div>
+        <table className={this.classes.board}>
+          <tbody>
+            <tr className={this.classes.boardRow}><td className={this.classes.boardRow}>
+              {this.renderSquare(0)}
+              {this.renderSquare(1)}
+              {this.renderSquare(2)}
+            </td></tr>
+            <tr className={this.classes.boardRow}><td className={this.classes.boardRow}>
+              {this.renderSquare(3)}
+              {this.renderSquare(4)}
+              {this.renderSquare(5)}
+            </td></tr>
+            <tr className={this.boardRow}><td className={this.boardRow}>
+              {this.renderSquare(6)}
+              {this.renderSquare(7)}
+              {this.renderSquare(8)}
+            </td></tr>
+          </tbody>
+        </table>
         <WinLoseSnackbar result={this.state.result} />
       </div>
     );
@@ -143,6 +187,7 @@ class Board_ extends React.Component {
 }
 
 const Board = withStyles(myStyles)(Board_);
+const Square = withStyles(myStyles)(Square_);
 
 export default function Home() {
 
@@ -173,13 +218,15 @@ export default function Home() {
       <Skeleton /> 
       <div className={classes.toolbar}/>
       <Container className={classes.myContainer}>
-        <Board id={state.id}/>
-        <Button variant="contained" color="primary" className={classes.button} onClick={startGame}>
-          Reset Game
-        </Button>
-        <Button variant="contained" color="secondary" className={classes.button} onClick={startGame}>
-          Start Game
-        </Button>
+        <div className={classes.boardBox}>
+          <Board id={state.id}/>
+          <Button variant="contained" color="primary" className={classes.button} onClick={startGame}>
+            Reset Game
+          </Button>
+          <Button variant="contained" color="secondary" className={classes.button} onClick={startGame}>
+            Start Game
+          </Button>
+        </div>
       </Container>
     </div>
   );
