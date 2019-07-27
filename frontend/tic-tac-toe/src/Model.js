@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   },
   paperBox: {
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     width: "100%",
     display: "inline-block",
     maxWidth: "600px",
@@ -231,8 +231,16 @@ export default function Model() {
         (state.tabIndex === 0) && /* inline if */
         <Container className={classes.myContainer}>
           <Box className={classes.paperBox}>
-            <Typography variant="subtitle1">Settings</Typography>
             <Paper className={classes.paper}>
+              <Typography variant="subtitle1">Import / Export</Typography>
+              <Button variant="contained" color="default" className={classes.button}>Select</Button>
+              <Button variant="contained" color="default" className={classes.button}>Upload</Button>
+              <Button variant="contained"color="default" className={classes.button}>Download</Button>
+            </Paper>
+          </Box>
+          <Box className={classes.paperBox}>
+            <Paper className={classes.paper}>
+              <Typography variant="subtitle1">Settings</Typography>
               <List>
                 <ListItem className={classes.listItem}>
                   <ListItemText primary="Alpha"/>
@@ -281,14 +289,14 @@ export default function Model() {
         <Container className={classes.myContainer}>
           <div style={{width:"100%"}}>
           <Box className={classes.paperBox}>
-            <Typography variant="subtitle1">Performance Player X</Typography>
             <Paper className={classes.paper}>
+              <Typography variant="subtitle1">Performance Player X</Typography>
               <Graph data={state.performanceX}/>
             </Paper>
           </Box>
           <Box className={classes.paperBox}>
-            <Typography variant="subtitle1">Performance Player O</Typography>
             <Paper className={classes.paper}>
+              <Typography variant="subtitle1">Performance Player O</Typography>
               <Graph data={state.performanceO}/>
             </Paper>
           </Box>
