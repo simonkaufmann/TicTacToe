@@ -1,7 +1,7 @@
 # Tic Tac Toe
 
 A self learning tic tac toe AI based on reinforcement learning set up as a web
-app. 
+app.
 
 # Architecture
 
