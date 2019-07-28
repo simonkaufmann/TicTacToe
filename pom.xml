@@ -34,9 +34,6 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
-        <configuration>
-          <release>11</release>
-        </configuration>
       </plugin>
         <!--  create fat jar, refer to: https://www.mkyong.com/maven/create-a-fat-jar-file-maven-assembly-plugin/ -->
       <plugin>
