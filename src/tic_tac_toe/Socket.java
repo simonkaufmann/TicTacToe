@@ -20,6 +20,12 @@ import com.sun.net.httpserver.HttpServer;
 
 public class Socket {
 	
+	int port;
+	
+	public Socket(int port) {
+		this.port = port;
+	}
+	
 	public static String inputStreamToString(InputStream t) {
 		try {
 			InputStreamReader isr;
@@ -45,7 +51,7 @@ public class Socket {
 
 	public void startServer(GameController gc) {
 		try {
-			HttpServer server = HttpServer.create(new InetSocketAddress(3001), 0);
+			HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 			HttpContext api = server.createContext("/api/game");
 			HttpContext apiModel = server.createContext("/api/model");
 			api.setHandler(new ApiHandler(gc));
