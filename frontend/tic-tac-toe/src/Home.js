@@ -28,6 +28,9 @@ const myStyles = (theme) => ({
     top: "0",
     bottom: "0",
     width: "100%",
+    "&:focus": {
+      outline: "none",
+    },
   },
   /* for 1x1 ratio of Square */
   squareBox: {
