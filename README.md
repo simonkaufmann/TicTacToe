@@ -38,3 +38,5 @@ https://stackoverflow.com/questions/24144073/why-does-maven-warn-me-about-encodi
 https://facebook.github.io/create-react-app/docs/deployment  
 
 https://dzone.com/articles/generate-random-alpha-numeric  
+
+https://stackoverflow.com/questions/52350260/maven-failed-to-execute-goal-org-apache-maven-pluginsmaven-compiler-plugin3/52351170#52351170
