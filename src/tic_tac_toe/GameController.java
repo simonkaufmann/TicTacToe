@@ -76,12 +76,10 @@ public class GameController {
 	
 	public void startTraining() {
 		this.trainingActive = true;
-		System.out.println("start training");
 	}
 	
 	public void stopTraining() {
 		this.trainingActive = false;
-		System.out.println("stop training");
 	}
 	
 	public boolean getTraining () {

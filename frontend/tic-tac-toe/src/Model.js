@@ -21,6 +21,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
+import Link from '@material-ui/core/Link';
 
 import Skeleton from './Skeleton.js';
 import Graph from './Graph.js';
@@ -239,7 +240,7 @@ export default function Model() {
               <Typography variant="subtitle1">Import / Export</Typography>
               <Button variant="contained" color="default" className={classes.button}>Select</Button>
               <Button variant="contained" color="default" className={classes.button}>Upload</Button>
-              <Button variant="contained"color="default" className={classes.button} onClick={clickDownload}>Download</Button>
+              <Link to='api/model/get-model' target='_blank' download><Button variant="contained"color="default" className={classes.button}>Download</Button></Link>
             </Paper>
           </Box>
           <Box className={classes.paperBox}>

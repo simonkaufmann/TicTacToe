@@ -73,19 +73,16 @@ class ApiModelHandler implements HttpHandler {
 	}
     
 	private void setAlpha(HttpExchange exchange) throws IOException {
-		System.out.println("reached");
 		InputStream in = exchange.getRequestBody();
 		String body = Socket.inputStreamToString(in);
 		try {
 			System.out.println(body);
 			JSONObject json = (JSONObject) new JSONParser().parse(body);
-			System.out.println("re2");
 			Double alpha = Double.parseDouble(json.get("alpha").toString());
 			gc.setAlpha(alpha);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println("reached2");
 		String response = "OK";
 		exchange.getResponseHeaders().add("Content-Type", "text/plain");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
@@ -139,7 +136,7 @@ class ApiModelHandler implements HttpHandler {
 		byte[] response = gc.exportModelToByte();
 		
 		exchange.getResponseHeaders().add("Content-Type", "application/octet-stream");
-		exchange.getResponseHeaders().add("Content-Disposition", "attachment; filename=\"model.at\"");
+		exchange.getResponseHeaders().add("Content-Disposition", "attachment; filename=\"model.dat\"");
 		exchange.sendResponseHeaders(200, response.length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response);
