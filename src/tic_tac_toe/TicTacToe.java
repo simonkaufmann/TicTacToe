@@ -11,11 +11,12 @@ public class TicTacToe {
 	static String port;
 	
 	public static void main(String[] args) {
-		if (args.length >= 2) {
-			port = args[1];
+		if (args.length >= 1) {
+			port = args[0];
 		} else {
 			port = "3001";
 		}
+		System.out.println("port: " + port);
 		
 		TicTacToe tic = new TicTacToe();
 		tic.start();
