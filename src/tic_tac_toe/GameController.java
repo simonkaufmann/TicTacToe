@@ -1,5 +1,6 @@
 package tic_tac_toe;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -85,6 +86,10 @@ public class GameController {
 	
 	public boolean getTraining () {
 		return this.trainingActive;
+	}
+	
+	public byte[] exportModelToByte() {
+		return model.exportModelToByte();
 	}
 	
 	public void training() {

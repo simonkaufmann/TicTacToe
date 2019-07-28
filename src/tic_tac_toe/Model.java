@@ -1,11 +1,13 @@
 package tic_tac_toe;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -315,6 +317,19 @@ public class Model implements Serializable {
 		} else {
 			return this.performanceO;
 		}
+	}
+	
+	public byte[] exportModelToByte() {
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(bos);
+			oos.writeObject(this);
+			oos.flush();
+			return bos.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public void exportModel(String fn) {

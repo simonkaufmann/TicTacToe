@@ -48,13 +48,14 @@ class ApiModelHandler implements HttpHandler {
 		json.put("performance", jarray);
 		
 		String response = json.toJSONString();
-		exchange.getResponseHeaders().add("Content-type", "application/json");
+		exchange.getResponseHeaders().add("Content-Type", "application/json");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
 		os.close();
     }
     
+	@SuppressWarnings("unchecked")
 	private void getModelSettings(HttpExchange exchange) throws IOException {
 		ModelSettings ms = gc.getModelSettings();
 		
@@ -64,6 +65,7 @@ class ApiModelHandler implements HttpHandler {
 		json.put("trainingActive", gc.getTraining());
 
 		String response = json.toJSONString();
+		exchange.getResponseHeaders().add("Content-Type", "application/json");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
@@ -71,18 +73,21 @@ class ApiModelHandler implements HttpHandler {
 	}
     
 	private void setAlpha(HttpExchange exchange) throws IOException {
+		System.out.println("reached");
 		InputStream in = exchange.getRequestBody();
 		String body = Socket.inputStreamToString(in);
 		try {
+			System.out.println(body);
 			JSONObject json = (JSONObject) new JSONParser().parse(body);
-			long alpha = (long) json.get("alpha");
+			System.out.println("re2");
+			Double alpha = Double.parseDouble(json.get("alpha").toString());
 			gc.setAlpha(alpha);
-			
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println("reached2");
 		String response = "OK";
+		exchange.getResponseHeaders().add("Content-Type", "text/plain");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
@@ -94,14 +99,14 @@ class ApiModelHandler implements HttpHandler {
 		String body = Socket.inputStreamToString(in);
 		try {
 			JSONObject json = (JSONObject) new JSONParser().parse(body);
-			long randomMove = (long) json.get("chanceRandomMove");
+			double randomMove = Double.parseDouble(json.get("chanceRandomMove").toString());
 			gc.setChanceRandomMove(randomMove);
 			
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
 		String response = "OK";
+		exchange.getResponseHeaders().add("Content-Type", "text/plain");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
@@ -112,6 +117,7 @@ class ApiModelHandler implements HttpHandler {
 		gc.startTraining();
 		
 		String response = "OK";
+		exchange.getResponseHeaders().add("Content-Type", "text/plain");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
@@ -122,15 +128,27 @@ class ApiModelHandler implements HttpHandler {
 		gc.stopTraining();
 		
 		String response = "OK";
+		exchange.getResponseHeaders().add("Content-Type", "text/plain");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
 		os.close();
 	}
+	
+	private void getModel(HttpExchange exchange) throws IOException {
+		byte[] response = gc.exportModelToByte();
+		
+		exchange.getResponseHeaders().add("Content-Type", "application/octet-stream");
+		exchange.getResponseHeaders().add("Content-Disposition", "attachment; filename=\"model.at\"");
+		exchange.sendResponseHeaders(200, response.length);
+		OutputStream os = exchange.getResponseBody();
+		os.write(response);
+		os.close();
+	}
 
 	private void defaultHandler(HttpExchange exchange) throws IOException {
 		String response = "Path not recognised";
-		exchange.sendResponseHeaders(200, response.getBytes().length);
+		exchange.sendResponseHeaders(404, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
 		os.close();
@@ -168,6 +186,9 @@ class ApiModelHandler implements HttpHandler {
 					break;
 				case "stop-training":
 					stopTraining(exchange);
+					break;
+				case "get-model":
+					getModel(exchange);
 					break;
 				default:
 					defaultHandler(exchange);

@@ -167,21 +167,21 @@ export default function Model() {
   function saveAlpha() {
     fetch('/api/model/set-alpha', {
       method: "post",
-      body: JSON.stringify({ alpha: state.alpha }),
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ alpha: state.alpha }),
     })
     .catch(e => console.log(e));
   }
 
   function saveChanceRandomMove() {
     fetch('/api/model/set-chance-random-move', {
-      mode: 'post',
+      method: "post",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ chanceRandomMove: state.chanceRandomMove }),
+      body: JSON.stringify({ chanceRandomMove: state.chanceRandomMove}),
     })
     .catch(e => console.log(e));
   }
@@ -214,6 +214,10 @@ export default function Model() {
       });
   }
 
+  function clickDownload() {
+    fetch('/api/model/get-model');
+  }
+
   const handleChange = name => event => {
     setState({...state, [name]: event.target.value});
   }
@@ -235,7 +239,7 @@ export default function Model() {
               <Typography variant="subtitle1">Import / Export</Typography>
               <Button variant="contained" color="default" className={classes.button}>Select</Button>
               <Button variant="contained" color="default" className={classes.button}>Upload</Button>
-              <Button variant="contained"color="default" className={classes.button}>Download</Button>
+              <Button variant="contained"color="default" className={classes.button} onClick={clickDownload}>Download</Button>
             </Paper>
           </Box>
           <Box className={classes.paperBox}>

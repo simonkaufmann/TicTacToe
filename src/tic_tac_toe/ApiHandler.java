@@ -30,7 +30,7 @@ class ApiHandler implements HttpHandler {
 		json.put("id", id);
 		
 		String response = json.toJSONString();
-		exchange.getResponseHeaders().add("Content-type", "application/json");
+		exchange.getResponseHeaders().add("Content-Type", "application/json");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
@@ -64,7 +64,7 @@ class ApiHandler implements HttpHandler {
 		json.put("result", Integer.toString(returnState.result()));
 		
 		String response = json.toJSONString();
-		exchange.getResponseHeaders().add("Content-type", "application/json");
+		exchange.getResponseHeaders().add("Content-Type", "application/json");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
@@ -88,7 +88,7 @@ class ApiHandler implements HttpHandler {
 		json.put("result", Integer.toString(returnState.result()));
 		
 		String response = json.toJSONString();
-		exchange.getResponseHeaders().add("Content-type", "application/json");
+		exchange.getResponseHeaders().add("Content-Type", "application/json");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
 		OutputStream os = exchange.getResponseBody();
 		os.write(response.getBytes());
