@@ -19,10 +19,10 @@
     "victory": "^32.3.3"
   },
   "scripts": {
-    "start": "cd frontend && npm start",
-    "build": "cd frontend && npm build",
-    "test": "cd frontend && npm test",
-    "eject": "cd frontend && npm eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,5 +38,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
 }
