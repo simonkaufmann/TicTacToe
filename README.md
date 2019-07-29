@@ -5,10 +5,16 @@ app.
 
 # Architecture
 
-Learning Part: Java  
-Backend: Node.js with Express  
+Backend and Reinforcement Learning: Java
 Frontend: React with Material UI  
 
+# Deploy to Heroku
+
+- Install Heroku CLI
+- `cd TicTacToe`
+- `heroku create`
+- `heroku buildpacks:set heroku/java`
+- `heroku buildpacks:add --index 2 heroku/nodejs`
 
 # Helpful resources
 
