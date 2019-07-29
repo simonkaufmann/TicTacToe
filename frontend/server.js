@@ -11,7 +11,7 @@ app.use(favicon(__dirname + '/build/favicon.ico'));
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.use('/api', proxy('localhost:3001', {
+app.use('/api', proxy(process.env.BACKEND_URL, {
   proxyReqPathResolver: function (req) {
     return '/api' + req.url;
   }}));
