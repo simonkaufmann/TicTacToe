@@ -10,7 +10,7 @@ public class GameController {
 	Model model;
 	int player = State.PLAYER_X;
 	
-	volatile boolean trainingActive = false;
+	volatile boolean trainingActive = true;
 	
 	String fn1 = "model1.dat";
 	String fn2 = "model2.dat";
