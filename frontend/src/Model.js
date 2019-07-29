@@ -240,7 +240,7 @@ export default function Model() {
               <Typography variant="subtitle1">Import / Export</Typography>
               <Button variant="contained" color="default" className={classes.button}>Select</Button>
               <Button variant="contained" color="default" className={classes.button}>Upload</Button>
-              <Link to='api/model/get-model' target='_blank' download><Button variant="contained"color="default" className={classes.button}>Download</Button></Link>
+              <a href="/api/model/get-model"><Button variant="contained"color="default" className={classes.button}>Download</Button></a>
             </Paper>
           </Box>
           <Box className={classes.paperBox}>
