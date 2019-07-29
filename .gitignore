@@ -4,5 +4,6 @@ node_modules
 .bin
 *.swp
 /target/
+/backend/target
 model1.dat
 model2.dat
