@@ -19,6 +19,9 @@ https://reactjs.org/docs/conditional-rendering.html
 https://canvasjs.com/react-charts/line-chart/  
 https://www.robinwieruch.de/react-hooks-fetch-data/  
 https://blog.bitsrc.io/5-ways-to-style-react-components-in-2019-30f1ccc2b5b  
+https://medium.com/jeremy-gottfrieds-tech-blog/tutorial-how-to-deploy-a-production-react-app-to-heroku-c4831dfcfa08  
+https://www.npmjs.com/package/express-http-proxy  
+https://www.twilio.com/blog/working-with-environment-variables-in-node-js-html  
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

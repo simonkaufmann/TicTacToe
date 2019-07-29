@@ -20,7 +20,8 @@
   },
   "scripts": {
     "start": "cd frontend && npm start",
-    "build": "cd frontend && npm build",
+    "start:production": "cd frontend && npm start:production",
+    "build": "cd frontend && npm run build",
     "test": "cd frontend && npm test",
     "eject": "cd frontend && npm eject"
   },
