@@ -24,6 +24,9 @@ https://www.npmjs.com/package/express-http-proxy
 https://www.twilio.com/blog/working-with-environment-variables-in-node-js-html  
 https://stackoverflow.com/questions/31773546/the-best-way-to-run-npm-install-for-nested-folders  
 https://codepen.io/rkotze/pen/zjRXYr  
+https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react  
+https://stackoverflow.com/questions/49058890/how-to-get-a-react-components-size-height-width-before-render  
+https://github.com/STRML/react-grid-layout/issues/399  
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
