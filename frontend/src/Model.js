@@ -53,6 +53,7 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     margin: theme.spacing(1),
+    textDecoration: "none",
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -122,6 +123,7 @@ export default function Model() {
     alpha: 0,
     trainingActive: false,
     chanceRandomMove: 0,
+    fileName: "",
   });
 
   useEffect(() => {
@@ -219,6 +221,18 @@ export default function Model() {
     fetch('/api/model/get-model');
   }
 
+  function buildFileSelector(){
+    const fileSelector = document.createElement('input');
+    fileSelector.setAttribute('type', 'file');
+    //fileSelector.setAttribute('multiple', 'multiple');
+    return fileSelector;
+  }
+
+  function clickUpload() {
+    let fileSelector = buildFileSelector();
+    fileSelector.click();
+  }
+
   const handleChange = name => event => {
     setState({...state, [name]: event.target.value});
   }
@@ -239,8 +253,9 @@ export default function Model() {
             <Paper className={classes.paper}>
               <Typography variant="subtitle1">Import / Export</Typography>
               <Button variant="contained" color="default" className={classes.button}>Select</Button>
-              <Button variant="contained" color="default" className={classes.button}>Upload</Button>
-              <a href="/api/model/get-model"><Button variant="contained"color="default" className={classes.button}>Download</Button></a>
+              <Button variant="contained" color="default" className={classes.button} onClick={clickUpload}>Upload</Button>
+              <a href="/api/model/get-model" style={{textDecoration: "none"}}><Button variant="contained"color="default" className={classes.button}>Download</Button></a>   
+              {state.fileName}
             </Paper>
           </Box>
           <Box className={classes.paperBox}>

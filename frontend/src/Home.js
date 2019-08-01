@@ -176,7 +176,7 @@ class Board_ extends React.Component {
               {this.renderSquare(4)}
               {this.renderSquare(5)}
             </td></tr>
-            <tr className={this.boardRow}><td className={this.classes.boardRow}>
+            <tr className={this.classes.boardRow}><td className={this.classes.boardRow}>
               {this.renderSquare(6)}
               {this.renderSquare(7)}
               {this.renderSquare(8)}
