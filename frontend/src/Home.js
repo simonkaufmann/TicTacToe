@@ -18,30 +18,17 @@ const myStyles = (theme) => ({
     border: "1px solid #444",
     fontSize: "20vw",
     fontWeight: "bold",
-    marginRight: "-1px",
-    marginTop: "-1px",
     textAlign: "center",
-    /* for 1x1 ratio */
-    position: "absolute",
-    left: "0",
-    right: "0",
-    top: "0",
-    bottom: "0",
+    height: "100%",
     width: "100%",
     "&:focus": {
       outline: "none",
     },
   },
-  /* for 1x1 ratio of Square */
   squareBox: {
-    position: "relative",
     width: "33.3%",
-    display: "inline-block",
-    "&:before": {
-      content: '""',
-      display: "inline-block",
-      paddingTop: "100%",
-    }
+    height: "33.3%",
+    padding: "0",
   },
   boardRow: {
     padding: "0",
@@ -51,6 +38,7 @@ const myStyles = (theme) => ({
     borderCollapse: "collapse",
     borderSpacing: "0",
     width: "100%",
+    height: "100%",
   },
 });
 
@@ -108,7 +96,7 @@ class Square_ extends React.Component {
 
   render() {
     return (
-      <div className={this.classes.squareBox}>
+      <td className={this.classes.squareBox}>
         <button
           className={this.classes.square}
           onClick={this.clickSquare}
@@ -117,7 +105,7 @@ class Square_ extends React.Component {
           <h1>{this.valueToChar()}</h1>
           </ReactFitText>
         </button>
-      </div>
+      </td>
     );
   }
 }
@@ -128,7 +116,8 @@ class Board_ extends React.Component {
     super(props);
     this.state = {
       board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      result: ' '
+      result: ' ',
+      width: null,
     };
     const { classes } = props;
     this.classes = classes;
@@ -136,6 +125,18 @@ class Board_ extends React.Component {
 
   componentDidMount = () => {
     this.timer = setInterval(this.updateBoard, 1000);
+
+    this.setState({
+      width: this.container.offsetWidth,
+    });
+
+    window.addEventListener("resize", this.updateDimensions);
+  }
+
+  updateDimensions = () => {
+    this.setState({
+      width: this.container.offsetWidth,
+    });
   }
 
   renderSquare = (i) => {
@@ -160,30 +161,40 @@ class Board_ extends React.Component {
         console.log("Error update board");
       });
   }
-
-  render() {
+  
+  renderContent() {
+    const { width } = this.state;
     return (
-      <div>
+      <div style={{ width: "100%", height: width }}>
         <table className={this.classes.board}>
           <tbody>
-            <tr className={this.classes.boardRow}><td className={this.classes.boardRow}>
+            <tr className={this.classes.boardRow}>
               {this.renderSquare(0)}
               {this.renderSquare(1)}
               {this.renderSquare(2)}
-            </td></tr>
-            <tr className={this.classes.boardRow}><td className={this.classes.boardRow}>
+            </tr>
+            <tr className={this.classes.boardRow}>
               {this.renderSquare(3)}
               {this.renderSquare(4)}
               {this.renderSquare(5)}
-            </td></tr>
-            <tr className={this.classes.boardRow}><td className={this.classes.boardRow}>
+            </tr>
+            <tr className={this.classes.boardRow}>
               {this.renderSquare(6)}
               {this.renderSquare(7)}
               {this.renderSquare(8)}
-            </td></tr>
+            </tr>
           </tbody>
         </table>
         <WinLoseSnackbar result={this.state.result} />
+      </div>
+    );
+  }
+
+  render() {
+    const { width } = this.state;
+    return (
+      <div ref={el => (this.container = el)}>
+        { this.renderContent() }
       </div>
     );
   }
