@@ -16,7 +16,7 @@ const myStyles = (theme) => ({
   square: {
     background: "#fff",
     border: "1px solid #444",
-    fontSize: "20vw",
+    //fontSize: "20vw",
     fontWeight: "bold",
     textAlign: "center",
     height: "100%",
@@ -26,8 +26,8 @@ const myStyles = (theme) => ({
     },
   },
   squareBox: {
-    width: "33.3%",
-    height: "33.3%",
+    width: "33%",
+    height: "33%",
     padding: "0",
   },
   boardRow: {
