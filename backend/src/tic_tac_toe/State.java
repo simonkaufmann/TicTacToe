@@ -27,6 +27,11 @@ public class State {
 	public ArrayList<State> nextMoves(int player) {
 		ArrayList<State> next = new ArrayList<State>();
 		
+		if (this.result() != State.UNDECIDED)
+		{
+			return next;
+		}
+		
 		for (int i = 0; i < board.length; i++) {
 			if (board[i] == 0) {
 				Integer[] new_state = board.clone();

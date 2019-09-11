@@ -97,8 +97,8 @@ public class GameController {
 		
 		while (true) {
 			if (trainingActive) {
-				//System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
-				model.testPerformance(1000,  State.PLAYER_X);
+				model.testPerformance(1000, State.PLAYER_O);
+				model.testPerformance(1000, State.PLAYER_X);
 				
 				// Export model
 				if (i % 50 == 0) {

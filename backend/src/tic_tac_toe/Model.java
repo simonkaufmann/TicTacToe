@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.ToDoubleBiFunction;
 
 public class Model implements Serializable {
 	
@@ -74,16 +75,16 @@ public class Model implements Serializable {
 	}
 
 	private void putState(State s) {
-//		if (s.result() == State.WIN_PLAYER_X) {
-//			this.vf.put(s, this.rewardWinX);
-//		} else if (s.result() == State.WIN_PLAYER_O) {
-//			this.vf.put(s, this.rewardWinO);
-//		} else if (s.result() == State.DRAW) {
-//			this.vf.put(s, this.rewardTie);
-//		} else {
-//			this.vf.put(s, this.rewardOther);
-//		}
-		this.vf.put(s, this.rewardOther);
+		if (s.result() == State.WIN_PLAYER_X) {
+			this.vf.put(s, this.rewardWinX);
+		} else if (s.result() == State.WIN_PLAYER_O) {
+			this.vf.put(s, this.rewardWinO);
+		} else if (s.result() == State.DRAW) {
+			this.vf.put(s, this.rewardTie);
+		} else {
+			this.vf.put(s, this.rewardOther);
+		}
+//		this.vf.put(s, this.rewardOther);
 	}
 	
 	// Initialise value function recursively
@@ -140,12 +141,13 @@ public class Model implements Serializable {
 		return index;
 	}
 	
-	private Double minValue(ArrayList<State> moves, ArrayList<State> bestOtherMoves) {
+	private Double minValue(ArrayList<State> moves, State state, ArrayList<State> bestOtherMoves) {
 		// for debug
 		bestOtherMoves.add(State.emptyState());
 		
 		if (moves.size() == 0) {
-			return Double.POSITIVE_INFINITY;
+			//return Double.POSITIVE_INFINITY;
+			return this.vf.get(state);
 		}
 		
 		double v = this.vf.get(moves.get(0));
@@ -159,12 +161,13 @@ public class Model implements Serializable {
 		return v;
 	}
 	
-	private Double maxValue(ArrayList<State> moves, ArrayList<State> bestOtherMoves) {
+	private Double maxValue(ArrayList<State> moves, State state, ArrayList<State> bestOtherMoves) {
 		// for debug
 		bestOtherMoves.add(State.emptyState());
 		
 		if (moves.size() == 0) {
-			return Double.NEGATIVE_INFINITY;
+			//return Double.NEGATIVE_INFINITY;
+			return this.vf.get(state);
 		}
 		
 		double v = this.vf.get(moves.get(0));
@@ -197,7 +200,7 @@ public class Model implements Serializable {
 	public State getNextMove(State s, int player, boolean training, boolean debug) {
 		ArrayList<State> moves = s.nextMoves(player);
 		
-		BiFunction<ArrayList<State>, ArrayList<State>, Double> bestOther;
+		TriFunction<ArrayList<State>, State, ArrayList<State>, Double> bestOther;
 		Function<ArrayList<Double>, Integer> bestPlayer;
 		int otherPlayer;
 		
@@ -248,7 +251,7 @@ public class Model implements Serializable {
 			}
 			ArrayList<State> next = state.nextMoves(otherPlayer);
 			
-			Double temp = bestOther.apply(next, bestOtherMove);
+			Double temp = bestOther.apply(next, state, bestOtherMove);
 			valMoves.add(temp);
 			
 			// Debug output
@@ -309,7 +312,7 @@ public class Model implements Serializable {
 			} else if (nextMove.result() == State.DRAW) {
 				reward = this.rewardTie;
 			}
-			lastVf = lastVf + alpha * (nextVf + reward - lastVf);
+			lastVf = (1 - alpha) * lastVf + alpha * (nextVf + reward - lastVf);
 			vf.put(lastMove, lastVf);
 		}
 		
