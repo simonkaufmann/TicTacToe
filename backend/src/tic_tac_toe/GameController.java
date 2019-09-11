@@ -49,7 +49,7 @@ public class GameController {
 		state.setField(field, player);
 		game.addMove(state);
 		
-		State nextMove = model.getNextMove(state, State.switchPlayer(player), false);
+		State nextMove = model.getNextMove(state, State.switchPlayer(player), false, true);
 		game.addMove(nextMove);
 		return nextMove;
 	}
@@ -97,7 +97,7 @@ public class GameController {
 		
 		while (true) {
 			if (trainingActive) {
-				System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
+				//System.out.println(model.testPerformance(1000, State.PLAYER_O).toString());
 				model.testPerformance(1000,  State.PLAYER_X);
 				
 				// Export model

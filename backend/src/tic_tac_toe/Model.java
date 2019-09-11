@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class Model implements Serializable {
@@ -139,29 +140,39 @@ public class Model implements Serializable {
 		return index;
 	}
 	
-	private Double minValue(ArrayList<State> moves) {
+	private Double minValue(ArrayList<State> moves, ArrayList<State> bestOtherMoves) {
+		// for debug
+		bestOtherMoves.add(State.emptyState());
+		
 		if (moves.size() == 0) {
 			return Double.POSITIVE_INFINITY;
 		}
-
+		
 		double v = this.vf.get(moves.get(0));
+		bestOtherMoves.set(bestOtherMoves.size() -1, moves.get(0));
 		for (State s: moves) {
 			if (this.vf.get(s) < v) {
 				v = this.vf.get(s);
+				bestOtherMoves.set(bestOtherMoves.size() - 1, s);
 			}
 		}
 		return v;
 	}
 	
-	private Double maxValue(ArrayList<State> moves) {
+	private Double maxValue(ArrayList<State> moves, ArrayList<State> bestOtherMoves) {
+		// for debug
+		bestOtherMoves.add(State.emptyState());
+		
 		if (moves.size() == 0) {
 			return Double.NEGATIVE_INFINITY;
 		}
 		
 		double v = this.vf.get(moves.get(0));
+		bestOtherMoves.set(bestOtherMoves.size() -1, moves.get(0));
 		for (State s: moves) {
 			if (this.vf.get(s) > v) {
 				v = this.vf.get(s);
+				bestOtherMoves.set(bestOtherMoves.size() - 1, s);
 			}
 		}
 		return v;
@@ -174,14 +185,19 @@ public class Model implements Serializable {
 		return moves.get(index);
 	}
 	
+	public State getNextMove(State s, int player, boolean training)
+	{
+		return getNextMove(s, player, training, false);
+	}
+	
 	/*
 	 *  Calculate next step according to model for player (either 1 or 2)
 	 * with training mode (sometimes exploration) or without (always choose optimal move)
 	 */
-	public State getNextMove(State s, int player, boolean training) {
+	public State getNextMove(State s, int player, boolean training, boolean debug) {
 		ArrayList<State> moves = s.nextMoves(player);
 		
-		Function<ArrayList<State>, Double> bestOther;
+		BiFunction<ArrayList<State>, ArrayList<State>, Double> bestOther;
 		Function<ArrayList<Double>, Integer> bestPlayer;
 		int otherPlayer;
 		
@@ -208,18 +224,64 @@ public class Model implements Serializable {
 		
 		// probability for random move
 		if (Math.random() <= this.chanceRandomMove && training) {
+			// Debug output
+			if (debug)
+			{
+				System.out.println("Choose random move");
+			}
+			
 			return getRandomNextMove(s, player);
 		}
 		
+		// Debug output
+		if (debug)
+			System.out.printf("Get best move for State:\n%s\n", s.toString());
+		
 		// For every move of player calculate result of assumed optimal other player
 		ArrayList<Double> valMoves = new ArrayList<Double>();
+		ArrayList<State> bestOtherMove = new ArrayList<State>();
 		for (State state: moves) {
+			// Debug output
+			if (debug)
+			{
+				System.out.println("Possible move:\n" + state.toString());
+			}
 			ArrayList<State> next = state.nextMoves(otherPlayer);
-			valMoves.add(bestOther.apply(next));
+			
+			Double temp = bestOther.apply(next, bestOtherMove);
+			valMoves.add(temp);
+			
+			// Debug output
+			if (debug) {
+				for (State st: next) {
+					System.out.println("Other player has move:\n" + st.toString());
+					System.out.println("with index: " + vf.get(st));
+				}
+				//Debug
+				System.out.println("Best for other player with this move: " + temp);
+			}
+		}
+		
+		// Debug output
+		if (debug) {
+			System.out.println("\n\n\n");
+			System.out.println("Summary of what the best options of other player are for each move of own player:");
+			for (int i = 0; i < valMoves.size(); i++)
+			{
+				System.out.println("Own Players move:\n" + moves.get(i).toString() + "\n" + "Other player's best move:\n" + bestOtherMove.get(i).toString() + "\nwith index: " + valMoves.get(i));
+				
+			}
 		}
 		
 		// Take the best result of results of other player
 		int indexBest = bestPlayer.apply(valMoves);
+		
+		// Debug output
+		if (debug)
+		{
+			System.out.println("\n\n\nBest own players move:\n" + moves.get(indexBest).toString() + "\n" + "Other player's best move:\n" + bestOtherMove.get(indexBest).toString() + "\nwith index: " + valMoves.get(indexBest));
+		}
+		
 
 		return moves.get(indexBest);		
 	}
