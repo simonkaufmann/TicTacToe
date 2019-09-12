@@ -23,8 +23,8 @@ class ApiHandler implements HttpHandler {
     }
     
 	@SuppressWarnings("unchecked")
-	private void startGame(HttpExchange exchange) throws IOException {
-		String id = gc.startGame();
+	private void startGamePlayerX(HttpExchange exchange) throws IOException {
+		String id = gc.startGame(State.PLAYER_X);
 		
 		JSONObject json = new JSONObject();
 		json.put("id", id);
@@ -37,6 +37,21 @@ class ApiHandler implements HttpHandler {
 		os.close();
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void startGamePlayerO(HttpExchange exchange) throws IOException {
+		String id = gc.startGame(State.PLAYER_O);
+		
+		JSONObject json = new JSONObject();
+		json.put("id", id);
+		
+		String response = json.toJSONString();
+		exchange.getResponseHeaders().add("Content-Type", "application/json");
+		exchange.sendResponseHeaders(200, response.getBytes().length);
+		OutputStream os = exchange.getResponseBody();
+		os.write(response.getBytes());
+		os.close();
+	}
+
 	@SuppressWarnings("unchecked")
 	private void sendMove(String id, HttpExchange exchange) throws IOException{
 		InputStream in = exchange.getRequestBody();
@@ -74,7 +89,6 @@ class ApiHandler implements HttpHandler {
 	@SuppressWarnings("unchecked")
 	private void getMove(String id, HttpExchange exchange) throws IOException {
 		State returnState = gc.getMove(id);
-		
 		// Return response state
 		JSONObject json = new JSONObject();
 		JSONArray jarray = new JSONArray();
@@ -86,7 +100,7 @@ class ApiHandler implements HttpHandler {
 		
 		json.put("state", jarray);
 		json.put("result", Integer.toString(returnState.result()));
-		
+
 		String response = json.toJSONString();
 		exchange.getResponseHeaders().add("Content-Type", "application/json");
 		exchange.sendResponseHeaders(200, response.getBytes().length);
@@ -115,8 +129,12 @@ class ApiHandler implements HttpHandler {
 		
 		String id = "";
 		if (path.length >= 4) {
-			if (path[3].equals("start-game")) {
-				startGame(exchange);
+			if (path[3].equals("start-game-player-x")) {
+				System.out.println("Start game player x");
+				startGamePlayerX(exchange);
+			} else if (path[3].equals("start-game-player-o")) {
+				System.out.println("Start game player o");
+				startGamePlayerO(exchange);
 			} else {
 				id = path[3];
 			}

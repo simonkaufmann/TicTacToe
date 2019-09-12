@@ -6,6 +6,9 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import Skeleton from './Skeleton.js';
 import WinLoseSnackbar from './WinLoseSnackbar.js';
@@ -86,12 +89,15 @@ class Square_ extends React.Component {
   }
 
   clickSquare = () => {
-    let json = { field: this.props.fieldNumber };
-    fetch('/api/game/' + this.props.id + '/send-move/', {
-      method: 'post',
-      body: JSON.stringify(json)
-    });
-    this.props.callBack(this.props.fieldNumber);
+    if (this.valueToChar() === ' ')
+    {
+      let json = { field: this.props.fieldNumber };
+      fetch('/api/game/' + this.props.id + '/send-move/', {
+        method: 'post',
+        body: JSON.stringify(json)
+      });
+      this.props.callBack(this.props.fieldNumber);
+    }
   }
 
   render() {
@@ -147,7 +153,12 @@ class Board_ extends React.Component {
   squareClicked = (i) => {
     let b = this.state.board;
     if (b[i] === 0) {
-      b[i] = 1;
+      if (this.props.player === 'X')
+      {
+        b[i] = 1;
+      } else {
+        b[i] = 2;
+      }
       this.setState({board: b});
     }
   }
@@ -207,23 +218,38 @@ export default function Home() {
 
   const [state, setState] = useState({
     id: "",
+    player: "X",
   });
 
   useEffect(() => {
     if (state.id === "") {
-      startGame();
+      startGame(state.player);
     }
   });
 
-  function startGame() {
-    fetch('/api/game/start-game')
+  function startGame(player) {
+    let url = "";
+    if (player === 'O')
+    {
+      url = '/api/game/start-game-player-o';
+    } else {
+      url = '/api/game/start-game-player-x';
+    }
+    fetch(url)
       .then((response) => response.json())
       .then(json => {
-        setState({ ...state, id: json.id });
+        setState(state => ({...state, id: json.id }));
       }).catch(() => {
         console.log("Error start game");
       });
-  }   
+  }
+
+  function changePlayer(event)
+  {
+    console.log(event.target.value);
+    setState(state => ({...state, player: event.target.value}));
+    startGame(event.target.value);
+  }
 
   const classes = useStyles();
 
@@ -233,11 +259,15 @@ export default function Home() {
       <div className={classes.toolbar}/>
       <Container className={classes.myContainer}>
         <div className={classes.boardBox}>
-          <Board id={state.id}/>
-          <Button variant="contained" color="primary" className={classes.button} onClick={startGame}>
+          <Board id={state.id} playe={state.player}/>
+          <RadioGroup name="player" value={state.player} onChange={changePlayer}>
+            <FormControlLabel value="X" control={<Radio />} label="Player X" />
+            <FormControlLabel value="O" control={<Radio />} label="Player O" />
+          </RadioGroup>
+          <Button variant="contained" color="primary" className={classes.button} onClick={() => startGame(state.player)}>
             Reset Game
           </Button>
-          <Button variant="contained" color="secondary" className={classes.button} onClick={startGame}>
+          <Button variant="contained" color="secondary" className={classes.button} onClick={() => startGame(state.player)}>
             Start Game
           </Button>
         </div>

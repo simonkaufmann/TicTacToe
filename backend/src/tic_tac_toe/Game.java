@@ -3,8 +3,15 @@ import java.util.ArrayList;
 
 public class Game {
 	
-	int player = 1;
-	ArrayList<State> states;
+	private int player = 1;
+	private ArrayList<State> states;
+	private int humanPlayer;
+	
+	public Game(int humanPlayer)
+	{
+		this();
+		this.humanPlayer = humanPlayer;
+	}
 	
 	public Game() {
 		this.states = new ArrayList<State>();
@@ -19,6 +26,11 @@ public class Game {
 		} else {
 			return false;
 		}
+	}
+	
+	public int getHumanPlayer()
+	{
+		return humanPlayer;
 	}
 	
 	public State getMove() {

@@ -84,7 +84,7 @@ public class Model implements Serializable {
 		} else {
 			this.vf.put(s, this.rewardOther);
 		}
-//		this.vf.put(s, this.rewardOther);
+		//this.vf.put(s, this.rewardOther);
 	}
 	
 	// Initialise value function recursively

@@ -8,8 +8,6 @@ public class GameController {
 
 	HashMap<String, Game> games;
 	Model model;
-	int player = State.PLAYER_X;
-	
 	volatile boolean trainingActive = true;
 	
 	String fn1 = "model1.dat";
@@ -32,10 +30,18 @@ public class GameController {
 		model = m;
 	}
 	
-	public String startGame() {
+	public String startGame(int humanPlayer) {
 		String id = randomAlphaNumeric(15);
 		
-		games.put(id, new Game());
+		Game game = new Game(humanPlayer);
+		games.put(id, game);
+		
+		if (humanPlayer == State.PLAYER_O)
+		{
+			State s = game.getMove();
+			State nextMove = model.getNextMove(s, State.switchPlayer(humanPlayer), false, true);
+			game.addMove(nextMove);
+		}
 		return id;
 	}
 	
@@ -46,6 +52,7 @@ public class GameController {
 		}
 		
 		State state = game.getMove();
+		int player = game.getHumanPlayer();
 		state.setField(field, player);
 		game.addMove(state);
 		
@@ -95,7 +102,7 @@ public class GameController {
 		
 		int i = 0;
 		
-		while (true) {
+		while (true) {/*
 			if (trainingActive) {
 				model.testPerformance(1000, State.PLAYER_O);
 				model.testPerformance(1000, State.PLAYER_X);
@@ -115,7 +122,7 @@ public class GameController {
 					model.trainModel(100);
 				}
 			}
-			i++;
+			i++;*/
 		}
 	}
 	
