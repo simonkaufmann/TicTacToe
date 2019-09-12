@@ -28,6 +28,7 @@ https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-wit
 https://stackoverflow.com/questions/49058890/how-to-get-a-react-components-size-height-width-before-render  
 https://github.com/STRML/react-grid-layout/issues/399  
 https://material-ui.com/components/radio-buttons/  
+https://github.com/mui-org/material-ui/issues/8726  
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

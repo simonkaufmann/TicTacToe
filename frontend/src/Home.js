@@ -126,6 +126,7 @@ class Board_ extends React.Component {
       width: null,
     };
     const { classes } = props;
+    this.props = props;
     this.classes = classes;
   }
 
@@ -153,6 +154,7 @@ class Board_ extends React.Component {
   squareClicked = (i) => {
     let b = this.state.board;
     if (b[i] === 0) {
+      console.log(this.props.player);
       if (this.props.player === 'X')
       {
         b[i] = 1;
@@ -167,6 +169,16 @@ class Board_ extends React.Component {
     fetch('/api/game/' + this.props.id + '/get-move')
       .then((response) => response.json())
       .then(json => {
+        for (let i = 0; i < this.state.board.length; i++)
+        {
+          if (this.state.board[i] !== 0 && json.state[i] === 0)
+          {
+            // if move returned by server does not contain latest
+            // move of player (because of network delays and unfortunate
+            // timing), then do not accept move
+            return;
+          }
+        }
         this.setState({ board: json.state, result: json.result });
       }).catch(() => {
         console.log("Error update board");
@@ -259,7 +271,7 @@ export default function Home() {
       <div className={classes.toolbar}/>
       <Container className={classes.myContainer}>
         <div className={classes.boardBox}>
-          <Board id={state.id} playe={state.player}/>
+          <Board/>
           <RadioGroup name="player" value={state.player} onChange={changePlayer}>
             <FormControlLabel value="X" control={<Radio />} label="Player X" />
             <FormControlLabel value="O" control={<Radio />} label="Player O" />
