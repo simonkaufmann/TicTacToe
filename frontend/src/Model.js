@@ -263,26 +263,22 @@ export default function Model() {
               <Typography variant="subtitle1">Settings</Typography>
               <List>
                 <ListItem className={classes.listItem}>
-                  <ListItemText primary="Alpha"/>
-                  <ListItemSecondaryAction>
-                    <TextField
-                      value={state.alpha} className={classes.textField}
-                      onChange={handleChange('alpha')}
-                      margin="normal"
-                    />
-                  </ListItemSecondaryAction>
+                  <TextField
+                    label="Alpha"
+                    value={state.alpha} className={classes.textField}
+                    onChange={handleChange('alpha')}
+                    margin="normal"
+                  />
                 </ListItem>
                 <Divider variant="middle"/>
                 <ListItem className={classes.listItem}>
-                  <ListItemText primary="Probability Random Move"/>
-                  <ListItemSecondaryAction>
-                    <TextField
-                      value={state.chanceRandomMove}
-                      className={classes.textField}
-                      onChange={handleChange('chanceRandomMove')}
-                      margin="normal"
-                    />
-                  </ListItemSecondaryAction>
+                  <TextField
+                    label="Probability Random Move"
+                    value={state.chanceRandomMove}
+                    className={classes.textField}
+                    onChange={handleChange('chanceRandomMove')}
+                    margin="normal"
+                  />
                 </ListItem>
                 <Divider variant="middle"/>
                 <ListItem className={classes.listItem}>
