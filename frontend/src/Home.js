@@ -121,7 +121,6 @@ class Board_ extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       result: ' ',
       width: null,
     };
@@ -147,12 +146,12 @@ class Board_ extends React.Component {
   }
 
   renderSquare = (i) => {
-    return <Square fieldNumber={i} value={this.state.board[i]}
+    return <Square fieldNumber={i} value={this.props.board[i]}
                    callBack={this.squareClicked} id={this.props.id}/>;
   }
 
   squareClicked = (i) => {
-    let b = this.state.board;
+    let b = this.props.board;
     if (b[i] === 0) {
       console.log(this.props.player);
       if (this.props.player === 'X')
@@ -161,7 +160,7 @@ class Board_ extends React.Component {
       } else {
         b[i] = 2;
       }
-      this.setState({board: b});
+      this.props.setBoard(b);
     }
   }
   
@@ -169,9 +168,9 @@ class Board_ extends React.Component {
     fetch('/api/game/' + this.props.id + '/get-move')
       .then((response) => response.json())
       .then(json => {
-        for (let i = 0; i < this.state.board.length; i++)
+        for (let i = 0; i < this.props.board.length; i++)
         {
-          if (this.state.board[i] !== 0 && json.state[i] === 0)
+          if (this.props.board[i] !== 0 && json.state[i] === 0)
           {
             // if move returned by server does not contain latest
             // move of player (because of network delays and unfortunate
@@ -179,7 +178,8 @@ class Board_ extends React.Component {
             return;
           }
         }
-        this.setState({ board: json.state, result: json.result });
+        this.props.setBoard(json.state);
+        this.setState({result: json.result });
       }).catch(() => {
         console.log("Error update board");
       });
@@ -231,6 +231,7 @@ export default function Home() {
   const [state, setState] = useState({
     id: "",
     player: "X",
+    board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
   });
 
   useEffect(() => {
@@ -254,6 +255,7 @@ export default function Home() {
       }).catch(() => {
         console.log("Error start game");
       });
+      setBoard([0, 0, 0, 0, 0, 0, 0, 0, 0]);
   }
 
   function changePlayer(event)
@@ -261,6 +263,11 @@ export default function Home() {
     console.log(event.target.value);
     setState(state => ({...state, player: event.target.value}));
     startGame(event.target.value);
+  }
+
+  function setBoard(board)
+  {
+    setState(state => ({...state, board:board}));
   }
 
   const classes = useStyles();
@@ -271,7 +278,7 @@ export default function Home() {
       <div className={classes.toolbar}/>
       <Container className={classes.myContainer}>
         <div className={classes.boardBox}>
-          <Board/>
+          <Board id={state.id} player={state.player} board={state.board} setBoard={setBoard}/>
           <RadioGroup name="player" value={state.player} onChange={changePlayer}>
             <FormControlLabel value="X" control={<Radio />} label="Player X" />
             <FormControlLabel value="O" control={<Radio />} label="Player O" />

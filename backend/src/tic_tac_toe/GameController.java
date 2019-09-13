@@ -102,7 +102,7 @@ public class GameController {
 		
 		int i = 0;
 		
-		while (true) {/*
+		while (true) {
 			if (trainingActive) {
 				model.testPerformance(1000, State.PLAYER_O);
 				model.testPerformance(1000, State.PLAYER_X);
@@ -122,7 +122,7 @@ public class GameController {
 					model.trainModel(100);
 				}
 			}
-			i++;*/
+			i++;
 		}
 	}
 	
