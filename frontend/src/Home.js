@@ -160,26 +160,21 @@ class Board_ extends React.Component {
       } else {
         b[i] = 2;
       }
+      this.props.setWaiting(false); // so that receiving get-move does not overrwrite click through bad timing
       this.props.setBoard(b);
     }
   }
   
   updateBoard = () => {
+    this.props.setWaiting(true);
     fetch('/api/game/' + this.props.id + '/get-move')
       .then((response) => response.json())
       .then(json => {
-        for (let i = 0; i < this.props.board.length; i++)
+        if (this.props.waiting === true)
         {
-          if (this.props.board[i] !== 0 && json.state[i] === 0)
-          {
-            // if move returned by server does not contain latest
-            // move of player (because of network delays and unfortunate
-            // timing), then do not accept move
-            return;
-          }
+          this.props.setBoard(json.state);
+          this.setState({result: json.result });
         }
-        this.props.setBoard(json.state);
-        this.setState({result: json.result });
       }).catch(() => {
         console.log("Error update board");
       });
@@ -232,6 +227,7 @@ export default function Home() {
     id: "",
     player: "X",
     board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    waiting: false,
   });
 
   useEffect(() => {
@@ -256,6 +252,7 @@ export default function Home() {
         console.log("Error start game");
       });
       setBoard([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    setState(state => ({...state, waiting: false}));
   }
 
   function changePlayer(event)
@@ -270,6 +267,11 @@ export default function Home() {
     setState(state => ({...state, board:board}));
   }
 
+  function setWaiting(waiting)
+  {
+    setState(state => ({...state, waiting: waiting}));
+  }
+
   const classes = useStyles();
 
   return (
@@ -278,10 +280,10 @@ export default function Home() {
       <div className={classes.toolbar}/>
       <Container className={classes.myContainer}>
         <div className={classes.boardBox}>
-          <Board id={state.id} player={state.player} board={state.board} setBoard={setBoard}/>
+          <Board id={state.id} player={state.player} board={state.board} setBoard={setBoard} waiting={state.waiting} setWaiting={setWaiting}/>
           <Container>
             <FormControlLabel control={<Radio checked={state.player === 'X'} onChange={changePlayer} value={'X'}/>} label="Player X" />
-            <FormControlLabel control={<Radio checked={state.player === 'O'} onChange={changePlayer} value={'O'}/>} label="Player X" />
+            <FormControlLabel control={<Radio checked={state.player === 'O'} onChange={changePlayer} value={'O'}/>} label="Player O" />
           </Container>
           <Button variant="contained" color="primary" className={classes.button} onClick={() => startGame(state.player)}>
             Reset Game
