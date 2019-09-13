@@ -279,10 +279,10 @@ export default function Home() {
       <Container className={classes.myContainer}>
         <div className={classes.boardBox}>
           <Board id={state.id} player={state.player} board={state.board} setBoard={setBoard}/>
-          <RadioGroup name="player" value={state.player} onChange={changePlayer}>
-            <FormControlLabel value="X" control={<Radio />} label="Player X" />
-            <FormControlLabel value="O" control={<Radio />} label="Player O" />
-          </RadioGroup>
+          <Container>
+            <FormControlLabel control={<Radio checked={state.player === 'X'} onChange={changePlayer} value={'X'}/>} label="Player X" />
+            <FormControlLabel control={<Radio checked={state.player === 'O'} onChange={changePlayer} value={'O'}/>} label="Player X" />
+          </Container>
           <Button variant="contained" color="primary" className={classes.button} onClick={() => startGame(state.player)}>
             Reset Game
           </Button>
