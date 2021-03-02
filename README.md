@@ -3,9 +3,9 @@
 A self learning tic tac toe AI based on reinforcement learning set up as a web
 app.
 
-<img src="images/tic_tac_toe_01.png" width="50%">
-<img src="images/tic_tac_toe_02.png" width="50%">
-<img src="images/tic_tac_toe_03.png" width="50%">
+<img src="images/tic_tac_toe_01.png" width="70%">
+<img src="images/tic_tac_toe_02.png" width="70%">
+<img src="images/tic_tac_toe_03.png" width="70%">
 
 
 # Architecture
