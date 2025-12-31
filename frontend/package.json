@@ -7,7 +7,7 @@
     "@material-ui/icons": "^4.2.1",
     "@material-ui/lab": "^4.0.0-alpha.20",
     "chart.js": "^2.8.0",
-    "express": "^4.17.1",
+    "express": "^4.22.1",
     "express-favicon": "^2.0.1",
     "express-http-proxy": "^1.5.1",
     "material-ui-icons": "^1.0.0-beta.36",
@@ -17,7 +17,7 @@
     "react-fittext": "^1.0.0",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "typeface-roboto": "0.0.54",
     "victory": "^32.3.3"
   },
